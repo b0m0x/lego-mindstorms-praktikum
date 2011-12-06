@@ -69,12 +69,12 @@ public class RobotState {
 	}
 	
 	public void driveForward(float speed) {
-		engine.setSpeed((int) speed);
+		//engine.setSpeed((int) speed);
 		engine.forward();
 	}
 	
 	public void driveBackward(float speed) {
-		engine.setSpeed((int) speed);
+		//engine.setSpeed((int) speed);
 		//TODO: engine.backward();
 	}
 	
@@ -91,5 +91,9 @@ public class RobotState {
 			b.update(this);
 		}
 		engine.update();
+	}
+
+	public boolean isMoving() {
+		return engine.isMoving();
 	}
 }

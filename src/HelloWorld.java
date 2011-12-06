@@ -13,19 +13,21 @@ public class HelloWorld
   {
      RobotState r = RobotState.getInstance();
      r.addBehaviour(new RobotBehaviour() {
-		int i;
 		public void update(RobotState r) {
-			if (r.getUltraSonic() <= 10) {
-				r.halt();
-			} else {
-				r.driveForward(10);
+			if (r.getUltraSonic() <= 10 ) {
+				
+				if(r.isMoving()) {
+					r.halt();
+				}
+			} else  {
+				if (!r.isMoving())
+					r.driveForward(10);
 			}
 		}
 	});
      r.driveForward(10);
      while(true) {
     	 r.update();
-    	 Thread.sleep(100);
      }
   }
 }
