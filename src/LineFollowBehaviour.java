@@ -23,13 +23,13 @@ public class LineFollowBehaviour implements RobotBehaviour {
 			lineLock = false; //we lost the line!
 			
 			if (direction == 1) { //right
-				r.driveCurveRight(50);
+				r.driveCurveRight(80);
 			} else { //left
-				r.driveCurveLeft(50);
+				r.driveCurveLeft(80);
 			}
 		} else {
 			//uhhm... ?!
-			throw new UnsupportedOperationException("We have nor line nor ground, we're flooating in space! :)");
+			throw new UnsupportedOperationException("I'm a Mars Rover!!!");
 		}
 	}
 
