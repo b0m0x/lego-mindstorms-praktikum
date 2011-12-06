@@ -61,6 +61,12 @@ public class Engine {
 		resetTacho();
 		LEFT.rotate((int)(degree * -1.1), true);
 		RIGHT.rotate((int)(degree * 1.1), true);
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//turning = true;
 	}
 	
