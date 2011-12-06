@@ -35,30 +35,30 @@ public class Engine {
 	
 	public void forward(int v) {
 		setSpeed(v);
+		resetTacho();
 		LEFT.forward();
 		RIGHT.forward();
-		resetTacho();
 	}
 	
 	public void backward(int v) {
 		setSpeed(v);
+		resetTacho();
 		LEFT.backward();
 		RIGHT.backward();
-		resetTacho();
 	}
 	
 	public void stop() {
 		setSpeed(0);
+		resetTacho();
 		LEFT.stop();
 		RIGHT.stop();
-		resetTacho();
 	}
 	
 	public void turn() {
 		setSpeed(100);
+		resetTacho();
 		LEFT.forward();
 		RIGHT.backward();
-		resetTacho();
 		turning = true;
 	}
 	
@@ -72,10 +72,9 @@ public class Engine {
 	 */
 	public void bendLeft(int p) {
 		if (p < 0 && p > 100) throw new IllegalArgumentException();
-		
+		resetTacho();
 		float left_speed = RIGHT.getSpeed() * p / 100f;
 		LEFT.setSpeed(left_speed);
-		resetTacho();
 	}
 	
 	/**
@@ -88,10 +87,9 @@ public class Engine {
 	 */
 	public void bendRight(int p) {
 		if (p < 0 && p > 100) throw new IllegalArgumentException();
-		
+		resetTacho();
 		float right_speed = LEFT.getSpeed() * p / 100f;
 		RIGHT.setSpeed(right_speed);
-		resetTacho();
 	}
 	
 	/**
