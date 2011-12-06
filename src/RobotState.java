@@ -66,6 +66,7 @@ public class RobotState {
 		//We need a 200ms delay between sensor polls
 		if (lastUsSample.getTime() + 200 >= System.currentTimeMillis() ) {
 			lastUsSample = new SensorSample(usSensor.getDistance());
+			System.out.println("New SensorValue: " + lastUsSample.getValue());
 		}
 		return lastUsSample.getValue();		
 	}
@@ -82,14 +83,13 @@ public class RobotState {
 		engine.stop();
 	}
 	
-	public void driveForward(float speed) {
+	public void driveForward(int speed) {
 		//engine.setSpeed((int) speed);
-		engine.forward();
+		engine.forward(speed);
 	}
 	
-	public void driveBackward(float speed) {
-		//engine.setSpeed((int) speed);
-		//TODO: engine.backward();
+	public void driveBackward(int speed) {
+		engine.backward(speed);
 	}
 	
 	public void rotate(float degrees) {
