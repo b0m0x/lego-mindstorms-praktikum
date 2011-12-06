@@ -12,9 +12,6 @@ public class Engine {
 	private final NXTRegulatedMotor RIGHT = Motor.A;
 	
 	public final int MAX_SPEED = 900;
-	//private int defaultSpeed = 200;
-	//	private int speed = 0; // [-100%, 100%]
-
 	
 	public Engine() {
 		
@@ -23,13 +20,12 @@ public class Engine {
 	/**
 	 * Lege Geschindigkeit fest.
 	 * Die Geschwindigkeit wird dabei als Buchteil der Maximalgeschwindigkeit festgelegt.
-	 * @param v Geschwindigkeit in Prozent [-100,100]
+	 * @param v Geschwindigkeit in Prozent [0,100]
 	 */
 	private void setSpeed(int v) {
-		if (v < -100 && v > 100) throw new IllegalArgumentException();
+		if (v < 0 && v > 100) throw new IllegalArgumentException();
 		
 		float motor_speed = MAX_SPEED * v / 100;
-		if (motor_speed < 0) motor_speed *= -1;
 		
 		LEFT.setSpeed(motor_speed);
 		RIGHT.setSpeed(motor_speed);	
@@ -42,7 +38,7 @@ public class Engine {
 	}
 	
 	public void backward(int v) {
-		setSpeed( v * (-1) );
+		setSpeed(v);
 		LEFT.backward();
 		RIGHT.backward();
 	}
