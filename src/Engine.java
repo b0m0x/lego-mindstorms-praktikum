@@ -14,6 +14,7 @@ public class Engine {
 	public final int MAX_SPEED = 900;
 	private boolean turning = false;
 	private int QUARTER_TURN = 100;
+	static final int DISTANCE_PER_DEGREE = 7;
 	
 	public Engine() {
 		
@@ -54,11 +55,11 @@ public class Engine {
 		RIGHT.stop();
 	}
 	
-	public void turn() {
-		setSpeed(100);
+	public void turnR(float degree) {
+		setSpeed(30);
 		resetTacho();
-		LEFT.forward();
-		RIGHT.backward();
+		LEFT.rotate((int)(degree * -1.2), true);
+		RIGHT.rotate((int)(degree * 1.2));
 		turning = true;
 	}
 	
@@ -105,8 +106,26 @@ public class Engine {
 		turning = false;
 	}
 	
-	private void correctDirection() {
+	public void driveDistance(int distance, int speed, boolean flt) {
+		double realDistance = 0.0;
 		
+		resetTacho();
+		setSpeed(speed);
+		RIGHT.rotate((distance / DISTANCE_PER_DEGREE), true);
+		LEFT.rotate((distance / DISTANCE_PER_DEGREE));
+		
+		//Überprüft ob die zurückgelegte Distanz der Zieldistanz entspricht
+		while (realDistance <= distance) {
+			realDistance = Math.abs(RIGHT.getTachoCount()) * DISTANCE_PER_DEGREE;
+		}
+		
+		//bei boolean flt = true, wird der Motor nicht sofort gestoppt sondern dreht sich aus
+		if(flt) {
+			RIGHT.flt();
+			LEFT.flt();
+		} else {
+			stop();
+		}
 	}
 	
 	public void checkTurning() {
@@ -118,6 +137,6 @@ public class Engine {
 	
 	public void update() {
 		checkTurning();
-		if ( isMoving() ) correctDirection();
+		if ( isMoving() );
 	}
 }
