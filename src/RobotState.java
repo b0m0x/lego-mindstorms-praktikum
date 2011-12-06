@@ -91,8 +91,8 @@ public class RobotState {
 		engine.backward(speed);
 	}
 	
-	public void rotate(float degrees) {
-		engine.turn();
+	public void rotateR(float degrees) {
+		engine.turnR(degrees);
 	}
 	
 	public void printDisplay(String text) {
@@ -105,6 +105,10 @@ public class RobotState {
 	
 	public void driveCurveRight(int ratio) {
 		engine.bendRight(ratio);
+	}
+	
+	public void driveDistance(int distance, int speed, boolean flt) {
+		engine.driveDistance(distance, speed, flt);
 	}
 		
 	public boolean isMoving() {

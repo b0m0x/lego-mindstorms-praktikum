@@ -2,16 +2,15 @@ import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
 
 
-public class ForCarsten {
+public class MotionController {
+	
 	static NXTRegulatedMotor Right = Motor.A;
 	static NXTRegulatedMotor Left = Motor.C;
 	//Distanz die pro Grad vom Rad zurückgelegt wird, in Millimeter
-	private final int DISTANCE_PER_DEGREE = 7;
+	static final int DISTANCE_PER_DEGREE = 7;
 	
 	//Distance in millimeter
-	//lässt den Roboter Millimeter genau fahren. 
-	//boolean flt entscheidet, wie der Roboter gestoppt wird
-	public void driveDistance(int distance, int speed, boolean flt) {
+	static void driveDistance(int distance, int speed, boolean flt) {
 		double realDistance = 0.0;
 		
 		Right.resetTachoCount();
@@ -35,4 +34,17 @@ public class ForCarsten {
 			Left.stop();
 		}
 	}
+	
+	public static void main(String[] args) {
+		
+		// Fahre ein Quadrat
+		
+		for(int i = 0; i <= 3; i++) {
+			MotionController.driveDistance(5000, 200, true);
+			Right.rotate(-100, true);
+			Left.rotate(100);
+			
+		}
+	}
+	
 }
