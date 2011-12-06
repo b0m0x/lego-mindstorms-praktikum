@@ -12,19 +12,7 @@ public class HelloWorld
   throws Exception
   {
      RobotState r = RobotState.getInstance();
-     r.addBehaviour(new RobotBehaviour() {
-		public void update(RobotState r) {
-			if (r.getUltraSonic() <= 10 ) {
-				
-				if(r.isMoving()) {
-					r.halt();
-				}
-			} else  {
-				if (!r.isMoving())
-					r.driveForward(10);
-			}
-		}
-	});
+     r.addBehaviour(new DriveForwardAndStopBehaviour());
      r.driveForward(10);
      while(true) {
     	 r.update();

@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import lejos.nxt.Button;
+import lejos.nxt.ButtonListener;
 import lejos.nxt.LCD;
 import lejos.nxt.LightSensor;
 import lejos.nxt.SensorPort;
@@ -27,6 +29,18 @@ public class RobotState {
 		lastLightSensorSample = new SensorSample(lightSensor.readValue());
 		
 		engine = new Engine();
+		
+		Button.ESCAPE.addButtonListener(new ButtonListener() {
+			
+			public void buttonReleased(Button arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void buttonPressed(Button arg0) {
+				System.exit(0);
+			}
+		});
 	};
 	
 	public static RobotState getInstance() {
