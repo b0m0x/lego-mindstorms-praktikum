@@ -21,6 +21,8 @@ public class RobotState {
 	private RobotState() {
 		usSensor = new UltrasonicSensor(ULTRASONIC_PORT);
 		lightSensor = new LightSensor(LIGHTSENSOR_PORT);
+		lastUsSample = new SensorSample(usSensor.getDistance());
+		lastLightSensorSample = new SensorSample(lightSensor.readValue());
 	};
 	
 	public static RobotState getInstance() {
