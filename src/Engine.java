@@ -10,11 +10,12 @@ public class Engine {
 	
 	private final NXTRegulatedMotor LEFT = Motor.C; 
 	private final NXTRegulatedMotor RIGHT = Motor.A;
+	private final int QUARTER_TURN = 100;
+	private final int DISTANCE_PER_DEGREE = 7;
 	
 	public final int MAX_SPEED = 900;
-	private boolean turning = false;
-	private int QUARTER_TURN = 100;
-	static final int DISTANCE_PER_DEGREE = 7;
+	//private boolean turning = false;
+	
 	
 	public Engine() {
 		
@@ -54,15 +55,19 @@ public class Engine {
 		LEFT.stop();
 		RIGHT.stop();
 	}
-	/**
-	 * turn left 
-	 */
-	public void turnL(float degree) {
+
+	public void turnLeft(float degree) {
 		setSpeed(30);
 		resetTacho();
 		LEFT.rotate((int)(degree * -1.1), true);
 		RIGHT.rotate((int)(degree * 1.1), true);
-		turning = true;
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//turning = true;
 	}
 	
 	/**
@@ -114,7 +119,7 @@ public class Engine {
 	private void resetTacho() {
 		LEFT.resetTachoCount();
 		RIGHT.resetTachoCount();
-		turning = false;
+		//turning = false;
 	}
 	
 	public void driveDistance(int distance, int speed, boolean flt) {
@@ -140,14 +145,16 @@ public class Engine {
 	}
 	
 	public void checkTurning() {
+		/*
 		if (turning) {
 			int count = LEFT.getTachoCount() + RIGHT.getTachoCount();
 			if (count == QUARTER_TURN) stop();
 		}
+		*/
 	}
 	
 	public void update() {
-		checkTurning();
-		if ( isMoving() );
+		//checkTurning();
+		//if ( isMoving() );
 	}
 }
