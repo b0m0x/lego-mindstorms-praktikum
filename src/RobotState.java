@@ -64,7 +64,7 @@ public class RobotState {
 	
 	public int getUltraSonic() {
 		//We need a 200ms delay between sensor polls
-		if (lastUsSample.getTime() + 200 >= System.currentTimeMillis() ) {
+		if ((lastUsSample.getTime() + 200) >= System.currentTimeMillis() ) {
 			lastUsSample = new SensorSample(usSensor.getDistance());
 			System.out.println("New SensorValue: " + lastUsSample.getValue());
 		}
@@ -100,6 +100,18 @@ public class RobotState {
 		LCD.drawString(text, 0, 0);
 	}
 	
+	public void driveCurveLeft(int ratio) {
+		engine.bendLeft(ratio);
+	}
+	
+	public void driveCurveRight(int ratio) {
+		engine.bendRight(ratio);
+	}
+		
+	public boolean isMoving() {
+		return engine.isMoving();
+	}
+	
 	public void update() {
 		for (RobotBehaviour b : behaviours) {
 			b.update(this);
@@ -107,7 +119,5 @@ public class RobotState {
 		engine.update();
 	}
 
-	public boolean isMoving() {
-		return engine.isMoving();
-	}
+	
 }

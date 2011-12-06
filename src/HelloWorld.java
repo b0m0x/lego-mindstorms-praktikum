@@ -12,7 +12,8 @@ public class HelloWorld
   throws Exception
   {
      RobotState r = RobotState.getInstance();
-     r.addBehaviour(new DriveForwardAndStopBehaviour());
+     //r.addBehaviour(new DriveForwardAndStopBehaviour());
+     r.addBehaviour(new EngineTestBehaviour());
      r.driveForward(10);
      while(true) {
     	 r.update();
