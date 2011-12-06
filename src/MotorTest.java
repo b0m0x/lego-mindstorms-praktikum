@@ -32,6 +32,7 @@ public class MotorTest {
 			
 		}
 	  });
+	rotate7200();
   
 	  
   }
