@@ -26,7 +26,7 @@ public class RobotState {
 		usSensor = new UltrasonicSensor(ULTRASONIC_PORT);
 		lightSensor = new LightSensor(LIGHTSENSOR_PORT);
 		lastUsSample = new SensorSample(usSensor.getDistance());
-		lastLightSensorSample = new SensorSample(lightSensor.readValue());
+		lastLightSensorSample = new SensorSample(lightSensor.getLightValue());
 		
 		engine = new Engine();
 		
@@ -64,11 +64,10 @@ public class RobotState {
 	
 	public int getUltraSonic() {
 		//We need a 200ms delay between sensor polls
-		if ((lastUsSample.getTime() + 200) >= System.currentTimeMillis() ) {
+		if ((lastUsSample.getTime() + 200) <= System.currentTimeMillis() ) {
 			lastUsSample = new SensorSample(usSensor.getDistance());
-			System.out.println("New SensorValue: " + lastUsSample.getValue());
 		}
-		return lastUsSample.getValue();		
+		return lastUsSample.getValue();
 	}
 	
 	public int getLightSensor() {
@@ -76,7 +75,7 @@ public class RobotState {
 		if (lastLightSensorSample.getTime() + 50 >= System.currentTimeMillis() ) {
 			lastLightSensorSample = new SensorSample(lightSensor.getLightValue());
 		}
-		return lastLightSensorSample.getValue();		
+		return lastLightSensorSample.getValue();
 	}
 	
 	public void halt() {
@@ -93,7 +92,7 @@ public class RobotState {
 	}
 	
 	public void rotate(float degrees) {
-		//TODO: engine.turn(degrees);
+		engine.turn();
 	}
 	
 	public void printDisplay(String text) {
@@ -111,6 +110,7 @@ public class RobotState {
 	public boolean isMoving() {
 		return engine.isMoving();
 	}
+	
 	
 	public void update() {
 		for (RobotBehaviour b : behaviours) {

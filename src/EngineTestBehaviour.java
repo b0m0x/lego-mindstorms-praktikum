@@ -2,6 +2,11 @@
 public class EngineTestBehaviour implements RobotBehaviour {
 	long start = 0;
 	public void update(RobotState r) {
+		if (r.getUltraSonic() <= 15) {
+			r.halt();
+			start = 0;
+			return;
+		}
 		if (start == 0) {
 			start = System.currentTimeMillis();
 			r.driveForward(60);

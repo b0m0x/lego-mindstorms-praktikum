@@ -65,9 +65,9 @@ public class Engine {
 	 * Gibt an wieviel Prozent das linke Rad langsamer sein soll als das rechte.
 	 *
 	 * Bei 100% blockiert das linke Rad.
-	 * Bei 0% fŠhrt der Roboter grade aus.
+	 * Bei 0% fï¿½hrt der Roboter grade aus.
 	 * 
-	 * @param p stŠrke der Kurve [0, 100]
+	 * @param p stï¿½rke der Kurve [0, 100]
 	 */
 	public void bendLeft(int p) {
 		if (p < 0 && p > 100) throw new IllegalArgumentException();
@@ -81,9 +81,9 @@ public class Engine {
 	 * Gibt an wieviel Prozent das rechte Rad langsamer sein soll als das linke.
 	 *
 	 * Bei 100% blockiert das rechte Rad.
-	 * Bei 0% fŠhrt der Roboter grade aus.
+	 * Bei 0% fï¿½hrt der Roboter grade aus.
 	 * 
-	 * @param p stŠrke der Kurve [0, 100]
+	 * @param p stï¿½rke der Kurve [0, 100]
 	 */
 	public void bendRight(int p) {
 		if (p < 0 && p > 100) throw new IllegalArgumentException();
@@ -118,7 +118,7 @@ public class Engine {
 	}
 	
 	public void update() {
-		checkTurning();
+		//checkTurning();
 		if ( isMoving() ) correctDirection();
 	}
 }
