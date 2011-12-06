@@ -1,14 +1,14 @@
 import lejos.nxt.Motor;
 
 
-public class Engin {
+public class Engine {
 	
 	public float MAX_SPEED = Motor.A.getMaxSpeed();
 	public int speed = 0; // [-100%, 100%]
 	
 	private int left = 0;
 	
-	public Engin() {
+	public Engine() {
 		
 	}
 	
@@ -25,7 +25,9 @@ public class Engin {
 	}
 	
 	public void forward() {
-		
+		speed = MAX_SPEED;
+		Motor.A.setSpeed(speed);
+		Motor.B.setSpeed(speed);
 	}
 	
 	public void stop() {
