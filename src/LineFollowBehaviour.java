@@ -1,7 +1,7 @@
 
 public class LineFollowBehaviour implements RobotBehaviour {
-	private final static int COLOR_LINE = 800;
-	private final static int COLOR_GROUND = 200;
+	private final static int COLOR_LINE = 40;
+	private final static int COLOR_GROUND = 30;
 	
 	private int direction;
 	private boolean lineLock;
@@ -16,20 +16,24 @@ public class LineFollowBehaviour implements RobotBehaviour {
 		
 		if (value >= COLOR_LINE) {
 			lineLock = true; //we got the line
+			//System.out.println("Line!!");
 			return;	//keep rollin'
-		} else if (value <= COLOR_GROUND && lineLock) {			
-			// change direction!
+		} else if (value <= COLOR_GROUND  && lineLock) {			
+			// we see ground, change direction to find our line again!
 			direction *= -1;
 			lineLock = false; //we lost the line!
 			
+			r.driveForward(50);
 			if (direction == 1) { //right
 				r.driveCurveRight(80);
+				System.out.println("Driving right");
 			} else { //left
 				r.driveCurveLeft(80);
+				System.out.println("Driving Left");
 			}
 		} else {
 			//uhhm... ?!
-			throw new UnsupportedOperationException("I'm a Mars Rover!!!");
+			//System.out.println("I'm a Mars Rover!!! (" + value + ", " + lineLock + ")");
 		}
 	}
 

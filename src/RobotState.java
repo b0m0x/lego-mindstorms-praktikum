@@ -72,7 +72,7 @@ public class RobotState {
 	
 	public int getLightSensor() {
 		//We need a 50ms delay between sensor polls
-		if (lastLightSensorSample.getTime() + 50 >= System.currentTimeMillis() ) {
+		if (lastLightSensorSample.getTime() + 50 <= System.currentTimeMillis() ) {
 			lastLightSensorSample = new SensorSample(lightSensor.getLightValue());
 		}
 		return lastLightSensorSample.getValue();
