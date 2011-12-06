@@ -11,7 +11,8 @@ public class Engine {
 	private final NXTRegulatedMotor LEFT = Motor.C; 
 	private final NXTRegulatedMotor RIGHT = Motor.A;
 	
-	public int MAX_SPEED = 900;
+	public final int MAX_SPEED = 900;
+	//private int defaultSpeed = 200;
 	//	private int speed = 0; // [-100%, 100%]
 
 	
@@ -25,6 +26,8 @@ public class Engine {
 	 * @param v Geschwindigkeit in Prozent [-100,100]
 	 */
 	private void setSpeed(int v) {
+		if (v < -100 && v > 100) throw new IllegalArgumentException();
+		
 		float motor_speed = MAX_SPEED * v / 100;
 		if (motor_speed < 0) motor_speed *= -1;
 		
@@ -32,14 +35,14 @@ public class Engine {
 		RIGHT.setSpeed(motor_speed);	
 	}
 	
-	public void forward() {
-		setSpeed(100);
+	public void forward(int v) {
+		setSpeed(v);
 		LEFT.forward();
 		RIGHT.forward();
 	}
 	
-	public void backward() {
-		setSpeed(-100);
+	public void backward(int v) {
+		setSpeed( v * (-1) );
 		LEFT.backward();
 		RIGHT.backward();
 	}
@@ -56,6 +59,14 @@ public class Engine {
 		RIGHT.backward();
 	}
 	
+	/**
+	 * Gibt an wieviel Prozent das linke Rad langsamer sein soll als das rechte.
+	 *
+	 * Bei 100% blockiert das linke Rad.
+	 * Bei 0% fährt der Roboter grade aus.
+	 * 
+	 * @param p stärke der Kurve [0, 100]
+	 */
 	public void bendLeft(int p) {
 		if (p < 0 && p > 100) throw new IllegalArgumentException();
 		
@@ -63,6 +74,14 @@ public class Engine {
 		LEFT.setSpeed(left_speed);
 	}
 	
+	/**
+	 * Gibt an wieviel Prozent das rechte Rad langsamer sein soll als das linke.
+	 *
+	 * Bei 100% blockiert das rechte Rad.
+	 * Bei 0% fährt der Roboter grade aus.
+	 * 
+	 * @param p stärke der Kurve [0, 100]
+	 */
 	public void bendRight(int p) {
 		if (p < 0 && p > 100) throw new IllegalArgumentException();
 		
@@ -70,6 +89,9 @@ public class Engine {
 		RIGHT.setSpeed(right_speed);
 	}
 	
+	/**
+	 * @return true wenn der Roboter in Bewegung ist
+	 */
 	public boolean isMoving() {
 		return LEFT.isMoving() || RIGHT.isMoving();
 	}
