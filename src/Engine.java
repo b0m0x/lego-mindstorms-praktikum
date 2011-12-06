@@ -67,30 +67,39 @@ public class Engine {
 	 * Gibt an wieviel Prozent das linke Rad langsamer sein soll als das rechte.
 	 *
 	 * Bei 100% blockiert das linke Rad.
-	 * Bei 0% fŠhrt der Roboter grade aus.
+	 * Bei 0% fï¿½hrt der Roboter grade aus.
 	 * 
-	 * @param p stŠrke der Kurve [0, 100]
+	 * @param p stï¿½rke der Kurve [0, 100]
 	 */
 	public void bendLeft(int p) {
 		if (p < 0 && p > 100) throw new IllegalArgumentException();
+		float right_speed = RIGHT.getSpeed();
+		float left_speed = right_speed * p / 100f;
+		
 		resetTacho();
-		float left_speed = RIGHT.getSpeed() * p / 100f;
+		RIGHT.setSpeed(right_speed);
 		LEFT.setSpeed(left_speed);
+		RIGHT.forward();
+		LEFT.forward();
 	}
 	
 	/**
 	 * Gibt an wieviel Prozent das rechte Rad langsamer sein soll als das linke.
 	 *
 	 * Bei 100% blockiert das rechte Rad.
-	 * Bei 0% fŠhrt der Roboter grade aus.
+	 * Bei 0% fï¿½hrt der Roboter grade aus.
 	 * 
-	 * @param p stŠrke der Kurve [0, 100]
+	 * @param p stï¿½rke der Kurve [0, 100]
 	 */
 	public void bendRight(int p) {
 		if (p < 0 && p > 100) throw new IllegalArgumentException();
+		float left_speed = LEFT.getSpeed();
+		float right_speed = left_speed * p / 100f;
 		resetTacho();
-		float right_speed = LEFT.getSpeed() * p / 100f;
 		RIGHT.setSpeed(right_speed);
+		LEFT.setSpeed(left_speed);
+		RIGHT.forward();
+		LEFT.forward();
 	}
 	
 	/**
@@ -114,7 +123,7 @@ public class Engine {
 		RIGHT.rotate((distance / DISTANCE_PER_DEGREE), true);
 		LEFT.rotate((distance / DISTANCE_PER_DEGREE));
 		
-		//†berprŸft ob die zurŸckgelegte Distanz der Zieldistanz entspricht
+		//ï¿½berprï¿½ft ob die zurï¿½ckgelegte Distanz der Zieldistanz entspricht
 		while (realDistance <= distance) {
 			realDistance = Math.abs(RIGHT.getTachoCount()) * DISTANCE_PER_DEGREE;
 		}
