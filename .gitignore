@@ -6,3 +6,6 @@ log/
 *.class
 .Trashes
 .com.apple.timemachine.supported
+bin/
+.classpath	
+.project
