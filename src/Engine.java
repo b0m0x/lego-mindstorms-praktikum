@@ -12,6 +12,7 @@ public class Engine {
 	private final NXTRegulatedMotor RIGHT = Motor.A;
 	
 	public final int MAX_SPEED = 900;
+	private boolean turning = false;
 	
 	public Engine() {
 		
@@ -35,24 +36,29 @@ public class Engine {
 		setSpeed(v);
 		LEFT.forward();
 		RIGHT.forward();
+		resetTacho();
 	}
 	
 	public void backward(int v) {
 		setSpeed(v);
 		LEFT.backward();
 		RIGHT.backward();
+		resetTacho();
 	}
 	
 	public void stop() {
 		setSpeed(0);
 		LEFT.stop();
 		RIGHT.stop();
+		resetTacho();
 	}
 	
 	public void turn() {
 		setSpeed(100);
 		LEFT.forward();
 		RIGHT.backward();
+		resetTacho();
+		turning = true;
 	}
 	
 	/**
@@ -66,8 +72,9 @@ public class Engine {
 	public void bendLeft(int p) {
 		if (p < 0 && p > 100) throw new IllegalArgumentException();
 		
-		float left_speed = RIGHT.getSpeed() * p / 100;
+		float left_speed = RIGHT.getSpeed() * p / 100f;
 		LEFT.setSpeed(left_speed);
+		resetTacho();
 	}
 	
 	/**
@@ -81,8 +88,9 @@ public class Engine {
 	public void bendRight(int p) {
 		if (p < 0 && p > 100) throw new IllegalArgumentException();
 		
-		float right_speed = LEFT.getSpeed() * p / 100;
+		float right_speed = LEFT.getSpeed() * p / 100f;
 		RIGHT.setSpeed(right_speed);
+		resetTacho();
 	}
 	
 	/**
@@ -92,7 +100,25 @@ public class Engine {
 		return LEFT.isMoving() || RIGHT.isMoving();
 	}
 	
-	public void update() {
+	private void resetTacho() {
+		LEFT.resetTachoCount();
+		RIGHT.resetTachoCount();
+		turning = false;
+	}
+	
+	private void correctDirection() {
 		
+	}
+	
+	public void checkTurning() {
+		if (turning) {
+			int count = LEFT.getTachoCount() + RIGHT.getTachoCount();
+			if (count == 100) stop();
+		}
+	}
+	
+	public void update() {
+		checkTurning();
+		if ( isMoving() ) correctDirection();
 	}
 }
