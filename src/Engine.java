@@ -13,6 +13,7 @@ public class Engine {
 	
 	public final int MAX_SPEED = 900;
 	private boolean turning = false;
+	private int QUARTER_TURN = 100;
 	
 	public Engine() {
 		
@@ -113,7 +114,7 @@ public class Engine {
 	public void checkTurning() {
 		if (turning) {
 			int count = LEFT.getTachoCount() + RIGHT.getTachoCount();
-			if (count == 100) stop();
+			if (count == QUARTER_TURN) stop();
 		}
 	}
 	
