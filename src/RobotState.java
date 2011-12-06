@@ -91,8 +91,8 @@ public class RobotState {
 		engine.backward(speed);
 	}
 	
-	public void rotateR(float degrees) {
-		engine.turnR(degrees);
+	public void rotateL(float degrees) {
+		engine.turnL(degrees);
 	}
 	
 	public void printDisplay(String text) {

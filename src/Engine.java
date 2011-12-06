@@ -54,12 +54,14 @@ public class Engine {
 		LEFT.stop();
 		RIGHT.stop();
 	}
-	
-	public void turnR(float degree) {
+	/**
+	 * turn left 
+	 */
+	public void turnL(float degree) {
 		setSpeed(30);
 		resetTacho();
-		LEFT.rotate((int)(degree * -1.2), true);
-		RIGHT.rotate((int)(degree * 1.2));
+		LEFT.rotate((int)(degree * -1.1), true);
+		RIGHT.rotate((int)(degree * 1.1), true);
 		turning = true;
 	}
 	
