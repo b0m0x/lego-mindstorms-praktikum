@@ -12,7 +12,7 @@ public class Engine {
 	private final NXTRegulatedMotor RIGHT = Motor.A;
 	
 	public int MAX_SPEED = 900;
-//	private int speed = 0; // [-100%, 100%]
+	//	private int speed = 0; // [-100%, 100%]
 
 	
 	public Engine() {
@@ -70,7 +70,9 @@ public class Engine {
 		RIGHT.setSpeed(right_speed);
 	}
 	
-	
+	public boolean isMoving() {
+		return LEFT.isMoving() || RIGHT.isMoving();
+	}
 	
 	public void update() {
 		
