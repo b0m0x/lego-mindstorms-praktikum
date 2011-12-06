@@ -13,7 +13,7 @@ public class Engine {
 	
 	public final int MAX_SPEED = 900;
 	private boolean turning = false;
-	private int QUARTER_TURN = 100;
+	private int QUARTER_TURN = 1000;
 	
 	public Engine() {
 		
@@ -56,9 +56,10 @@ public class Engine {
 	
 	public void turn() {
 		setSpeed(100);
+		resetTacho();
 		LEFT.forward();
 		RIGHT.backward();
-		resetTacho();
+		
 		turning = true;
 	}
 	
