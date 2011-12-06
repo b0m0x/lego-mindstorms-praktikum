@@ -16,13 +16,16 @@ public class HelloWorld
 		int i;
 		public void update(RobotState r) {
 			if (r.getUltraSonic() <= 10) {
-				r.printDisplay("FUFUFUFU!" + (i++) + " at " + System.currentTimeMillis());
-				Sound.buzz();
+				r.halt();
+			} else {
+				r.driveForward(10);
 			}
 		}
 	});
+     r.driveForward(10);
      while(true) {
     	 r.update();
+    	 Thread.sleep(100);
      }
   }
 }
