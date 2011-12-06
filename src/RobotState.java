@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import lejos.nxt.LCD;
 import lejos.nxt.LightSensor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
@@ -18,11 +19,14 @@ public class RobotState {
 	private SensorSample lastUsSample;
 	private SensorSample lastLightSensorSample;
 	
+	private Engine engine;
 	private RobotState() {
 		usSensor = new UltrasonicSensor(ULTRASONIC_PORT);
 		lightSensor = new LightSensor(LIGHTSENSOR_PORT);
 		lastUsSample = new SensorSample(usSensor.getDistance());
 		lastLightSensorSample = new SensorSample(lightSensor.readValue());
+		
+		engine = new Engine();
 	};
 	
 	public static RobotState getInstance() {
@@ -60,9 +64,32 @@ public class RobotState {
 		return lastLightSensorSample.getValue();		
 	}
 	
+	public void halt() {
+		engine.stop();
+	}
+	
+	public void driveForward(float speed) {
+		engine.setSpeed((int) speed);
+		engine.forward();
+	}
+	
+	public void driveBackward(float speed) {
+		engine.setSpeed((int) speed);
+		//TODO: engine.backward();
+	}
+	
+	public void rotate(float degrees) {
+		//TODO: engine.turn(degrees);
+	}
+	
+	public void printDisplay(String text) {
+		LCD.drawString(text, 0, 0);
+	}
+	
 	public void update() {
 		for (RobotBehaviour b : behaviours) {
 			b.update(this);
 		}
+		engine.update();
 	}
 }

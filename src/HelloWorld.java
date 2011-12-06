@@ -11,7 +11,18 @@ public class HelloWorld
   public static void main (String[] aArg)
   throws Exception
   {
-     LCD.drawString("Hello World",3,4);
-     Thread.sleep(2000);
+     RobotState r = RobotState.getInstance();
+     r.addBehaviour(new RobotBehaviour() {
+		int i;
+		public void update(RobotState r) {
+			if (r.getUltraSonic() <= 10) {
+				r.printDisplay("FUFUFUFU!" + (i++) + " at " + System.currentTimeMillis());
+				Sound.buzz();
+			}
+		}
+	});
+     while(true) {
+    	 r.update();
+     }
   }
 }

@@ -4,7 +4,7 @@ import lejos.nxt.Motor;
 public class Engine {
 	
 	public float MAX_SPEED = Motor.A.getMaxSpeed();
-	public int speed = 0; // [-100%, 100%]
+	private int speed = 0; // [-100%, 100%]
 	
 	private int left = 0;
 	
