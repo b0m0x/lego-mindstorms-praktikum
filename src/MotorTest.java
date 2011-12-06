@@ -32,7 +32,18 @@ public class MotorTest {
 			
 		}
 	  });
-	rotate7200();
+	  
+	  Motor.A.setSpeed(900);
+	  Motor.C.setSpeed(900);
+	  
+	while(true) {
+		Motor.A.rotate(790, true);
+		Motor.C.rotate(-790);
+		
+		Motor.C.rotate(790, true);
+		Motor.A.rotate(-790);
+		
+	}
   
 	  
   }
