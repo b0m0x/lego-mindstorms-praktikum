@@ -56,7 +56,6 @@ public class Engine {
 		RIGHT.stop();
 	}
 	
-
 	public void turnLeft(float degree) {
 		setSpeed(30);
 		resetTacho();
