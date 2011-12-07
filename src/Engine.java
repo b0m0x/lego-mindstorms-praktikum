@@ -14,7 +14,7 @@ public class Engine {
 	private final int DISTANCE_PER_DEGREE = 7;
 	
 	public final int MAX_SPEED = 900;
-	//private boolean turning = false;
+	private boolean turning = false;
 	
 	
 	public Engine() {
@@ -61,22 +61,16 @@ public class Engine {
 		resetTacho();
 		LEFT.rotate((int)(degree * -1.1), true);
 		RIGHT.rotate((int)(degree * 1.1), true);
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//turning = true;
+		turning = true;
 	}
 	
 	/**
 	 * Gibt an wieviel Prozent das linke Rad langsamer sein soll als das rechte.
 	 *
 	 * Bei 100% blockiert das linke Rad.
-	 * Bei 0% fï¿½hrt der Roboter grade aus.
+	 * Bei 0% fŠhrt der Roboter grade aus.
 	 * 
-	 * @param p stï¿½rke der Kurve [0, 100]
+	 * @param p stŠrke der Kurve [0, 100]
 	 */
 	public void bendLeft(int p) {
 		if (p < 0 && p > 100) throw new IllegalArgumentException();
@@ -96,7 +90,7 @@ public class Engine {
 	 * Bei 100% blockiert das rechte Rad.
 	 * Bei 0% fï¿½hrt der Roboter grade aus.
 	 * 
-	 * @param p stï¿½rke der Kurve [0, 100]
+	 * @param p stŠrke der Kurve [0, 100]
 	 */
 	public void bendRight(int p) {
 		if (p < 0 && p > 100) throw new IllegalArgumentException();
@@ -119,10 +113,12 @@ public class Engine {
 	private void resetTacho() {
 		LEFT.resetTachoCount();
 		RIGHT.resetTachoCount();
-		//turning = false;
+		turning = false;
 	}
 	
 	public void driveDistance(int distance, int speed, boolean flt) {
+		throw new UnsupportedOperationException();
+	/*
 		double realDistance = 0.0;
 		
 		resetTacho();
@@ -130,7 +126,7 @@ public class Engine {
 		RIGHT.rotate((distance / DISTANCE_PER_DEGREE), true);
 		LEFT.rotate((distance / DISTANCE_PER_DEGREE));
 		
-		//ï¿½berprï¿½ft ob die zurï¿½ckgelegte Distanz der Zieldistanz entspricht
+		//ŸberprŸfe ob die zurŸckgelegte Distanz der Zieldistanz entspricht
 		while (realDistance <= distance) {
 			realDistance = Math.abs(RIGHT.getTachoCount()) * DISTANCE_PER_DEGREE;
 		}
@@ -142,19 +138,15 @@ public class Engine {
 		} else {
 			stop();
 		}
+	*/
 	}
 	
 	public void checkTurning() {
-		/*
-		if (turning) {
-			int count = LEFT.getTachoCount() + RIGHT.getTachoCount();
-			if (count == QUARTER_TURN) stop();
-		}
-		*/
+		if (turning && !isMoving()) turning = false;
 	}
 	
 	public void update() {
-		//checkTurning();
+		checkTurning();
 		//if ( isMoving() );
 	}
 }
