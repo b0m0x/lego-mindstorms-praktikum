@@ -10,7 +10,7 @@ public class DriveForwardAndStopBehaviour implements RobotBehaviour {
 			}
 		} else {
 			if (!r.isMoving())
-				r.driveForward(60);
+				r.forward(60);
 		}
 	}
 

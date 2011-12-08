@@ -8,16 +8,16 @@ public class LabyrinthBehaviour implements RobotBehaviour {
 	
 	public void init(RobotState r) {
 		r.setSensorArmPosition(SensorArmPosition.POSITION_LABYRINTH);
-		r.driveForward(30);
+		r.forward(30);
 	}
 
 	public void update(RobotState r) {
 		int realWallDist = r.getUltraSonic();
 		
 		if (realWallDist > WALL_DISTANCE) { //entfernt, lenke nach rechts
-			r.driveCurveRight(30 * WALL_DISTANCE / realWallDist);
+			r.bendLeft(30 * WALL_DISTANCE / realWallDist);
 		} else {
-			r.driveCurveLeft(30 * WALL_DISTANCE / realWallDist);
+			r.bendLeft(30 * WALL_DISTANCE / realWallDist);
 		}
 		
 	}

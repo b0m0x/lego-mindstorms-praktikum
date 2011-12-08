@@ -107,6 +107,7 @@ public class RobotState {
 	}
 	
 	/**
+	 * Haaaaaaaaaaaalt stop!!!
 	 * stops the engine motors
 	 */
 	public void halt() {
@@ -117,7 +118,7 @@ public class RobotState {
 	 * drives forward with given speed
 	 * @param speed speed
 	 */
-	public void driveForward(int speed) {
+	public void forward(int speed) {
 		//engine.setSpeed((int) speed);
 		engine.forward(speed);
 	}
@@ -127,7 +128,7 @@ public class RobotState {
 	 * @param speed speed 
 	 * @param dist distance to travel
 	 */
-	public void driveForward(int speed, int dist) {
+	public void forward(int speed, int dist) {
 		//engine.setSpeed((int) speed);
 		engine.forward(speed);
 		engine.setMaxDist(dist);
@@ -137,11 +138,11 @@ public class RobotState {
 	 * drive backwards
 	 * @param speed speed
 	 */
-	public void driveBackward(int speed) {
+	public void backward(int speed) {
 		engine.backward(speed);
 	}
 	
-	public void driveBackward(int speed, int dist) {
+	public void backward(int speed, int dist) {
 		engine.backward(speed);
 		engine.setMaxDist(dist);
 	}
@@ -150,20 +151,16 @@ public class RobotState {
 		LCD.drawString(text, 0, 0);
 	}
 	
-	public void driveCurveLeft(int ratio) {
+	public void bendLeft(int ratio) {
 		engine.bendLeft(ratio);
 	}
 	
-	public void driveCurveRight(int ratio) {
-		engine.bendRight(ratio);
-	}
-	
-	public void driveCurveLeft(int ratio, int dist) {
+	public void bendLeft(int ratio, int dist) {
 		engine.bendLeft(ratio);
 		engine.setMaxDist(dist);
 	}
 	
-	public void driveCurveRight(int ratio, int dist) {
+	public void bendRight(int ratio, int dist) {
 		engine.bendRight(ratio);
 		engine.setMaxDist(dist);
 	}
