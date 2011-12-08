@@ -5,7 +5,7 @@ import basis.RobotState;
 public class EngineTestBehaviour implements RobotBehaviour {
 	long start = 0;
 	public void update(RobotState r) {
-		
+		/*
 		r.driveForward(50);
 		r.driveCurveRight(10);
 		try {
@@ -17,6 +17,8 @@ public class EngineTestBehaviour implements RobotBehaviour {
 		Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-		}
+		}*/
+		r.rotate(320);
+		r.rotate(-320);
 	}
 }
