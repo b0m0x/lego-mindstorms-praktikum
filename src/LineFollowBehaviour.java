@@ -25,10 +25,10 @@ public class LineFollowBehaviour implements RobotBehaviour {
 			
 			r.driveForward(20);
 			if (direction == 1) { //right
-				r.driveCurveRight(40);
+				r.driveCurveRight(50);
 				System.out.println("Driving right");
 			} else { //left
-				r.driveCurveLeft(40);
+				r.driveCurveLeft(50);
 				System.out.println("Driving Left");
 			}
 		} else {
