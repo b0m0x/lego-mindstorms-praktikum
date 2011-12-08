@@ -11,7 +11,6 @@ public class Engine {
 	private final NXTRegulatedMotor LEFT = Motor.C; 
 	private final NXTRegulatedMotor RIGHT = Motor.A;
 
-	private final int RADUMPFANG = 260; //mm
 	private final int DISTANCE_PER_DEGREE = RADUMPFANG / 360; //mm
 	private double UEBERSETZUNG = 1.05;
 	
