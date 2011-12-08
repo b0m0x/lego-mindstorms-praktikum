@@ -10,12 +10,22 @@ public class Engine {
 	
 	private final NXTRegulatedMotor LEFT = Motor.C; 
 	private final NXTRegulatedMotor RIGHT = Motor.A;
-	private final int QUARTER_TURN = 100;
-	private final int DISTANCE_PER_DEGREE = 7;
+
+	private final int RADUMPFANG = 260; //mm
+	private final int DISTANCE_PER_DEGREE = RADUMPFANG / 360; //mm
+	private double UEBERSETZUNG = 1.05;
 	
 	public final int MAX_SPEED = 900;
 	private boolean turning = false;
 	
+	static void main(String[] args) throws InterruptedException {
+		Engine e = new Engine();
+		
+		e.forward(100);
+		Thread.sleep(2000);
+
+		
+	}
 	
 	public Engine() {
 		
@@ -57,10 +67,10 @@ public class Engine {
 	}
 	
 	public void turnLeft(float degree) {
-		setSpeed(30);
 		resetTacho();
-		LEFT.rotate((int)(degree * -1.1), true);
-		RIGHT.rotate((int)(degree * 1.1), true);
+		setSpeed(30);
+		LEFT.rotate((int)(degree * UEBERSETZUNG * (-1)), true);
+		RIGHT.rotate((int)(degree * UEBERSETZUNG), true);
 		turning = true;
 	}
 	
