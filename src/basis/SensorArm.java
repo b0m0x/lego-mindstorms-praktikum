@@ -4,7 +4,7 @@ import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
 
 public class SensorArm {
-	enum SensorPosition {
+	public enum SensorArmPosition {
 		POSITION_LINE_FOLLOW,
 		POSITION_LABYRINTH,
 		POSITION_HILL
@@ -16,7 +16,7 @@ public class SensorArm {
 		SENSOR_MOTOR.resetTachoCount();
 	}
 	
-	public void setPosition(SensorPosition p) {
+	public void setPosition(SensorArmPosition p) {
 		int absAngle = getPositionAngle(p) - SENSOR_MOTOR.getTachoCount();
 		SENSOR_MOTOR.rotateTo(absAngle, true);
 	}
@@ -32,7 +32,7 @@ public class SensorArm {
 	}
 	
 	
-	private int getPositionAngle(SensorPosition p) {
+	private int getPositionAngle(SensorArmPosition p) {
 		switch(p) {
 			case POSITION_LINE_FOLLOW:
 			case POSITION_HILL:

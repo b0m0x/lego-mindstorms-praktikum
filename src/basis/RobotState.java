@@ -145,7 +145,7 @@ public class RobotState {
 		engine.rotateBlocking(degrees);
 	}
 	
-	public void setSensorArmPosition(SensorArm.SensorPosition p) {
+	public void setSensorArmPosition(SensorArm.SensorArmPosition p) {
 		sArm.setPosition(p);
 	}
 	
