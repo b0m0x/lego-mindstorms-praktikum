@@ -33,6 +33,7 @@ public class RobotState {
 		lastLightSensorSample = new SensorSample(lightSensor.getLightValue());
 		
 		engine = new Engine();
+		sArm = new SensorArm();
 		
 		Button.ESCAPE.addButtonListener(new ButtonListener() {
 			
@@ -142,6 +143,10 @@ public class RobotState {
 	
 	public void rotate(int degrees) {
 		engine.rotateBlocking(degrees);
+	}
+	
+	public void setSensorArmPosition(SensorArm.SensorPosition p) {
+		sArm.setPosition(p);
 	}
 	
 	
