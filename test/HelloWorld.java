@@ -1,4 +1,3 @@
-import basis.RobotState;
 import lejos.nxt.*;
 
 /**
@@ -16,7 +15,7 @@ public class HelloWorld
      //r.addBehaviour(new DriveForwardAndStopBehaviour());
      //r.addBehaviour(new EngineTestBehaviour());
      //r.addBehaviour(new LineFollowBehaviour());
-     r.forward(0.5f);
+     r.driveForward(50);
      while(true) {
     	 r.update();
      }

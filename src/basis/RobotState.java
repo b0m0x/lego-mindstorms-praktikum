@@ -25,12 +25,6 @@ public class RobotState {
 	private SensorSample lastLightSensorSample;
 	
 	private Engine engine;
-<<<<<<< HEAD
-	//private SensorArm sArm;
-
-=======
-	private SensorArm sArm;
->>>>>>> 0d2da6203a41f4b6ba42525ff4a339ef2def6340
 	private RobotState() {
 		usSensor = new UltrasonicSensor(ULTRASONIC_PORT);
 		lightSensor = new LightSensor(LIGHTSENSOR_PORT);
@@ -87,62 +81,57 @@ public class RobotState {
 		return lastLightSensorSample.getValue();
 	}
 	
-	
-	public void stop() {
+	public void halt() {
 		engine.stop();
 	}
 	
-	public void forward(float speed) {
+	public void driveForward(int speed) {
+		//engine.setSpeed((int) speed);
 		engine.forward(speed);
 	}
 	
-	public void forward(float speed, int dist) {
+	public void driveForward(int speed, int dist) {
+		//engine.setSpeed((int) speed);
 		engine.forward(speed);
 		engine.setMaxDist(dist);
 	}
 	
-	
-	public void backward(float speed) {
+	public void driveBackward(int speed) {
 		engine.backward(speed);
 	}
 	
-	public void backward(float speed, int dist) {
+	public void driveBackward(int speed, int dist) {
 		engine.backward(speed);
 		engine.setMaxDist(dist);
 	}
 	
-	public void turnLeft(float degrees) {
+	public void rotateL(float degrees) {
 		engine.turnLeft(degrees);
 	}
-	
-	public void rotateLeft(float degrees) {
-		engine.turnLeft(degrees);
-	}
-	
 	
 	public void printDisplay(String text) {
 		LCD.drawString(text, 0, 0);
 	}
 	
-	public void bendLeft(int ratio) {
+	public void driveCurveLeft(int ratio) {
 		engine.bendLeft(ratio);
 	}
 	
-	public void bendRight(int ratio) {
+	public void driveCurveRight(int ratio) {
 		engine.bendRight(ratio);
 	}
 	
-	public void bendLeft(int ratio, int dist) {
+	public void driveCurveLeft(int ratio, int dist) {
 		engine.bendLeft(ratio);
 		engine.setMaxDist(dist);
 	}
 	
-	public void bendRight(int ratio, int dist) {
+	public void driveCurveRight(int ratio, int dist) {
 		engine.bendRight(ratio);
 		engine.setMaxDist(dist);
 	}
 	
-	public void driveDistance(int distance, float speed, boolean flt) {
+	public void driveDistance(int distance, int speed, boolean flt) {
 		engine.driveDistance(distance, speed, flt);
 	}
 		
@@ -161,5 +150,6 @@ public class RobotState {
 		}
 		engine.update();
 	}
+
 	
 }

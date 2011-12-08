@@ -20,24 +20,24 @@ public class LineFollowBehaviour implements RobotBehaviour {
 		if (value >= COLOR_LINE && lineLock == false) {
 			lineLock = true; //we got the line
 			//System.out.println("Line!!");
-			r.forward(0.3f);
+			r.driveForward(30);
 			return;	//keep rollin'
 		} else if (value <= COLOR_GROUND  && lineLock) {			
 			// we see ground, change direction to find our line again!
 			direction *= -1;
 			lineLock = false; //we lost the line!
 			
-			r.forward(0.2f);
+			r.driveForward(20);
 			if (direction == 1) { //right
-				r.bendRight(50, 300);
+				r.driveCurveRight(50, 300);
 				System.out.println("Driving right");
 			} else { //left
-				r.bendLeft(50, 300);
+				r.driveCurveLeft(50, 300);
 				System.out.println("Driving Left");
 			}
 		} else {
 			if (value <= COLOR_GROUND && !r.isMoving()) {
-				r.backward(0.6f, 200);
+				r.driveBackward(60, 200);
 			}
 		}
 	}

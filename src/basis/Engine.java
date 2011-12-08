@@ -13,7 +13,7 @@ public class Engine {
 	private final NXTRegulatedMotor RIGHT = Motor.A;
 
 	//private final int DISTANCE_PER_DEGREE = RADUMPFANG / 360; //mm
-	private float UEBERSETZUNG = 1.1f * (90 / 320.f);
+	private float UEBERSETZUNG = 1.05f;
 	
 	public final int MAX_SPEED = 900;
 	private boolean turning = false;
@@ -80,9 +80,9 @@ public class Engine {
 	 * Gibt an wieviel Prozent das linke Rad langsamer sein soll als das rechte.
 	 *
 	 * Bei 100% blockiert das linke Rad.
-	 * Bei 0% fï¿½hrt der Roboter grade aus.
+	 * Bei 0% fŠhrt der Roboter grade aus.
 	 * 
-	 * @param p stï¿½rke der Kurve [0, 100]
+	 * @param p stŠrke der Kurve [0, 100]
 	 */
 	public void bendLeft(int p) {
 		if (p < 0 && p > 100) throw new IllegalArgumentException();
@@ -100,9 +100,9 @@ public class Engine {
 	 * Gibt an wieviel Prozent das rechte Rad langsamer sein soll als das linke.
 	 *
 	 * Bei 100% blockiert das rechte Rad.
-	 * Bei 0% fï¿½hrt der Roboter grade aus.
+	 * Bei 0% fŸhrt der Roboter grade aus.
 	 * 
-	 * @param p stï¿½rke der Kurve [0, 100]
+	 * @param p stŠrke der Kurve [0, 100]
 	 */
 	public void bendRight(int p) {
 		if (p < 0 && p > 100) throw new IllegalArgumentException();
@@ -128,7 +128,7 @@ public class Engine {
 		turning = false;
 	}
 	
-	public void driveDistance(int distance, float speed, boolean flt) {
+	public void driveDistance(int distance, int speed, boolean flt) {
 		throw new UnsupportedOperationException();
 	/*
 		double realDistance = 0.0;
