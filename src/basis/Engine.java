@@ -13,7 +13,7 @@ public class Engine {
 	private final NXTRegulatedMotor RIGHT = Motor.A;
 
 	//private final int DISTANCE_PER_DEGREE = RADUMPFANG / 360; //mm
-	private double UEBERSETZUNG = 1.05;
+	private float UEBERSETZUNG = 1.05f;
 	
 	public final int MAX_SPEED = 900;
 	private boolean turning = false;
@@ -27,27 +27,29 @@ public class Engine {
 	}
 	
 	/**
-	 * Lege Geschindigkeit fest.
-	 * Die Geschwindigkeit wird dabei als Buchteil der Maximalgeschwindigkeit festgelegt.
-	 * @param v Geschwindigkeit in Prozent [0,100]
+	 * Stellt Geschindigkeit ein.
+	 * 
+	 * @param v Geschwindigkeit
+	 * 		0 = stehen
+	 * 		1 = volle Geschwindigkeit
 	 */
-	private void setSpeed(int v) {
-		if (v < 0 && v > 100) throw new IllegalArgumentException();
+	private void setSpeed(float v) {
+		if (v < 0 && v > 1) throw new IllegalArgumentException();
 		
-		float motor_speed = MAX_SPEED * v / 100;
+		int motor_speed = (int) (MAX_SPEED * v);
 		
 		LEFT.setSpeed(motor_speed);
 		RIGHT.setSpeed(motor_speed);	
 	}
 	
-	public void backward(int v) {
+	public void backward(float v) {
 		setSpeed(v);
 		resetTacho();
 		LEFT.forward();
 		RIGHT.forward();
 	}
 	
-	public void forward(int v) {
+	public void forward(float v) {
 		setSpeed(v);
 		resetTacho();
 		LEFT.backward();
@@ -63,7 +65,7 @@ public class Engine {
 	
 	public void turnLeft(float degree) {
 		resetTacho();
-		setSpeed(30);
+		setSpeed(0.3f);
 		LEFT.rotate((int)(degree * UEBERSETZUNG * (-1)), true);
 		RIGHT.rotate((int)(degree * UEBERSETZUNG), true);
 		turning = true;
@@ -78,9 +80,9 @@ public class Engine {
 	 * Gibt an wieviel Prozent das linke Rad langsamer sein soll als das rechte.
 	 *
 	 * Bei 100% blockiert das linke Rad.
-	 * Bei 0% fï¿½hrt der Roboter grade aus.
+	 * Bei 0% fŠhrt der Roboter grade aus.
 	 * 
-	 * @param p stï¿½rke der Kurve [0, 100]
+	 * @param p stŠrke der Kurve [0, 100]
 	 */
 	public void bendLeft(int p) {
 		if (p < 0 && p > 100) throw new IllegalArgumentException();
@@ -91,16 +93,16 @@ public class Engine {
 		RIGHT.setSpeed(right_speed);
 		LEFT.setSpeed(left_speed);
 		RIGHT.backward();
-		LEFT.backward();
+		LEFT.forward();
 	}
 	
 	/**
 	 * Gibt an wieviel Prozent das rechte Rad langsamer sein soll als das linke.
 	 *
 	 * Bei 100% blockiert das rechte Rad.
-	 * Bei 0% fï¿½hrt der Roboter grade aus.
+	 * Bei 0% fŸhrt der Roboter grade aus.
 	 * 
-	 * @param p stï¿½rke der Kurve [0, 100]
+	 * @param p stŠrke der Kurve [0, 100]
 	 */
 	public void bendRight(int p) {
 		if (p < 0 && p > 100) throw new IllegalArgumentException();
@@ -109,7 +111,7 @@ public class Engine {
 		resetTacho();
 		RIGHT.setSpeed(right_speed);
 		LEFT.setSpeed(left_speed);
-		RIGHT.backward();
+		RIGHT.forward();
 		LEFT.backward();
 	}
 	
