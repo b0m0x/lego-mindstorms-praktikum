@@ -11,18 +11,7 @@ public class EngineTestBehaviour implements RobotBehaviour {
 	}
 	
 	public void update(RobotState r) {
-<<<<<<< HEAD
-		
-=======
-<<<<<<< HEAD
-
-		r.forward(0.5f);
-		r.bendRight(10);
-
-=======
->>>>>>> 504a856945c0e74ebfed2b40160522351244e235
 		/*
->>>>>>> e3ad0d3b0fabb28e3a967a2652a47e84211ebdfc
 		r.driveForward(50);
 		r.driveCurveRight(10);
 		try {
@@ -34,7 +23,9 @@ public class EngineTestBehaviour implements RobotBehaviour {
 		Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-		}
+		}*/
+		r.rotate(90);
+		r.rotate(-90);
 	}
 	
 }
