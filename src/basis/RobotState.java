@@ -149,12 +149,17 @@ public class RobotState {
 		sArm.setPosition(p);
 	}
 	
+	public boolean isSensorArmMoving() {
+		return sArm.isMoving();
+	}
+	
 	
 	public void update() {
 		for (RobotBehaviour b : behaviours) {
 			b.update(this);
 		}
 		engine.update();
+		sArm.update();
 	}
 
 	

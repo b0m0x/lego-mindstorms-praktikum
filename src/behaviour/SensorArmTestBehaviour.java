@@ -4,17 +4,20 @@ import basis.RobotState;
 import basis.SensorArm.SensorArmPosition;
 
 public class SensorArmTestBehaviour implements RobotBehaviour {
-
+	int i = 0;
 	public void update(RobotState r) {
-		r.setSensorArmPosition(SensorArmPosition.POSITION_LABYRINTH);
-		try {
-		Thread.sleep(1000);
-		
-		r.setSensorArmPosition(SensorArmPosition.POSITION_LINE_FOLLOW);
-		Thread.sleep(1000);
-		} catch (Exception e) {
-			//lala
+		if (!r.isSensorArmMoving()) {
+			switch ((i++) % 2) {
+				case 0:
+					r.setSensorArmPosition(SensorArmPosition.POSITION_LABYRINTH);
+					break;
+				case 1:
+					r.setSensorArmPosition(SensorArmPosition.POSITION_LINE_FOLLOW);
+					break;
+			}
+			
 		}
+		//r.setSensorArmPosition(SensorArmPosition.POSITION_LINE_FOLLOW);
 	}
 
 }
