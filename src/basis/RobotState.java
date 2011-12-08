@@ -139,6 +139,10 @@ public class RobotState {
 		return engine.isMoving();
 	}
 	
+	public void rotate(int degrees) {
+		engine.rotateBlocking(degrees);
+	}
+	
 	
 	public void update() {
 		for (RobotBehaviour b : behaviours) {

@@ -163,7 +163,11 @@ public class Engine {
 			LEFT.forward();
 			RIGHT.backward();
 		}
-		while (LEFT.getTachoCount());
+		degrees = Math.abs(degrees);
+		while (Math.abs(LEFT.getTachoCount()) <= UEBERSETZUNG * degrees) {
+			//drehe däumchen
+		}
+		stop();
 	}
 	
 	public void checkTurning() {
