@@ -14,4 +14,9 @@ public class DriveForwardAndStopBehaviour implements RobotBehaviour {
 		}
 	}
 
+	public void init(RobotState r) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

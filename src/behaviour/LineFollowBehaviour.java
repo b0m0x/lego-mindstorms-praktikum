@@ -14,6 +14,11 @@ public class LineFollowBehaviour implements RobotBehaviour {
 		lineLock = false;
 	}
 	
+	public void init(RobotState r) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	public void update(RobotState r) {
 		int value = r.getLightSensor();
 		
@@ -41,5 +46,7 @@ public class LineFollowBehaviour implements RobotBehaviour {
 			}
 		}
 	}
+
+	
 
 }
