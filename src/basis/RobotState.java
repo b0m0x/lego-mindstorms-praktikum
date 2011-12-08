@@ -26,6 +26,8 @@ public class RobotState {
 	
 	private Engine engine;
 	private SensorArm sArm;
+	
+	
 	private RobotState() {
 		usSensor = new UltrasonicSensor(ULTRASONIC_PORT);
 		lightSensor = new LightSensor(LIGHTSENSOR_PORT);
@@ -55,6 +57,10 @@ public class RobotState {
 		return instance;
 	}
 	
+	/**
+	 * add a behaviour 
+	 * @param behaviour
+	 */
 	public void addBehaviour(RobotBehaviour behaviour) {
 		behaviours.add(behaviour);
 	}
@@ -63,10 +69,21 @@ public class RobotState {
 		behaviours.remove(behaviour);
 	}
 	
+	/**
+	 * remove all behaviours
+	 * @param behaviour
+	 */
 	public void clearBehaviour(RobotBehaviour behaviour) {
 		behaviours.clear();
 	}
 	
+	/**
+	 * get the UltraSonic Sensor output 
+	 * output is distance in cm to the next obstacle.
+	 * max. 30, if no object is seen, 255 will be returned
+	 * is updated every 200ms
+	 * @return distance in cm
+	 */
 	public int getUltraSonic() {
 		//We need a 200ms delay between sensor polls
 		if ((lastUsSample.getTime() + 200) <= System.currentTimeMillis() ) {
@@ -83,21 +100,37 @@ public class RobotState {
 		return lastLightSensorSample.getValue();
 	}
 	
+	/**
+	 * stops the engine motors
+	 */
 	public void halt() {
 		engine.stop();
 	}
 	
+	/**
+	 * drives forward with given speed
+	 * @param speed speed
+	 */
 	public void driveForward(int speed) {
 		//engine.setSpeed((int) speed);
 		engine.forward(speed);
 	}
 	
+	/**
+	 * drive forward with until the given distance is reached
+	 * @param speed speed 
+	 * @param dist distance to travel
+	 */
 	public void driveForward(int speed, int dist) {
 		//engine.setSpeed((int) speed);
 		engine.forward(speed);
 		engine.setMaxDist(dist);
 	}
 	
+	/**
+	 * drive backwards
+	 * @param speed speed
+	 */
 	public void driveBackward(int speed) {
 		engine.backward(speed);
 	}
@@ -105,10 +138,6 @@ public class RobotState {
 	public void driveBackward(int speed, int dist) {
 		engine.backward(speed);
 		engine.setMaxDist(dist);
-	}
-	
-	public void rotateL(float degrees) {
-		engine.turnLeft(degrees);
 	}
 	
 	public void printDisplay(String text) {
@@ -133,27 +162,51 @@ public class RobotState {
 		engine.setMaxDist(dist);
 	}
 	
+	/**
+	 * drives a distance
+	 * @param distance
+	 * @param speed
+	 * @param flt
+	 */
 	public void driveDistance(int distance, int speed, boolean flt) {
 		engine.driveDistance(distance, speed, flt);
 	}
-		
+	
+	/**
+	 * returns true if the robot is moving
+	 * @return
+	 */
 	public boolean isMoving() {
 		return engine.isMoving();
 	}
 	
+	/**
+	 * rotates the robot inplace
+	 * @param degrees degrees to turn. if negative, turn ccw, else cw
+	 */
 	public void rotate(int degrees) {
 		engine.rotateBlocking(degrees);
 	}
 	
+	/**
+	 * set the rotation of the sensor arm
+	 * @param p
+	 */
 	public void setSensorArmPosition(SensorArm.SensorArmPosition p) {
 		sArm.setPosition(p);
 	}
 	
+	/**
+	 * returns true if the sensor arm is currently moving
+	 * @return
+	 */
 	public boolean isSensorArmMoving() {
 		return sArm.isMoving();
 	}
 	
-	
+	/**
+	 * main update loop, call often!
+	 */
 	public void update() {
 		for (RobotBehaviour b : behaviours) {
 			b.update(this);
