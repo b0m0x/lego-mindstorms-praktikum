@@ -128,7 +128,7 @@ public class Engine {
 		turning = false;
 	}
 	
-	public void driveDistance(int distance, int speed, boolean flt) {
+	public void driveDistance(int distance, float speed, boolean flt) {
 		throw new UnsupportedOperationException();
 	/*
 		double realDistance = 0.0;

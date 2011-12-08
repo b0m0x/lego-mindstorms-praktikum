@@ -6,11 +6,11 @@ public class DriveForwardAndStopBehaviour implements RobotBehaviour {
 	public void update(RobotState r) {
 		if (r.getUltraSonic() <= 35) {
 			if (r.isMoving()) {
-				r.halt();
+				r.stop();
 			}
 		} else {
 			if (!r.isMoving())
-				r.driveForward(60);
+				r.forward(0.6f);
 		}
 	}
 

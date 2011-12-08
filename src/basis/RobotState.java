@@ -81,57 +81,62 @@ public class RobotState {
 		return lastLightSensorSample.getValue();
 	}
 	
-	public void halt() {
+	
+	public void stop() {
 		engine.stop();
 	}
 	
-	public void driveForward(int speed) {
-		//engine.setSpeed((int) speed);
+	public void forward(float speed) {
 		engine.forward(speed);
 	}
 	
-	public void driveForward(int speed, int dist) {
-		//engine.setSpeed((int) speed);
+	public void forward(float speed, int dist) {
 		engine.forward(speed);
 		engine.setMaxDist(dist);
 	}
 	
-	public void driveBackward(int speed) {
+	
+	public void backward(float speed) {
 		engine.backward(speed);
 	}
 	
-	public void driveBackward(int speed, int dist) {
+	public void backward(float speed, int dist) {
 		engine.backward(speed);
 		engine.setMaxDist(dist);
 	}
 	
-	public void rotateL(float degrees) {
+	public void turnLeft(float degrees) {
 		engine.turnLeft(degrees);
 	}
+	
+	public void rotateLeft(float degrees) {
+		engine.turnLeft(degrees);
+	}
+	
 	
 	public void printDisplay(String text) {
 		LCD.drawString(text, 0, 0);
 	}
 	
-	public void driveCurveLeft(int ratio) {
+	public void bendLeft(int ratio) {
 		engine.bendLeft(ratio);
 	}
 	
-	public void driveCurveRight(int ratio) {
+	public void bendRight(int ratio) {
 		engine.bendRight(ratio);
 	}
 	
-	public void driveCurveLeft(int ratio, int dist) {
+	public void bendLeft(int ratio, int dist) {
 		engine.bendLeft(ratio);
 		engine.setMaxDist(dist);
 	}
 	
-	public void driveCurveRight(int ratio, int dist) {
+	public void bendRight(int ratio, int dist) {
 		engine.bendRight(ratio);
 		engine.setMaxDist(dist);
 	}
 	
-	public void driveDistance(int distance, int speed, boolean flt) {
+	public void driveDistance(int distance, float speed, boolean flt) {
 		engine.driveDistance(distance, speed, flt);
 	}
 		
@@ -150,6 +155,5 @@ public class RobotState {
 		}
 		engine.update();
 	}
-
 	
 }
