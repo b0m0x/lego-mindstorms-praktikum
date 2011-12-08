@@ -17,9 +17,9 @@ public class SensorArm {
 	public SensorArm() {
 		rotating = false;
 		rotateAngle = 0;
-		SENSOR_MOTOR.resetTachoCount();
+		//SENSOR_MOTOR.resetTachoCount();
 		SENSOR_MOTOR.setSpeed(100);
-		//recalibrate();
+		recalibrate();
 	}
 	
 	public void setPosition(SensorArmPosition p) {
@@ -34,14 +34,33 @@ public class SensorArm {
 		}
 	}
 	
+	/**
+	 * recalibrates the sensor arm by moving it to the start position.
+	 * caution: blocking!
+	 */
 	public void recalibrate() {
-		SENSOR_MOTOR.setSpeed(100);
+		System.out.println("Calibrating now");
+		SENSOR_MOTOR.setSpeed(350);
+		SENSOR_MOTOR.resetTachoCount();
 		SENSOR_MOTOR.forward();
-		while (!SENSOR_MOTOR.isStalled()) {
-			//däumchen drehen
+		
+		boolean stalled = false;
+		int lastTacho = 999;
+		while (!stalled) {
+			if (Math.abs(lastTacho - SENSOR_MOTOR.getTachoCount()) < 5) {
+				stalled = true;
+				break;
+			}
+			lastTacho = SENSOR_MOTOR.getTachoCount();
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+				System.out.println("Failed Sleeping");
+			}
 		}
 		SENSOR_MOTOR.stop();
 		SENSOR_MOTOR.resetTachoCount();
+		System.out.println("Finished calibrating");
 	}
 	
 	public boolean isMoving() {
@@ -54,9 +73,9 @@ public class SensorArm {
 			case POSITION_LINE_FOLLOW:
 			case POSITION_HILL:
 				//TODO: INSERT CORRECT VALUE
-				return 0;
+				return -40;
 			case POSITION_LABYRINTH:
-				return -120;
+				return -220;
 			default: 
 				return 0;
 		}
