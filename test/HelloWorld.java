@@ -14,7 +14,8 @@ public class HelloWorld
      RobotState r = RobotState.getInstance();
      //r.addBehaviour(new DriveForwardAndStopBehaviour());
      //r.addBehaviour(new EngineTestBehaviour());
-     r.addBehaviour(new LineFollowBehaviour());
+     //r.addBehaviour(new LineFollowBehaviour());
+     r.driveForward(50);
      while(true) {
     	 r.update();
      }

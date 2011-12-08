@@ -90,8 +90,19 @@ public class RobotState {
 		engine.forward(speed);
 	}
 	
+	public void driveForward(int speed, int dist) {
+		//engine.setSpeed((int) speed);
+		engine.forward(speed);
+		engine.setMaxDist(dist);
+	}
+	
 	public void driveBackward(int speed) {
 		engine.backward(speed);
+	}
+	
+	public void driveBackward(int speed, int dist) {
+		engine.backward(speed);
+		engine.setMaxDist(dist);
 	}
 	
 	public void rotateL(float degrees) {
@@ -108,6 +119,16 @@ public class RobotState {
 	
 	public void driveCurveRight(int ratio) {
 		engine.bendRight(ratio);
+	}
+	
+	public void driveCurveLeft(int ratio, int dist) {
+		engine.bendLeft(ratio);
+		engine.setMaxDist(dist);
+	}
+	
+	public void driveCurveRight(int ratio, int dist) {
+		engine.bendRight(ratio);
+		engine.setMaxDist(dist);
 	}
 	
 	public void driveDistance(int distance, int speed, boolean flt) {

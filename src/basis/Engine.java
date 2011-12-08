@@ -18,11 +18,17 @@ public class Engine {
 	public final int MAX_SPEED = 900;
 	private boolean turning = false;
 	
+<<<<<<< HEAD
 	static void main(String[] args) throws InterruptedException {
 		Engine e = new Engine();		
 		e.forward(100);
 		Thread.sleep(2000);
 	}
+=======
+	//for distance count
+	private boolean driveMaxDist;
+	private int maxTachoCount;
+>>>>>>> b965a9664493540080d4c795142ad949617c86fc
 	
 	public Engine() {
 		
@@ -42,14 +48,14 @@ public class Engine {
 		RIGHT.setSpeed(motor_speed);	
 	}
 	
-	public void forward(int v) {
+	public void backward(int v) {
 		setSpeed(v);
 		resetTacho();
 		LEFT.forward();
 		RIGHT.forward();
 	}
 	
-	public void backward(int v) {
+	public void forward(int v) {
 		setSpeed(v);
 		resetTacho();
 		LEFT.backward();
@@ -71,13 +77,18 @@ public class Engine {
 		turning = true;
 	}
 	
+	public void setMaxDist(int tachoCount) {
+		maxTachoCount = tachoCount;
+		driveMaxDist = true;
+	}
+	
 	/**
 	 * Gibt an wieviel Prozent das linke Rad langsamer sein soll als das rechte.
 	 *
 	 * Bei 100% blockiert das linke Rad.
-	 * Bei 0% fŠhrt der Roboter grade aus.
+	 * Bei 0% fï¿½hrt der Roboter grade aus.
 	 * 
-	 * @param p stŠrke der Kurve [0, 100]
+	 * @param p stï¿½rke der Kurve [0, 100]
 	 */
 	public void bendLeft(int p) {
 		if (p < 0 && p > 100) throw new IllegalArgumentException();
@@ -87,8 +98,8 @@ public class Engine {
 		resetTacho();
 		RIGHT.setSpeed(right_speed);
 		LEFT.setSpeed(left_speed);
-		RIGHT.forward();
-		LEFT.forward();
+		RIGHT.backward();
+		LEFT.backward();
 	}
 	
 	/**
@@ -97,7 +108,7 @@ public class Engine {
 	 * Bei 100% blockiert das rechte Rad.
 	 * Bei 0% fï¿½hrt der Roboter grade aus.
 	 * 
-	 * @param p stŠrke der Kurve [0, 100]
+	 * @param p stï¿½rke der Kurve [0, 100]
 	 */
 	public void bendRight(int p) {
 		if (p < 0 && p > 100) throw new IllegalArgumentException();
@@ -106,8 +117,8 @@ public class Engine {
 		resetTacho();
 		RIGHT.setSpeed(right_speed);
 		LEFT.setSpeed(left_speed);
-		RIGHT.forward();
-		LEFT.forward();
+		RIGHT.backward();
+		LEFT.backward();
 	}
 	
 	/**
@@ -133,7 +144,7 @@ public class Engine {
 		RIGHT.rotate((distance / DISTANCE_PER_DEGREE), true);
 		LEFT.rotate((distance / DISTANCE_PER_DEGREE));
 		
-		//ŸberprŸfe ob die zurŸckgelegte Distanz der Zieldistanz entspricht
+		//ï¿½berprï¿½fe ob die zurï¿½ckgelegte Distanz der Zieldistanz entspricht
 		while (realDistance <= distance) {
 			realDistance = Math.abs(RIGHT.getTachoCount()) * DISTANCE_PER_DEGREE;
 		}
@@ -154,6 +165,13 @@ public class Engine {
 	
 	public void update() {
 		checkTurning();
+		if (driveMaxDist) {
+			System.out.println("" + LEFT.getTachoCount() + "/" + maxTachoCount);
+			if (Math.abs(LEFT.getTachoCount()) > maxTachoCount) {
+				stop();
+				driveMaxDist = false;
+			}
+		}
 		//if ( isMoving() );
 	}
 }

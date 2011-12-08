@@ -17,9 +17,10 @@ public class LineFollowBehaviour implements RobotBehaviour {
 	public void update(RobotState r) {
 		int value = r.getLightSensor();
 		
-		if (value >= COLOR_LINE) {
+		if (value >= COLOR_LINE && lineLock == false) {
 			lineLock = true; //we got the line
 			//System.out.println("Line!!");
+			r.driveForward(30);
 			return;	//keep rollin'
 		} else if (value <= COLOR_GROUND  && lineLock) {			
 			// we see ground, change direction to find our line again!
@@ -28,15 +29,16 @@ public class LineFollowBehaviour implements RobotBehaviour {
 			
 			r.driveForward(20);
 			if (direction == 1) { //right
-				r.driveCurveRight(40);
+				r.driveCurveRight(50, 300);
 				System.out.println("Driving right");
 			} else { //left
-				r.driveCurveLeft(40);
+				r.driveCurveLeft(50, 300);
 				System.out.println("Driving Left");
 			}
 		} else {
-			//uhhm... ?!
-			//System.out.println("I'm a Mars Rover!!! (" + value + ", " + lineLock + ")");
+			if (value <= COLOR_GROUND && !r.isMoving()) {
+				r.driveBackward(60, 200);
+			}
 		}
 	}
 
