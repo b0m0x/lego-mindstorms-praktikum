@@ -196,7 +196,7 @@ public class RobotState {
 	 * @param p
 	 */
 	public void setSensorArmPosition(SensorArm.SensorArmPosition p) {
-		sArm.setPositionBlocking(p);
+		sArm.setPosition(p);
 	}
 	
 	/**
