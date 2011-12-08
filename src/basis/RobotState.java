@@ -25,12 +25,8 @@ public class RobotState {
 	private SensorSample lastLightSensorSample;
 	
 	private Engine engine;
-<<<<<<< HEAD
 	//private SensorArm sArm;
 
-=======
-	private SensorArm sArm;
->>>>>>> 0d2da6203a41f4b6ba42525ff4a339ef2def6340
 	private RobotState() {
 		usSensor = new UltrasonicSensor(ULTRASONIC_PORT);
 		lightSensor = new LightSensor(LIGHTSENSOR_PORT);
@@ -38,6 +34,7 @@ public class RobotState {
 		lastLightSensorSample = new SensorSample(lightSensor.getLightValue());
 		
 		engine = new Engine();
+		//sArm = new SensorArm();
 		
 		Button.ESCAPE.addButtonListener(new ButtonListener() {
 			
@@ -152,6 +149,10 @@ public class RobotState {
 	
 	public void rotate(int degrees) {
 		engine.rotateBlocking(degrees);
+	}
+	
+	public void setSensorArmPosition(SensorArm.SensorPosition p) {
+		//sArm.setPosition(p);
 	}
 	
 	
