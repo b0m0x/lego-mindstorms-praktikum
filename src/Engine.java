@@ -157,6 +157,7 @@ public class Engine {
 	public void update() {
 		checkTurning();
 		if (driveMaxDist) {
+			System.out.println("" + LEFT.getTachoCount() + "/" + maxTachoCount);
 			if (Math.abs(LEFT.getTachoCount()) > maxTachoCount) {
 				stop();
 				driveMaxDist = false;
