@@ -151,6 +151,21 @@ public class Engine {
 	*/
 	}
 	
+	public void rotateBlocking(int degrees) {
+		resetTacho();
+		LEFT.setSpeed(300);
+		RIGHT.setSpeed(300);
+		
+		if (degrees > 0) {
+			LEFT.backward();
+			RIGHT.forward();
+		} else {
+			LEFT.forward();
+			RIGHT.backward();
+		}
+		while (LEFT.getTachoCount());
+	}
+	
 	public void checkTurning() {
 		if (turning && !isMoving()) turning = false;
 	}
