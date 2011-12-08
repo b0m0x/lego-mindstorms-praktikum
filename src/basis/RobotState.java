@@ -66,6 +66,12 @@ public class RobotState {
 		return instance;
 	}
 	
+	public void init() {
+		for (RobotBehaviour r : behaviours) {
+			r.init(this);
+		}
+	}
+	
 	/**
 	 * add a behaviour 
 	 * @param behaviour
