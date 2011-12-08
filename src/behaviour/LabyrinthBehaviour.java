@@ -1,5 +1,6 @@
-package basis;
+package behaviour;
 
+import basis.RobotState;
 import basis.SensorArm.SensorArmPosition;
 import behaviour.RobotBehaviour;
 

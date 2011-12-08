@@ -1,6 +1,6 @@
 package test;
 
-import basis.LabyrinthBehaviour;
+import behaviour.LabyrinthBehaviour;
 import basis.RobotState;
 import behaviour.SensorArmTestBehaviour;
 
