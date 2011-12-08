@@ -70,11 +70,16 @@ public class SensorArm {
 				speed > 0 && tacho >= rotateAngle) {
 				rotating = false;
 				SENSOR_MOTOR.stop();
-				System.out.println("REACHED POSITION");
 			}
 		}
 		if (SENSOR_MOTOR.isStalled()) {
-			throw new IllegalArgumentException("FAIL at " + SENSOR_MOTOR.getTachoCount() );
+			//whoops
+			System.out.println("SENSORARM STALLED!");
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+			}
+			System.exit(0);
 		}
 	}
 }
