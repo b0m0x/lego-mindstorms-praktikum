@@ -16,6 +16,10 @@ public class Engine {
 	public final int MAX_SPEED = 900;
 	private boolean turning = false;
 	
+	//for distance count
+	private boolean driveMaxDist;
+	private int maxTachoCount;
+	
 	
 	public Engine() {
 		
@@ -64,6 +68,11 @@ public class Engine {
 		turning = true;
 	}
 	
+	public void setMaxDist(int tachoCount) {
+		maxTachoCount = tachoCount;
+		driveMaxDist = true;
+	}
+	
 	/**
 	 * Gibt an wieviel Prozent das linke Rad langsamer sein soll als das rechte.
 	 *
@@ -80,8 +89,8 @@ public class Engine {
 		resetTacho();
 		RIGHT.setSpeed(right_speed);
 		LEFT.setSpeed(left_speed);
-		RIGHT.forward();
-		LEFT.forward();
+		RIGHT.backward();
+		LEFT.backward();
 	}
 	
 	/**
@@ -99,8 +108,8 @@ public class Engine {
 		resetTacho();
 		RIGHT.setSpeed(right_speed);
 		LEFT.setSpeed(left_speed);
-		RIGHT.forward();
-		LEFT.forward();
+		RIGHT.backward();
+		LEFT.backward();
 	}
 	
 	/**
@@ -147,6 +156,12 @@ public class Engine {
 	
 	public void update() {
 		checkTurning();
+		if (driveMaxDist) {
+			if (LEFT.getTachoCount() > maxTachoCount) {
+				stop();
+				driveMaxDist = false;
+			}
+		}
 		//if ( isMoving() );
 	}
 }

@@ -14,9 +14,10 @@ public class LineFollowBehaviour implements RobotBehaviour {
 	public void update(RobotState r) {
 		int value = r.getLightSensor();
 		
-		if (value >= COLOR_LINE) {
+		if (value >= COLOR_LINE && lineLock == false) {
 			lineLock = true; //we got the line
 			//System.out.println("Line!!");
+			r.driveForward(30);
 			return;	//keep rollin'
 		} else if (value <= COLOR_GROUND  && lineLock) {			
 			// we see ground, change direction to find our line again!

@@ -87,8 +87,19 @@ public class RobotState {
 		engine.forward(speed);
 	}
 	
+	public void driveForward(int speed, int dist) {
+		//engine.setSpeed((int) speed);
+		engine.forward(speed);
+		engine.setMaxDist(dist);
+	}
+	
 	public void driveBackward(int speed) {
 		engine.backward(speed);
+	}
+	
+	public void driveBackward(int speed, int dist) {
+		engine.backward(speed);
+		engine.setMaxDist(dist);
 	}
 	
 	public void rotateL(float degrees) {
