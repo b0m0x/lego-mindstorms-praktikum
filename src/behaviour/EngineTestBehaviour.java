@@ -5,10 +5,13 @@ import basis.RobotState;
 public class EngineTestBehaviour implements RobotBehaviour {
 	long start = 0;
 	public void update(RobotState r) {
-
+<<<<<<< HEAD
 		r.forward(0.5f);
 		r.bendRight(10);
 
+
+=======
+>>>>>>> 0d2da6203a41f4b6ba42525ff4a339ef2def6340
 		/*
 		r.driveForward(50);
 		r.driveCurveRight(10);
