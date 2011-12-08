@@ -25,8 +25,12 @@ public class RobotState {
 	private SensorSample lastLightSensorSample;
 	
 	private Engine engine;
+<<<<<<< HEAD
 	//private SensorArm sArm;
 
+=======
+	private SensorArm sArm;
+>>>>>>> 0d2da6203a41f4b6ba42525ff4a339ef2def6340
 	private RobotState() {
 		usSensor = new UltrasonicSensor(ULTRASONIC_PORT);
 		lightSensor = new LightSensor(LIGHTSENSOR_PORT);
