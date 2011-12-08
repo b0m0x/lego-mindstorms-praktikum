@@ -77,17 +77,16 @@ public class Engine {
 	}
 	
 	/**
-	 * Gibt an wieviel Prozent das linke Rad langsamer sein soll als das rechte.
-	 *
-	 * Bei 100% blockiert das linke Rad.
-	 * Bei 0% fährt der Roboter grade aus.
-	 * 
-	 * @param p stärke der Kurve [0, 100]
+	 * Lenken
+	 * 	 e =  0: Roboter fährt grade aus
+	 * 	 e =  1: Roboter fährt nach rechts
+	 *   e = -1: Roboter fährt nach links
+	 * @param e Auslenkung [-1..1] 
 	 */
-	public void bendLeft(int p) {
-		if (p < 0 && p > 100) throw new IllegalArgumentException();
+	public void bend(float e) {
+		if (e < -1 && 1 < e) throw new IllegalArgumentException();
 		float right_speed = RIGHT.getSpeed();
-		float left_speed = right_speed * p / 100f;
+		float left_speed = right_speed * e / 100f;
 		
 		resetTacho();
 		RIGHT.setSpeed(right_speed);
@@ -97,22 +96,23 @@ public class Engine {
 	}
 	
 	/**
-	 * Gibt an wieviel Prozent das rechte Rad langsamer sein soll als das linke.
-	 *
-	 * Bei 100% blockiert das rechte Rad.
-	 * Bei 0% führt der Roboter grade aus.
-	 * 
-	 * @param p stärke der Kurve [0, 100]
+	 * Linkskurve
+	 * @see bend
+	 * @param p Auslenkung [0..1] 
 	 */
-	public void bendRight(int p) {
-		if (p < 0 && p > 100) throw new IllegalArgumentException();
-		float left_speed = LEFT.getSpeed();
-		float right_speed = left_speed * p / 100f;
-		resetTacho();
-		RIGHT.setSpeed(right_speed);
-		LEFT.setSpeed(left_speed);
-		RIGHT.forward();
-		LEFT.backward();
+	public void bendLeft(float e) {
+		if (e < 0 && 1 < e) throw new IllegalArgumentException();
+		bend(e * (-1));
+	}
+	
+	/**
+	 * Rechtskurve
+	 * @see bend
+	 * @param p Auslenkung [0..1] 
+	 */
+	public void bendRight(float e) {
+		if (e < 0 && 1 < e) throw new IllegalArgumentException();
+		bend(e);
 	}
 	
 	/**
