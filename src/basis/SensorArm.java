@@ -51,6 +51,7 @@ public class SensorArm {
 			SENSOR_MOTOR.forward();
 			while (tacho < rotateAngle) {
 				tacho = SENSOR_MOTOR.getTachoCount();
+				
 			}
 		} else {
 			SENSOR_MOTOR.backward();
