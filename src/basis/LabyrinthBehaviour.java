@@ -14,6 +14,12 @@ public class LabyrinthBehaviour implements RobotBehaviour {
 	public void update(RobotState r) {
 		int realWallDist = r.getUltraSonic();
 		
+		if (realWallDist > WALL_DISTANCE) { //entfernt, lenke nach rechts
+			r.driveCurveRight(30 * WALL_DISTANCE / realWallDist);
+		} else {
+			r.driveCurveLeft(30 * WALL_DISTANCE / realWallDist);
+		}
+		
 	}
 
 }
