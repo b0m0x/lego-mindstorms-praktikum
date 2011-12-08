@@ -21,6 +21,16 @@ public class SensorArm {
 		SENSOR_MOTOR.rotateTo(absAngle, true);
 	}
 	
+	public void recalibrate() {
+		SENSOR_MOTOR.setSpeed(100);
+		SENSOR_MOTOR.forward();
+		while (!SENSOR_MOTOR.isStalled()) {
+			//däumchen drehen
+		}
+		SENSOR_MOTOR.stop();
+		SENSOR_MOTOR.resetTachoCount();
+	}
+	
 	
 	private int getPositionAngle(SensorPosition p) {
 		switch(p) {
