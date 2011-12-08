@@ -19,12 +19,9 @@ public class Engine {
 	private boolean turning = false;
 	
 	static void main(String[] args) throws InterruptedException {
-		Engine e = new Engine();
-		
+		Engine e = new Engine();		
 		e.forward(100);
 		Thread.sleep(2000);
-
-		
 	}
 	
 	public Engine() {
