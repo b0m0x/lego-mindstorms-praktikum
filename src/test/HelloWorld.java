@@ -1,4 +1,6 @@
+package test;
 import lejos.nxt.*;
+import basis.RobotState;
 
 /**
  * $Id: HelloWorld.java 1587 2008-05-02 17:19:41Z lgriffiths $
