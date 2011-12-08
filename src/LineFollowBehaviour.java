@@ -26,15 +26,16 @@ public class LineFollowBehaviour implements RobotBehaviour {
 			
 			r.driveForward(20);
 			if (direction == 1) { //right
-				r.driveCurveRight(50);
+				r.driveCurveRight(50, 300);
 				System.out.println("Driving right");
 			} else { //left
-				r.driveCurveLeft(50);
+				r.driveCurveLeft(50, 300);
 				System.out.println("Driving Left");
 			}
 		} else {
-			//uhhm... ?!
-			//System.out.println("I'm a Mars Rover!!! (" + value + ", " + lineLock + ")");
+			if (value <= COLOR_GROUND && !r.isMoving()) {
+				r.driveBackward(60, 200);
+			}
 		}
 	}
 

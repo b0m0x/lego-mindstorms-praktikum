@@ -118,6 +118,16 @@ public class RobotState {
 		engine.bendRight(ratio);
 	}
 	
+	public void driveCurveLeft(int ratio, int dist) {
+		engine.bendLeft(ratio);
+		engine.setMaxDist(dist);
+	}
+	
+	public void driveCurveRight(int ratio, int dist) {
+		engine.bendRight(ratio);
+		engine.setMaxDist(dist);
+	}
+	
 	public void driveDistance(int distance, int speed, boolean flt) {
 		engine.driveDistance(distance, speed, flt);
 	}
