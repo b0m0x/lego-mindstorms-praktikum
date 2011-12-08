@@ -1,8 +1,6 @@
 package test;
 
 import basis.RobotState;
-import behaviour.LineFollowBehaviour;
-import behaviour.SensorArmTestBehaviour;
 
 public class SensorArmTest {
 	public static void main(String[] args) {
