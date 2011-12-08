@@ -37,6 +37,26 @@ public class SensorArm {
 		}
 	}
 	
+	public void setPositionBlocking(SensorArmPosition p) {
+		if (isMoving()) {
+			return;
+		}
+		rotateAngle = getPositionAngle(p);
+		int tacho = SENSOR_MOTOR.getTachoCount();
+		
+		if (tacho < rotateAngle) {
+			SENSOR_MOTOR.forward();
+			while (tacho < rotateAngle) {
+				tacho = SENSOR_MOTOR.getTachoCount();
+			}
+		} else {
+			SENSOR_MOTOR.backward();
+			while (tacho > rotateAngle) {
+				tacho = SENSOR_MOTOR.getTachoCount();
+			}
+		}
+	}
+	
 	/**
 	 * recalibrates the sensor arm by moving it to the start position.
 	 * caution: blocking!
