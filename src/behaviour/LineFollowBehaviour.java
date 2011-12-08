@@ -1,3 +1,6 @@
+package behaviour;
+import basis.RobotState;
+
 
 public class LineFollowBehaviour implements RobotBehaviour {
 	private final static int COLOR_LINE = 40;

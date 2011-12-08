@@ -1,3 +1,6 @@
+package behaviour;
+import basis.RobotState;
+
 public class DriveForwardAndStopBehaviour implements RobotBehaviour {
 
 	public void update(RobotState r) {

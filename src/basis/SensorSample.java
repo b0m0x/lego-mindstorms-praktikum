@@ -1,3 +1,4 @@
+package basis;
 
 public class SensorSample {
 	private long time;
