@@ -23,6 +23,9 @@ public class SensorArm {
 	}
 	
 	public void setPosition(SensorArmPosition p) {
+		if (isMoving()) {
+			return;
+		}
 		rotateAngle = getPositionAngle(p);
 		rotating = true;
 		int tacho = SENSOR_MOTOR.getTachoCount();
@@ -47,13 +50,13 @@ public class SensorArm {
 		boolean stalled = false;
 		int lastTacho = 999;
 		while (!stalled) {
-			if (Math.abs(lastTacho - SENSOR_MOTOR.getTachoCount()) < 5) {
+			if (Math.abs(lastTacho - SENSOR_MOTOR.getTachoCount()) <= 5) {
 				stalled = true;
 				break;
 			}
 			lastTacho = SENSOR_MOTOR.getTachoCount();
 			try {
-				Thread.sleep(300);
+				Thread.sleep(200);
 			} catch (InterruptedException e) {
 				System.out.println("Failed Sleeping");
 			}
