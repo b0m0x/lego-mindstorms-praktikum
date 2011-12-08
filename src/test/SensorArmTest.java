@@ -10,6 +10,7 @@ public class SensorArmTest {
 		
 		//r.addBehaviour(new SensorArmTestBehaviour());
 		//r.addBehaviour(new LineFollowBehaviour());
+		r.init();
 		r.driveForward(50);
 		while(true) {
 			r.update();

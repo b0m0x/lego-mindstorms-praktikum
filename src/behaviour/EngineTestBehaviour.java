@@ -4,6 +4,12 @@ import basis.RobotState;
 
 public class EngineTestBehaviour implements RobotBehaviour {
 	long start = 0;
+	
+	public void init(RobotState r) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	public void update(RobotState r) {
 		/*
 		r.driveForward(50);
@@ -21,4 +27,5 @@ public class EngineTestBehaviour implements RobotBehaviour {
 		r.rotate(90);
 		r.rotate(-90);
 	}
+	
 }

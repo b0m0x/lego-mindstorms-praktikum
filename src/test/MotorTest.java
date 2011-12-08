@@ -9,6 +9,7 @@ public class MotorTest {
 		
 		r.addBehaviour(new EngineTestBehaviour());
 		
+		r.init();
 		while(true) {
 			r.update();
 		}
