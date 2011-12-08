@@ -37,7 +37,7 @@ public class LineFollowBehaviour implements RobotBehaviour {
 				r.bendRight(50, 300);
 				System.out.println("Driving right");
 			} else { //left
-				r.driveCurveLeft(50, 300);
+				r.bendLeft(50, 300);
 				System.out.println("Driving Left");
 			}
 		} else {

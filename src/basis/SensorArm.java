@@ -7,7 +7,10 @@ public class SensorArm {
 	public enum SensorArmPosition {
 		POSITION_LINE_FOLLOW,
 		POSITION_LABYRINTH,
-		POSITION_HILL
+		POSITION_HILL,
+		POSITION_FRONT,
+		POSITION_LEFT,
+		POSITION_RIGHT
 	}
 	private final NXTRegulatedMotor SENSOR_MOTOR = Motor.B;
 	private boolean rotating;
@@ -98,7 +101,12 @@ public class SensorArm {
 				//TODO: INSERT CORRECT VALUE
 				return -40;
 			case POSITION_LABYRINTH:
+			case POSITION_RIGHT:
 				return -220;
+			case POSITION_FRONT:
+				return -130;
+			case POSITION_LEFT:
+				return -20;
 			default: 
 				return 0;
 		}
