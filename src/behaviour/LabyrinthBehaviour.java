@@ -9,109 +9,137 @@ import helper.*;
 
 public class LabyrinthBehaviour implements RobotBehaviour {
 	
-	//private int debugging_counter = 0;
-	
+
 	private final int FRONT_DISTANZ = 30;
 	private final int RIGHT_DISTANZ = 15;
-	private enum pos {right, front, start, keineSicht};
+	private enum STATES {searchingWall, followingWall, searchingWallFront, corner};
+	private enum POSITIONS {front, right};
 	
-	private pos akt_pos;
-	private RobotState state;
-	private Eieruhr uhr = new Eieruhr(100);
-	//private Messwerte messwerte = new Messwerte(50);
-	private SensorArmPosition arm_pos;
-	private int keinLandInSicht = 0;
+	private RobotState robot;
+	private STATES currentState;
+	private final int GRAD90 = 330*3;
+	private POSITIONS armPos;
+	private int trials = 0;
+	
 	
 	public void init(RobotState r) {
 		H.p("Start Labyrinth!");
-		
-		setArmPos(SensorArmPosition.POSITION_RIGHT);
-		state = r; 
-		akt_pos = pos.right;
-		uhr.reset();
-		
+		robot = r;
+		currentState = STATES.searchingWall;
 	}
 	
+	Eieruhr puffer = new Eieruhr(2000);
 	public void update(RobotState r) {
-		if ( isFrontWall() ) {
+		if ( isWallInFront() ) {
 			wallContact();
-		} else if (!state.isSensorArmMoving()) {
-			int distanz = state.getUltraSonic();
-			switch(akt_pos) {
-			case front: front(distanz); break;
-			case right: right(distanz); break;
-			case start: start(distanz); break;
-			case keineSicht: keinSichtkontakt(distanz); break;
+		} else if ( !robot.isSensorArmMoving() && puffer.isFinished()) {
+			puffer.reset();
+			int distanz = robot.getUltraSonic();
+			switch(currentState) {
+			case searchingWallFront: searchingWallFront(distanz); break;
+			case followingWall: followingWall(distanz); break;
+			case searchingWall: searchingWall(distanz); break;
+			case corner: corner(); break;
 			}
 		}
 	}
-
-	private void start(int distanz) {}
 	
-	private void wallContact() {
-		Sound.beep();
-		Sound.beep();
-		Sound.beep();
-		state.halt();
-		H.haltstop("waaaaaaand");
-	}
-	
-	private boolean isFrontWall() {
-		return
-			state.crashedIntoWall()
-			|| (
-				SensorArmPosition.POSITION_RIGHT == arm_pos
-				&& state.getUltraSonic() > FRONT_DISTANZ
-			);
-	}
-	
-	private void setArmPos(SensorArmPosition pos) {
-		H.p("123");
-		state.setSensorArmPosition(SensorArmPosition.POSITION_FRONT);
-		H.haltstop("orrrr");
-		arm_pos = pos;
-	}
-	
-	public void right(int distanz) {
+	public void followingWall(int distanz) {
+		Sound.setVolume(5);
+		Sound.twoBeeps();
+		if (armPos != POSITIONS.right) { this.setArmPos(POSITIONS.right); return; }
+		//if ( isInfinit(distanz) ) { currentState = STATES.searchingWall; return; }
 		H.p("right: " + distanz);
 		
-		if (distanz >= 255) {
-			akt_pos = pos.keineSicht;
-			return;
-		}
-		
-		if (distanz < RIGHT_DISTANZ) {
-			state.bend(-0.5f);
-			state.forward(50);
+		if ( isInfinit(distanz) ) {
+			currentState = STATES.corner;
 		} else {
-			state.bend(0.5f);
-			state.forward(100);
-		}
-	}
-	
-	private void keinSichtkontakt(int distanz) {
-		if (distanz < 255) {
-			akt_pos = pos.right;
-			return;
-		}
-		
-		if (keinLandInSicht < 4) {
-			state.rotate(90);
-			Sound.buzz();
-			keinLandInSicht++;
-		} else {
-			state.forward(100);
-			keinLandInSicht = 0;
-			akt_pos = pos.front;
-			forward_uhr.reset();
+//			if (distanz < RIGHT_DISTANZ-5) {
+//				robot.bend(-0.5f);
+//				robot.forward(50);
+//			} else if(distanz > RIGHT_DISTANZ+5) {
+//				robot.bend(0.5f);
+//				robot.forward(50);
+//			} else {
+//				robot.forward(50);
+//			}
+			robot.forward(50);
 		}
 	}
 	
 	private Eieruhr forward_uhr = new Eieruhr(1000);
 	
-	public void front(int distanz) {
-		setArmPos(SensorArmPosition.POSITION_FRONT);
+	private void searchingWall(int distanz) {
+		if (armPos != POSITIONS.front) { this.setArmPos(POSITIONS.front); return; }
+		if ( isInfinit(distanz) ) { currentState = STATES.followingWall; return; }
+		
+		if (trials < 4) {
+			robot.rotate(GRAD90);
+			Sound.buzz();
+			trials++;
+		} else {
+			robot.forward(50);
+			trials = 0;
+			armPos = POSITIONS.front;
+			forward_uhr.reset();
+		}
 	}
 	
+	public void searchingWallFront(int distanz) {
+		if (armPos != POSITIONS.front) { setArmPos(POSITIONS.front); return; }
+		robot.forward(50);
+	}
+	
+	Eieruhr conrner_uhr = new Eieruhr(1000);
+	int corner = 0;
+	private void corner() {
+		if (!conrner_uhr.isFinished()) return;
+		switch (corner) {
+		case 0: //before
+			conrner_uhr.reset();
+			robot.forward(50);
+			corner++;
+			break;
+		case 1: //in
+			robot.rotate(330);
+			conrner_uhr.reset();
+			robot.forward(50);
+			corner++;
+			break;
+		case 2: //out 
+			currentState = STATES.followingWall;
+			corner = 0;
+			break;
+		}
+	}
+	
+	private void wallContact() {
+		robot.rotate(-GRAD90);
+		this.currentState = STATES.followingWall;
+	}
+	
+	private boolean isWallInFront() {
+		H.p(robot.getUltraSonic(), (POSITIONS.front == armPos
+				&& robot.getUltraSonic() < FRONT_DISTANZ) ? "true" : "false");
+		return
+			robot.crashedIntoWall()
+			|| (
+					POSITIONS.front == armPos
+				&& robot.getUltraSonic() < FRONT_DISTANZ
+			);
+	}
+	
+	private void setArmPos(POSITIONS pos) {
+		SensorArmPosition sap = 
+				pos == POSITIONS.front ? 
+				SensorArmPosition.POSITION_FRONT : SensorArmPosition.POSITION_RIGHT;
+		
+		robot.setSensorArmPosition(sap);
+		armPos = pos;
+	}
+	
+	private boolean isInfinit(int distanz) {
+		return distanz >= 255;
+	}
 
 }
