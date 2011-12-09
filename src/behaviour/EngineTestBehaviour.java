@@ -24,8 +24,8 @@ public class EngineTestBehaviour implements RobotBehaviour {
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 		}*/
-		r.rotate(90);
-		r.rotate(-90);
+		r.rotate(300);
+		r.rotate(-300);
 	}
 	
 }

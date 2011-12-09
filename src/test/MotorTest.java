@@ -12,6 +12,7 @@ public class MotorTest {
 		r.init();
 		while(true) {
 			r.update();
+			
 		}
 	}
 }
