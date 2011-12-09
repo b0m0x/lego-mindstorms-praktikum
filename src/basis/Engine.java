@@ -13,7 +13,7 @@ public class Engine {
 	private final NXTRegulatedMotor RIGHT = Motor.A;
 
 	//private final int DISTANCE_PER_DEGREE = RADUMPFANG / 360; //mm
-	private float UEBERSETZUNG = 1.05f;
+	private float UEBERSETZUNG = (90/300f);
 	
 	public final int MAX_SPEED = 900;
 	private boolean turning = false;

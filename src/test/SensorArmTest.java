@@ -9,10 +9,10 @@ public class SensorArmTest {
 		
 		//r.addBehaviour(new SensorArmTestBehaviour());
 		//r.addBehaviour(new LabyrinthBehaviour());
-		r.addBehaviour(new BridgeBehaviour());
+		//r.addBehaviour(new BridgeBehaviour());
 		r.init();
-		r.forward(20);
-		while(true) {
+		//r.forward(20);
+		while(r.isSensorArmMoving()) {
 			r.update();
 		}
 	}
