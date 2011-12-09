@@ -120,7 +120,7 @@ public class RobotState {
 	 */
 	public void forward(int speed) {
 		//engine.setSpeed((int) speed);
-		engine.forward(speed);
+		engine.forward(speed/100.f);
 	}
 	
 	/**
@@ -130,7 +130,7 @@ public class RobotState {
 	 */
 	public void forward(int speed, int dist) {
 		//engine.setSpeed((int) speed);
-		engine.forward(speed);
+		engine.forward(speed/100.f);
 		engine.setMaxDist(dist);
 	}
 	
@@ -139,11 +139,11 @@ public class RobotState {
 	 * @param speed speed
 	 */
 	public void backward(int speed) {
-		engine.backward(speed);
+		engine.backward(speed/100.f);
 	}
 	
 	public void backward(int speed, int dist) {
-		engine.backward(speed);
+		engine.backward(speed/100.f);
 		engine.setMaxDist(dist);
 	}
 	

@@ -15,6 +15,7 @@ public class BridgeBehaviour implements RobotBehaviour {
 		//r.addBehaviour(new WallFollowBehaviour(10));
 		isOnEdge = false;
 		//System.out.println("Init");
+		r.forward(10);
 	}
 
 	public void update(RobotState r) {
@@ -22,10 +23,13 @@ public class BridgeBehaviour implements RobotBehaviour {
 		int sensor = r.getLightSensor();
 		System.out.println(sensor);
 		if (sensor <= COLOR_OFFTRACK && !isOnEdge) {
-			r.bendLeft(30);
+			r.halt();
+			r.backward(10);
+			
 			isOnEdge = true;
 			System.out.println("Weg da");
 		} else if (sensor >= COLOR_BRIDGE && isOnEdge) {
+			r.rotate(-135);
 			r.forward(10);
 			isOnEdge = false;
 			System.out.println("safe");
