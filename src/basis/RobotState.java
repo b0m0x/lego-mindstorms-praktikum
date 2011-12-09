@@ -124,7 +124,7 @@ public class RobotState {
 	 */
 	public void forward(int speed) {
 		//engine.setSpeed((int) speed);
-		engine.forward(speed/100.f);
+		engine.forward(speed/100f);
 	}
 	
 	/**
