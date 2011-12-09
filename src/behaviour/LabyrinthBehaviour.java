@@ -13,96 +13,102 @@ public class LabyrinthBehaviour implements RobotBehaviour {
 	
 	private final int FRONT_DISTANZ = 30;
 	private final int RIGHT_DISTANZ = 15;
-	private enum pos {right, front, start};
+	private enum pos {right, front, start, keineSicht};
 	
 	private pos akt_pos;
 	private RobotState state;
 	private Eieruhr uhr = new Eieruhr(100);
 	private Messwerte messwerte = new Messwerte(50);
 	
+	private int keinLandInSicht = 0;
 	
 	public void init(RobotState r) {
 		H.p("Start Labyrinth!");
 		
-		//r.setSensorArmPosition(SensorArmPosition.POSITION_FRONT);
+		r.setSensorArmPosition(SensorArmPosition.POSITION_RIGHT);
 		state = r; 
-		akt_pos = pos.start;
+		akt_pos = pos.right;
 		uhr.reset();
-		state.forward(100);
 	}
 	
 	public void update(RobotState r) {
-		if (!state.isSensorArmMoving()) {
+		if (state.crashedIntoWall()) {
+			Sound.beep();
+			H.p("wall wall wall");
+			wallContact();
+		} else if (!state.isSensorArmMoving()) {
 			int distanz = state.getUltraSonic();
-			//System.out.println(debugging_counter++ + " " + distanz);
-			messwerte.add(distanz);
-			
-			if (uhr.isFinished()) nextAction();
-			
+			nextAction(distanz);
 		}
 	}
 	
-	private void nextAction() {
-		H.p("next action");
-		int distanz = messwerte.getAverage();
-		messwerte.clear();
-		
-		H.p("ausgabe", distanz);
-		if (distanz < FRONT_DISTANZ) {
-			Sound.beep();
-			state.halt();
-		}
-		/*
+	private void nextAction(int distanz) {
 		switch(akt_pos) {
 			case front: front(distanz); break;
 			case right: right(distanz); break;
 			case start: start(distanz); break;
+			case keineSicht: keinSichtkontakt(distanz); break;
 		}
-		*/
 	}
 	
 	private void start(int distanz) {
-		if (distanz > 30) {
-			state.setSensorArmPosition(SensorArmPosition.POSITION_FRONT);
-			state.rotate(45);
-			state.forward(50);
-			akt_pos = pos.front;
-		} else {
-			state.forward(50);
-			akt_pos = pos.right;
-		}
+//		if (distanz > 30) {
+////			state.rotate(45);
+////			state.forward(50);
+//			akt_pos = pos.right;
+//		} else {
+//			state.forward(50);
+//			akt_pos = pos.right;
+//		}
 	}
 	
-	boolean xxx = true;
-	
-	public void front(int distanz) {
-		H.p("front:", distanz);
-		if (distanz > FRONT_DISTANZ) {
-			if (distanz >= 255 ) {
-				state.rotate(45);
-			} else {
-				
-			}
-			//state.setSensorArmPosition(SensorArmPosition.POSITION_RIGHT);
-			//akt_pos = pos.right;
-		} else {
-			Sound.beep();
-			state.halt();
-			H.p("" + distanz);
-			H.haltstop("front stop");
-		}
+	private void wallContact() {
+		Sound.beep();
+		Sound.beep();
+		Sound.beep();
+		state.halt();
 	}
 	
 	public void right(int distanz) {
 		H.p("right: " + distanz);
-		if (distanz > RIGHT_DISTANZ) {
-			//state.setSensorArmPosition(SensorArmPosition.POSITION_FRONT);
-			//akt_pos = pos.front;
+		
+		if (distanz >= 255) {
+			akt_pos = pos.keineSicht;
+			return;
+		}
+		
+		if (distanz < RIGHT_DISTANZ) {
+			state.bend(-0.5f);
+			state.forward(50);
 		} else {
-			Sound.beep();
-			state.halt();
-			H.p("" + distanz);
-			H.haltstop("right stop");
+			state.bend(0.5f);
+			state.forward(100);
 		}
 	}
+	
+	private void keinSichtkontakt(int distanz) {
+		if (distanz < 255) {
+			akt_pos = pos.right;
+			return;
+		}
+		
+		if (keinLandInSicht < 4) {
+			state.rotate(320);
+			Sound.buzz();
+			keinLandInSicht++;
+		} else {
+			state.forward(100);
+			keinLandInSicht = 0;
+			akt_pos = pos.front;
+			forward_uhr.reset();
+		}
+	}
+	
+	private Eieruhr forward_uhr = new Eieruhr(1000);
+	
+	public void front(int distanz) {
+		r.setSensorArmPosition(SensorArmPosition.POSITION_RIGHT);
+	}
+	
+
 }
