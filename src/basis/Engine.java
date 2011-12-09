@@ -84,9 +84,12 @@ public class Engine {
 	 * @param e Auslenkung [-1..1] 
 	 */
 	public void bend(float e) {
-		if (e < -1 && 1 < e) throw new IllegalArgumentException();
-		float right_speed = RIGHT.getSpeed();
-		float left_speed = right_speed * e / 100f;
+		if (e < -1 || 1 < e) throw new IllegalArgumentException();
+		float speed = RIGHT.getSpeed();
+		
+		float left_speed = Math.abs(speed * (1f + e));
+		
+		float right_speed = Math.abs(speed * (1f - e));
 		
 		resetTacho();
 		RIGHT.setSpeed(right_speed);
@@ -101,7 +104,7 @@ public class Engine {
 	 * @param p Auslenkung [0..1] 
 	 */
 	public void bendLeft(float e) {
-		if (e < 0 && 1 < e) throw new IllegalArgumentException();
+		if (e < 0f || 1f < e) throw new IllegalArgumentException();
 		bend(e * (-1));
 	}
 	
