@@ -29,6 +29,7 @@ public class LabyrinthBehaviour implements RobotBehaviour {
 		state = r; 
 		akt_pos = pos.right;
 		uhr.reset();
+		
 	}
 	
 	public void update(RobotState r) {
@@ -65,8 +66,10 @@ public class LabyrinthBehaviour implements RobotBehaviour {
 	}
 	
 	private void setArmPos(SensorArmPosition pos) {
-		state.setSensorArmPosition(SensorArmPosition.POSITION_RIGHT);
-		this.arm_pos = pos;
+		H.p("123");
+		state.setSensorArmPosition(SensorArmPosition.POSITION_FRONT);
+		H.haltstop("orrrr");
+		arm_pos = pos;
 	}
 	
 	public void right(int distanz) {
