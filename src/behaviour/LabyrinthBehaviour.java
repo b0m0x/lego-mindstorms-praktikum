@@ -1,7 +1,5 @@
 package behaviour;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import lejos.nxt.Sound;
 import basis.RobotState;
@@ -11,44 +9,36 @@ import helper.*;
 
 public class LabyrinthBehaviour implements RobotBehaviour {
 	
-	//private static final int WALL_DISTANCE = 10;
+	private int debugging_counter = 0;
+	
 	private final int FRONT_DISTANZ = 30;
 	private final int RIGHT_DISTANZ = 15;
+	private enum pos {right, front};
 	
-	enum pos {right, front};
 	private pos akt_pos;
-	RobotState state;
-	Eieruhr uhr = new Eieruhr(2000);
-	Messwerte messwerte = new Messwerte();
+	private RobotState state;
+	private Eieruhr uhr = new Eieruhr(2000);
+	private Messwerte messwerte = new Messwerte(50);
+	
 	
 	public void init(RobotState r) {
+		System.out.println("Start Labyrinth!");
+		
 		r.setSensorArmPosition(SensorArmPosition.POSITION_FRONT);
-		r.forward(30);
+		//r.forward(30);
 		state = r;
 		akt_pos = pos.front;
 		uhr.reset();
 	}
 	
 	public void update(RobotState r) {
-	
 		if (!state.isSensorArmMoving()) {
 			int distanz = state.getUltraSonic();
+			//System.out.println(debuging_counter++ + " " + distanz);
 			messwerte.add(distanz);
 			
 			if (uhr.isFinished()) nextAction();
 		}
-		
-		
-		/*
-		int realWallDist = r.getUltraSonic();
-		
-		if (realWallDist > WALL_DISTANCE) { //entfernt, lenke nach rechts
-		r.bendLeft(30 * WALL_DISTANCE / realWallDist);
-		} else {
-		r.bendLeft(30 * WALL_DISTANCE / realWallDist);
-		}
-		*/
-	
 	}
 	
 	private void nextAction() {
@@ -77,12 +67,6 @@ public class LabyrinthBehaviour implements RobotBehaviour {
 		} else {
 			Sound.beep();
 		}
-	}
-
-	@Override
-	public boolean isNextLevel() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }
