@@ -23,7 +23,7 @@ public class SensorArm {
 		rotateAngle = 0;
 		//SENSOR_MOTOR.resetTachoCount();
 		SENSOR_MOTOR.setSpeed(100);
-		recalibrate();
+		//recalibrate();
 	}
 	
 	public void setPosition(SensorArmPosition p) {
