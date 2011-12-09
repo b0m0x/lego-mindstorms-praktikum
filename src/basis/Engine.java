@@ -91,8 +91,8 @@ public class Engine {
 		resetTacho();
 		RIGHT.setSpeed(right_speed);
 		LEFT.setSpeed(left_speed);
-		RIGHT.backward();
-		LEFT.forward();
+		//RIGHT.backward();
+		//LEFT.forward();
 	}
 	
 	/**

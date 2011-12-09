@@ -160,6 +160,10 @@ public class RobotState {
 		engine.setMaxDist(dist);
 	}
 	
+	public void bendRight(int ratio) {
+		engine.bendRight(ratio);
+	}
+	
 	public void bendRight(int ratio, int dist) {
 		engine.bendRight(ratio);
 		engine.setMaxDist(dist);
