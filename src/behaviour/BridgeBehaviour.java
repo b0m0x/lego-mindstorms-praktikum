@@ -23,14 +23,14 @@ public class BridgeBehaviour implements RobotBehaviour {
 		int sensor = r.getLightSensor();
 		System.out.println(sensor);
 		if (sensor <= COLOR_OFFTRACK && !isOnEdge) {
-			r.halt();
-			r.backward(10);
-			
+			//r.halt();
+			r.forward(20);
+			r.bend(-0.5f);
 			isOnEdge = true;
 			System.out.println("Weg da");
 		} else if (sensor >= COLOR_BRIDGE && isOnEdge) {
-			r.rotate(-135);
-			r.forward(10);
+			r.forward(20);
+			r.bend(0.5f);
 			isOnEdge = false;
 			System.out.println("safe");
 		}

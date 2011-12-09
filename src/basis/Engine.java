@@ -85,13 +85,13 @@ public class Engine {
 	 */
 	public void bend(float e) {
 		if (e < -1f || 1f < e) throw new IllegalArgumentException();
-		float speed = RIGHT.getSpeed();
+		float speed = (RIGHT.getSpeed() + LEFT.getSpeed()) / 2f;
 		
-		float left_speed = Math.abs(speed * (1f + e));
+		int left_speed = (int) Math.abs(speed * (1f + e));
 		
-		float right_speed = Math.abs(speed * (1f - e));
+		int right_speed = (int) Math.abs(speed * (1f - e));
 		
-		resetTacho();
+		//resetTacho();
 		RIGHT.setSpeed(right_speed);
 		LEFT.setSpeed(left_speed);
 		//RIGHT.backward();

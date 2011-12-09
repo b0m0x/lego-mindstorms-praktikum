@@ -11,7 +11,7 @@ public class SensorArmTest {
 		//r.addBehaviour(new LabyrinthBehaviour());
 		r.addBehaviour(new BridgeBehaviour());
 		r.init();
-		r.forward(10);
+		r.forward(20);
 		while(true) {
 			r.update();
 		}
