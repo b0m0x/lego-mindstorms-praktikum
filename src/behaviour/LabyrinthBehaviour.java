@@ -9,7 +9,7 @@ import helper.*;
 
 public class LabyrinthBehaviour implements RobotBehaviour {
 	
-	private int debugging_counter = 0;
+	//private int debugging_counter = 0;
 	
 	private final int FRONT_DISTANZ = 30;
 	private final int RIGHT_DISTANZ = 15;
@@ -18,55 +18,55 @@ public class LabyrinthBehaviour implements RobotBehaviour {
 	private pos akt_pos;
 	private RobotState state;
 	private Eieruhr uhr = new Eieruhr(100);
-	private Messwerte messwerte = new Messwerte(50);
-	
+	//private Messwerte messwerte = new Messwerte(50);
+	private SensorArmPosition arm_pos;
 	private int keinLandInSicht = 0;
 	
 	public void init(RobotState r) {
 		H.p("Start Labyrinth!");
 		
-		r.setSensorArmPosition(SensorArmPosition.POSITION_RIGHT);
+		setArmPos(SensorArmPosition.POSITION_RIGHT);
 		state = r; 
 		akt_pos = pos.right;
 		uhr.reset();
 	}
 	
 	public void update(RobotState r) {
-		if (state.crashedIntoWall()) {
-			Sound.beep();
-			H.p("wall wall wall");
+		if ( isFrontWall() ) {
 			wallContact();
 		} else if (!state.isSensorArmMoving()) {
 			int distanz = state.getUltraSonic();
-			nextAction(distanz);
-		}
-	}
-	
-	private void nextAction(int distanz) {
-		switch(akt_pos) {
+			switch(akt_pos) {
 			case front: front(distanz); break;
 			case right: right(distanz); break;
 			case start: start(distanz); break;
 			case keineSicht: keinSichtkontakt(distanz); break;
+			}
 		}
 	}
-	
-	private void start(int distanz) {
-//		if (distanz > 30) {
-////			state.rotate(45);
-////			state.forward(50);
-//			akt_pos = pos.right;
-//		} else {
-//			state.forward(50);
-//			akt_pos = pos.right;
-//		}
-	}
+
+	private void start(int distanz) {}
 	
 	private void wallContact() {
 		Sound.beep();
 		Sound.beep();
 		Sound.beep();
 		state.halt();
+		H.haltstop("waaaaaaand");
+	}
+	
+	private boolean isFrontWall() {
+		return
+			state.crashedIntoWall()
+			|| (
+				SensorArmPosition.POSITION_RIGHT == arm_pos
+				&& state.getUltraSonic() > FRONT_DISTANZ
+			);
+	}
+	
+	private void setArmPos(SensorArmPosition pos) {
+		state.setSensorArmPosition(SensorArmPosition.POSITION_RIGHT);
+		this.arm_pos = pos;
 	}
 	
 	public void right(int distanz) {
@@ -93,7 +93,7 @@ public class LabyrinthBehaviour implements RobotBehaviour {
 		}
 		
 		if (keinLandInSicht < 4) {
-			state.rotate(320);
+			state.rotate(90);
 			Sound.buzz();
 			keinLandInSicht++;
 		} else {
@@ -107,7 +107,7 @@ public class LabyrinthBehaviour implements RobotBehaviour {
 	private Eieruhr forward_uhr = new Eieruhr(1000);
 	
 	public void front(int distanz) {
-		r.setSensorArmPosition(SensorArmPosition.POSITION_RIGHT);
+		setArmPos(SensorArmPosition.POSITION_FRONT);
 	}
 	
 
