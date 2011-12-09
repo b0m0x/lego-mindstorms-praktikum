@@ -60,6 +60,7 @@ public class SensorArm {
 				tacho = SENSOR_MOTOR.getTachoCount();
 			}
 		}
+		SENSOR_MOTOR.stop();
 	}
 	
 	/**
