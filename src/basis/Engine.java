@@ -34,7 +34,7 @@ public class Engine {
 	 * 		1 = volle Geschwindigkeit
 	 */
 	private void setSpeed(float v) {
-		if (v < 0 && v > 1) throw new IllegalArgumentException();
+		if (v < 0 || v > 1) throw new IllegalArgumentException();
 		
 		int motor_speed = (int) (MAX_SPEED * v);
 		
@@ -72,7 +72,7 @@ public class Engine {
 	}
 	
 	public void setMaxDist(int tachoCount) {
-		maxTachoCount = tachoCount;
+		maxTachoCount = Math.abs(tachoCount);
 		driveMaxDist = true;
 	}
 	
@@ -84,15 +84,18 @@ public class Engine {
 	 * @param e Auslenkung [-1..1] 
 	 */
 	public void bend(float e) {
-		if (e < -1 && 1 < e) throw new IllegalArgumentException();
-		float right_speed = RIGHT.getSpeed();
-		float left_speed = right_speed * e / 100f;
+		if (e < -1f || 1f < e) throw new IllegalArgumentException();
+		float speed = (RIGHT.getSpeed() + LEFT.getSpeed()) / 2f;
 		
-		resetTacho();
+		int left_speed = (int) Math.abs(speed * (1f + e));
+		
+		int right_speed = (int) Math.abs(speed * (1f - e));
+		
+		//resetTacho();
 		RIGHT.setSpeed(right_speed);
 		LEFT.setSpeed(left_speed);
-		RIGHT.backward();
-		LEFT.forward();
+		//RIGHT.backward();
+		//LEFT.forward();
 	}
 	
 	/**
@@ -101,7 +104,7 @@ public class Engine {
 	 * @param p Auslenkung [0..1] 
 	 */
 	public void bendLeft(float e) {
-		if (e < 0 && 1 < e) throw new IllegalArgumentException();
+		if (e < 0f || 1f < e) throw new IllegalArgumentException();
 		bend(e * (-1));
 	}
 	

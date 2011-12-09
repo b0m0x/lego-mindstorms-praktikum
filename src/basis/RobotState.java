@@ -9,18 +9,21 @@ import lejos.nxt.ButtonListener;
 import lejos.nxt.LCD;
 import lejos.nxt.LightSensor;
 import lejos.nxt.SensorPort;
+import lejos.nxt.TouchSensor;
 import lejos.nxt.UltrasonicSensor;
 
 
 public class RobotState {
 	private final static SensorPort ULTRASONIC_PORT = SensorPort.S1;
 	private final static SensorPort LIGHTSENSOR_PORT = SensorPort.S2;
+	private final static SensorPort BUMPSENSOR_PORT = SensorPort.S3;
 	
 	private static RobotState instance;
 	
 	private List<RobotBehaviour> behaviours = new ArrayList<RobotBehaviour>();
 	private UltrasonicSensor usSensor;
 	private LightSensor lightSensor;
+	private TouchSensor bumpSensor;
 	private SensorSample lastUsSample;
 	private SensorSample lastLightSensorSample;
 	
@@ -31,12 +34,13 @@ public class RobotState {
 	private RobotState() {
 		usSensor = new UltrasonicSensor(ULTRASONIC_PORT);
 		lightSensor = new LightSensor(LIGHTSENSOR_PORT);
+		bumpSensor = new TouchSensor(BUMPSENSOR_PORT);
+		
 		lastUsSample = new SensorSample(usSensor.getDistance());
 		lastLightSensorSample = new SensorSample(lightSensor.getLightValue());
 		
 		engine = new Engine();
 		sArm = new SensorArm();
-		
 		Button.ESCAPE.addButtonListener(new ButtonListener() {
 			
 			public void buttonReleased(Button arg0) {
@@ -130,7 +134,7 @@ public class RobotState {
 	 */
 	public void forward(int speed, int dist) {
 		//engine.setSpeed((int) speed);
-		engine.forward(speed);
+		engine.forward(speed/100.f);
 		engine.setMaxDist(dist);
 	}
 	
@@ -139,11 +143,11 @@ public class RobotState {
 	 * @param speed speed
 	 */
 	public void backward(int speed) {
-		engine.backward(speed);
+		engine.backward(speed/100.f);
 	}
 	
 	public void backward(int speed, int dist) {
-		engine.backward(speed);
+		engine.backward(speed/100.f);
 		engine.setMaxDist(dist);
 	}
 	
@@ -152,16 +156,20 @@ public class RobotState {
 	}
 	
 	public void bendLeft(int ratio) {
-		engine.bendLeft(ratio);
+		engine.bendLeft(ratio/100.f);
 	}
 	
 	public void bendLeft(int ratio, int dist) {
-		engine.bendLeft(ratio);
+		engine.bendLeft(ratio/100.f);
 		engine.setMaxDist(dist);
 	}
 	
+	public void bendRight(int ratio) {
+		engine.bendRight(ratio/100.f);
+	}
+	
 	public void bendRight(int ratio, int dist) {
-		engine.bendRight(ratio);
+		engine.bendRight(ratio/100.f);
 		engine.setMaxDist(dist);
 	}
 	
@@ -213,6 +221,14 @@ public class RobotState {
 	 */
 	public boolean isSensorArmMoving() {
 		return sArm.isMoving();
+	}
+	
+	/**
+	 * returns true if robot crashed into a wall or sth.
+	 * @return
+	 */
+	public boolean crashedIntoWall() {
+		return bumpSensor.isPressed();
 	}
 	
 	/**

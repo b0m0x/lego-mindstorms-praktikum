@@ -1,17 +1,17 @@
 package test;
 
-import behaviour.LabyrinthBehaviour;
+import behaviour.BridgeBehaviour;
 import basis.RobotState;
-import behaviour.SensorArmTestBehaviour;
 
 public class SensorArmTest {
 	public static void main(String[] args) {
 		RobotState r = RobotState.getInstance();
 		
-		r.addBehaviour(new SensorArmTestBehaviour());
+		//r.addBehaviour(new SensorArmTestBehaviour());
 		//r.addBehaviour(new LabyrinthBehaviour());
+		r.addBehaviour(new BridgeBehaviour());
 		r.init();
-		r.forward(50);
+		r.forward(20);
 		while(true) {
 			r.update();
 		}
