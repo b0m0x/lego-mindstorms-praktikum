@@ -45,15 +45,15 @@ public class Engine {
 	public void backward(float v) {
 		setSpeed(v);
 		resetTacho();
-		LEFT.forward();
-		RIGHT.forward();
+		LEFT.backward();
+		RIGHT.backward();
 	}
 	
 	public void forward(float v) {
 		setSpeed(v);
 		resetTacho();
-		LEFT.backward();
-		RIGHT.backward();
+		LEFT.forward();
+		RIGHT.forward();
 	}
 	
 	public void stop() {
@@ -78,9 +78,9 @@ public class Engine {
 	
 	/**
 	 * Lenken
-	 * 	 e =  0: Roboter fŠhrt grade aus
-	 * 	 e =  1: Roboter fŠhrt nach rechts
-	 *   e = -1: Roboter fŠhrt nach links
+	 * 	 e =  0: Roboter fï¿½hrt grade aus
+	 * 	 e =  1: Roboter fï¿½hrt nach rechts
+	 *   e = -1: Roboter fï¿½hrt nach links
 	 * @param e Auslenkung [-1..1] 
 	 */
 	public void bend(float e) {
@@ -158,7 +158,7 @@ public class Engine {
 		LEFT.setSpeed(300);
 		RIGHT.setSpeed(300);
 		
-		if (degrees > 0) {
+		if (degrees < 0) {
 			LEFT.backward();
 			RIGHT.forward();
 		} else {

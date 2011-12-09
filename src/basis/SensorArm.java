@@ -8,6 +8,7 @@ public class SensorArm {
 		POSITION_LINE_FOLLOW,
 		POSITION_LABYRINTH,
 		POSITION_HILL,
+		POSITION_BRIDGE,
 		POSITION_FRONT,
 		POSITION_LEFT,
 		POSITION_RIGHT
@@ -102,6 +103,7 @@ public class SensorArm {
 				//TODO: INSERT CORRECT VALUE
 				return -40;
 			case POSITION_LABYRINTH:
+			case POSITION_BRIDGE:
 			case POSITION_RIGHT:
 				return -220;
 			case POSITION_FRONT:

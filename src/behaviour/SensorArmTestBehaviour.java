@@ -25,4 +25,9 @@ public class SensorArmTestBehaviour implements RobotBehaviour {
 		//r.setSensorArmPosition(SensorArmPosition.POSITION_LINE_FOLLOW);
 	}
 
+	public boolean isNextLevel() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

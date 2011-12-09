@@ -166,6 +166,14 @@ public class RobotState {
 	}
 	
 	/**
+	 * lent in angegebene richtung [-1; 1] wobei 0 = geradeaus, 1 = rechts, 2 = links
+	 * @param dir
+	 */
+	public void bend(float dir) {
+		engine.bend(dir);
+	}
+	
+	/**
 	 * drives a distance
 	 * @param distance
 	 * @param speed
