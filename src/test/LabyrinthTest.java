@@ -9,7 +9,7 @@ public class LabyrinthTest {
 		RobotState r = RobotState.getInstance();
 		//r.addBehaviour(new DriveForwardAndStopBehaviour());
 		//r.addBehaviour(new EngineTestBehaviour());
-		r.addBehaviour(new LabyrinthBehaviour());
+		r.addBehaviour(new LabyrinthBlockingBehaviour());
 		r.init();
 		
 		while(!Button.ENTER.isPressed()) {

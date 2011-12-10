@@ -1,15 +1,14 @@
 package behaviour;
 
 
+import lejos.nxt.Motor;
 import lejos.nxt.Sound;
 import basis.RobotState;
 import basis.SensorArm.SensorArmPosition;
 import behaviour.RobotBehaviour;
 import helper.*;
 
-public class LabyrinthBehaviour implements RobotBehaviour {
-	
-
+public class LabyrinthBlockingBehaviour implements RobotBehaviour {
 	private final int FRONT_DISTANZ = 30;
 	private final int RIGHT_DISTANZ = 15;
 	private enum STATES {searchingWall, followingWall, searchingWallFront, corner};
@@ -25,15 +24,13 @@ public class LabyrinthBehaviour implements RobotBehaviour {
 	public void init(RobotState r) {
 		H.p("Start Labyrinth!");
 		robot = r;
-		currentState = STATES.searchingWall;
+		next( STATES.searchingWall );
 	}
 	
-	Eieruhr puffer = new Eieruhr(5000);
 	public void update(RobotState r) {
 		if ( isWallInFront() ) {
 			wallContact();
-		} else if ( !robot.isSensorArmMoving() && puffer.isFinished()) {
-			puffer.reset();
+		} else {
 			int distanz = robot.getUltraSonic();
 			switch(currentState) {
 			case searchingWallFront: searchingWallFront(distanz); break;
@@ -46,12 +43,12 @@ public class LabyrinthBehaviour implements RobotBehaviour {
 	
 	public void followingWall(int distanz) {
 		Sound.twoBeeps();
-		if (armPos != POSITIONS.right) { this.setArmPos(POSITIONS.right); return; }
-		//if ( isInfinit(distanz) ) { currentState = STATES.searchingWall; return; }
+		ensureArmPos( POSITIONS.right );
+		
 		H.p("right: " + distanz);
 		
 		if ( isInfinit(distanz) ) {
-			currentState = STATES.corner;
+			next( STATES.corner );
 		} else {
 //			if (distanz < RIGHT_DISTANZ-5) {
 //				robot.bend(-0.5f);
@@ -66,54 +63,41 @@ public class LabyrinthBehaviour implements RobotBehaviour {
 		}
 	}
 	
-	private Eieruhr forward_uhr = new Eieruhr(1000);
-	
 	private void searchingWall(int distanz) {
 		Sound.beep();
-		if (armPos != POSITIONS.front) { this.setArmPos(POSITIONS.front); return; }
-		//if ( isInfinit(distanz) ) { currentState = STATES.followingWall; return; }
 		H.p("searching wall");
-		if (trials < 4) {
+		ensureArmPos( POSITIONS.front );
+		
+		if ( !isInfinit(distanz) ) { 
+			trials = 0;
+			next( STATES.followingWall ); 
+		} else if (trials < 4) {
 			robot.rotate(GRAD90);
 			Sound.buzz();
 			trials++;
 		} else {
-			this.currentState = STATES.searchingWallFront;
+			trials = 0;
+			next( STATES.searchingWallFront );
 		}
 	}
 	
 	public void searchingWallFront(int distanz) {
 		Sound.buzz();
-		if (armPos != POSITIONS.front) { this.setArmPos(POSITIONS.front); return; }
+		ensureArmPos( POSITIONS.front );
 		robot.forward(50);
 	}
 	
-	Eieruhr conrner_uhr = new Eieruhr(1000);
-	int corner = 0;
 	private void corner() {
-		if (!conrner_uhr.isFinished()) return;
-		switch (corner) {
-		case 0: //before
-			conrner_uhr.reset();
-			robot.forward(50);
-			corner++;
-			break;
-		case 1: //in
-			robot.rotate(GRAD90);
-			conrner_uhr.reset();
-			robot.forward(50);
-			corner++;
-			break;
-		case 2: //out 
-			currentState = STATES.followingWall;
-			corner = 0;
-			break;
-		}
+		blockingForward(50, 1000);
+		robot.rotate(GRAD90);
+		blockingForward(50, 1000);
+		
+		next( STATES.followingWall );
 	}
 	
 	private void wallContact() {
 		robot.rotate(-GRAD90);
-		this.currentState = STATES.followingWall;
+		next( STATES.followingWall );
 	}
 	
 	private boolean isWallInFront() {
@@ -129,6 +113,22 @@ public class LabyrinthBehaviour implements RobotBehaviour {
 			);
 	}
 	
+
+	
+	private boolean isInfinit(int distanz) {
+		return distanz >= 255;
+	}
+	
+	private void next(STATES state) {
+		currentState = state;
+	}
+	
+	private void blockingForward(int speed, int duration) {
+		Eieruhr conrner_uhr = new Eieruhr(duration);
+		robot.forward(speed);
+		while (!conrner_uhr.isFinished()) {}
+	}
+	
 	private void setArmPos(POSITIONS pos) {
 		SensorArmPosition sap = 
 				pos == POSITIONS.front ? 
@@ -138,8 +138,17 @@ public class LabyrinthBehaviour implements RobotBehaviour {
 		armPos = pos;
 	}
 	
-	private boolean isInfinit(int distanz) {
-		return distanz >= 255;
+	private void ensureArmPos(POSITIONS pos) {
+		while (isArmMoving()) {}
+		if (armPos != POSITIONS.front) { 
+			setArmPos(pos);
+			while ( isArmMoving() ) {}
+			Sound.beep();
+		}
 	}
-
+	
+	private boolean isArmMoving() {
+		return Motor.B.isMoving() && !Motor.B.isStalled();
+	}
 }
+
