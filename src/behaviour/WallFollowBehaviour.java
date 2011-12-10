@@ -19,8 +19,9 @@ public class WallFollowBehaviour implements RobotBehaviour {
 	public void update(RobotState r) {
 		int dist = r.getUltraSonic();
 		if (dist == 255) {
-			//TODO: turn
-			return;
+			r.rotate(45);
+			r.forward(50);
+			return;			
 		}
 		float strength = Math.min(Math.max((dist - WALL_DISTANCE) / 30.f, -1f), 1f);		
 		r.bend(strength);
