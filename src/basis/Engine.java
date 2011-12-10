@@ -9,9 +9,9 @@ import lejos.nxt.NXTRegulatedMotor;
  */
 public class Engine {
 	
-	private final NXTRegulatedMotor LEFT = Motor.C; 
-	private final NXTRegulatedMotor RIGHT = Motor.A;
-	private final int ROTATION_SPEED = 500;
+	private final NXTRegulatedMotor LEFT = Config.LEFT_MOTOR; 
+	private final NXTRegulatedMotor RIGHT = Config.RIGHT_MOTOR;
+	private final int ROTATION_SPEED = 300;
 	
 	//private final int DISTANCE_PER_DEGREE = RADUMPFANG / 360; //mm
 	private float UEBERSETZUNG = (90/(300f));

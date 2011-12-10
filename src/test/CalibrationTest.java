@@ -1,7 +1,7 @@
 package test;
 
 import basis.RobotState;
-import basis.SensorArm.SensorArmPosition;
+import basis.SensorArm.POSITION;
 import behaviour.LabyrinthBlockingBehaviour;
 
 public class CalibrationTest {
@@ -11,7 +11,7 @@ public class CalibrationTest {
 		r.addBehaviour(new LabyrinthBlockingBehaviour());
 		r.init();
 		
-		//r.setSensorArmPosition(SensorArmPosition.FRONT);
-		r.setSensorArmPosition(SensorArmPosition.RIGHT);
+		//r.setSensorArmPosition(POSITION.FRONT);
+		r.setSensorArmPosition(POSITION.RIGHT);
 	}
 }

@@ -1,7 +1,7 @@
 package behaviour;
 
 import basis.RobotState;
-import basis.SensorArm.SensorArmPosition;
+import basis.SensorArm.POSITION;
 
 public class BridgeBehaviour implements RobotBehaviour {
 
@@ -11,7 +11,7 @@ public class BridgeBehaviour implements RobotBehaviour {
 	boolean isOnEdge;
 	
 	public void init(RobotState r) {
-		r.setSensorArmPosition(SensorArmPosition.FRONT);
+		r.setSensorArmPosition(POSITION.FRONT);
 		//r.addBehaviour(new WallFollowBehaviour(10));
 		isOnEdge = false;
 		//System.out.println("Init");

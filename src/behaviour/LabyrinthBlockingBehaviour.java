@@ -4,7 +4,7 @@ package behaviour;
 import lejos.nxt.Motor;
 import lejos.nxt.Sound;
 import basis.RobotState;
-import basis.SensorArm.SensorArmPosition;
+import basis.SensorArm.POSITION;
 import behaviour.RobotBehaviour;
 import helper.*;
 
@@ -40,6 +40,7 @@ public class LabyrinthBlockingBehaviour implements RobotBehaviour {
 		}
 	}
 	
+	private float lastDir = 0;
 	private  void followingWall(int distanz) {
 		H.p("right: " + distanz);
 		ensureArmPos( POSITIONS.right );
@@ -48,8 +49,19 @@ public class LabyrinthBlockingBehaviour implements RobotBehaviour {
 			next( STATES.corner );
 		} else {
 			forward(50);
-			float dir = (distanz-RIGHT_DISTANZ) / (float) distanz / 3;
-			H.p("dist:", distanz);
+			//float dist = (float) (Math.cos(90 * lastDir) * distanz);
+//			float dir = (dist-RIGHT_DISTANZ) / dist;
+			
+			// dir > 0 = rechts
+			float dir = 0;
+			if (distanz > 11) {
+				dir = 0.1f;
+			} else if (distanz < 9){
+				dir = -0.1f;
+			}
+			
+			lastDir = dir;
+			H.p("dist:", distanz, dir);
 			robot.bend(-dir);
 		}
 	}
@@ -118,11 +130,11 @@ public class LabyrinthBlockingBehaviour implements RobotBehaviour {
 	
 	private void ensureArmPos(POSITIONS pos) {
 		if (armPos != pos) { 
-			SensorArmPosition sap = 
+			POSITION sap = 
 					pos == POSITIONS.front ? 
-					SensorArmPosition.FRONT : SensorArmPosition.RIGHT;
+					POSITION.FRONT : POSITION.RIGHT;
 		
-			//robot.setSensorArmPosition(sap);
+			//robot.setPOSITION(sap);
 			armPos = pos;
 			Sound.beep();
 		}

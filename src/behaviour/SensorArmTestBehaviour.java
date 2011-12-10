@@ -1,7 +1,7 @@
 package behaviour;
 
 import basis.RobotState;
-import basis.SensorArm.SensorArmPosition;
+import basis.SensorArm.POSITION;
 
 public class SensorArmTestBehaviour implements RobotBehaviour {
 	private int i = 0;
@@ -14,15 +14,15 @@ public class SensorArmTestBehaviour implements RobotBehaviour {
 		if (!r.isSensorArmMoving()) {
 			switch ((i++) % 2) {
 				case 0:
-					r.setSensorArmPosition(SensorArmPosition.LABYRINTH);
+					r.setSensorArmPosition(POSITION.RIGHT);
 					break;
 				case 1:
-					r.setSensorArmPosition(SensorArmPosition.LINE_FOLLOW);
+					r.setSensorArmPosition(POSITION.LINE_FOLLOW);
 					break;
 			}
 			
 		}
-		//r.setSensorArmPosition(SensorArmPosition.LINE_FOLLOW);
+		//r.setSensorArmPosition(POSITION.LINE_FOLLOW);
 	}
 
 	public boolean isNextLevel() {

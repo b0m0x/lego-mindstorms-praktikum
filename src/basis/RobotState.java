@@ -220,15 +220,15 @@ public class RobotState {
 	 * @param times
 	 */
 	public void rotate90(int times) {
-		rotate(95*times);
+		rotate(93*times);
 	}
 	
 	/**
 	 * set the rotation of the sensor arm
 	 * @param p
 	 */
-	public void setSensorArmPosition(SensorArm.SensorArmPosition p) {
-		sArm.setPositionBlocking(p);
+	public void setSensorArmPosition(SensorArm.POSITION p) {
+		sArm.setPosition(p, true);
 	}
 	
 	/**

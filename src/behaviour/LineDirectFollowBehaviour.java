@@ -1,28 +1,26 @@
 package behaviour;
+
 import basis.RobotState;
 import basis.SensorArm.POSITION;
 
-
-public class LineFollowBehaviour implements RobotBehaviour {
-	private final static int COLOR_LINE = 40;
-	private final static int COLOR_GROUND = 30;
+public class LineDirectFollowBehaviour {
 	
-	private RobotState r;
+	private RobotState robot;
 	private boolean lineSearching;
 	
 	private boolean avoidObstacle;
 	private WallFollowBehaviour wallFollower;
 	
-	public LineFollowBehaviour() {
+	public LineDirectFollowBehaviour() {
 		lineSearching = true;
 		avoidObstacle = false;
 		wallFollower = new WallFollowBehaviour(10);
 	}
 	
 	public void init(RobotState r) {
-		r.setSensorArmPosition(POSITION.LINE_FOLLOW);		
-		this.r = r;
-		r.forward(50);
+		robot = r;
+		robot.forward(50);
+		robot.setSensorArmPosition(POSITION.LINE_FOLLOW);		
 	}
 	
 	public boolean isOnLine() {
