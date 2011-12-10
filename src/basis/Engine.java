@@ -23,7 +23,8 @@ public class Engine {
 	private int maxTachoCount;
 	
 	public Engine() {
-		
+		LEFT.setAcceleration(80);
+		RIGHT.setAcceleration(80);
 	}
 	
 	/**
@@ -84,12 +85,13 @@ public class Engine {
 	 * @param e Auslenkung [-1..1] 
 	 */
 	public void bend(float e) {
+		float damping_factor = 0.2f;
 		if (e < -1f || 1f < e) throw new IllegalArgumentException();
 		float speed = (RIGHT.getSpeed() + LEFT.getSpeed()) / 2f;
 		
-		int left_speed = (int) Math.abs(speed * (1f + e));
+		int left_speed = (int) Math.abs(speed * (1f + e) + damping_factor);
 		
-		int right_speed = (int) Math.abs(speed * (1f - e));
+		int right_speed = (int) Math.abs(speed * (1f - e) + damping_factor);
 		
 		//resetTacho();
 		RIGHT.setSpeed(right_speed);
