@@ -8,12 +8,10 @@ public class LineFollowBehaviour implements RobotBehaviour {
 	private final static int COLOR_GROUND = 30;
 	
 	private RobotState r;
-	private int direction;
 	private boolean lineSearching;
 	
 	public LineFollowBehaviour() {
 		lineSearching = true;
-		direction = -1;
 	}
 	
 	public void init(RobotState r) {
@@ -42,10 +40,9 @@ public class LineFollowBehaviour implements RobotBehaviour {
 		if (lineSearching && isOnLine()) {
 			//line found again
 			r.halt();
-			r.rotate(180 * direction);
-			r.forward(60);
+			r.rotate(180);
+			r.forward(50);
 			r.bend(0.6f);
-			direction *= -1;
 			lineSearching = false;
 		} else if (!lineSearching && isOffLine()) {
 			lineSearching = true;
