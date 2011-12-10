@@ -132,7 +132,7 @@ public class LabyrinthBehaviour implements RobotBehaviour {
 	private void setArmPos(POSITIONS pos) {
 		SensorArmPosition sap = 
 				pos == POSITIONS.front ? 
-				SensorArmPosition.POSITION_FRONT : SensorArmPosition.POSITION_RIGHT;
+				SensorArmPosition.FRONT : SensorArmPosition.RIGHT;
 		
 		robot.setSensorArmPosition(sap);
 		armPos = pos;

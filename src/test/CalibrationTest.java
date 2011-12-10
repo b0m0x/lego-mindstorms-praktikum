@@ -11,7 +11,7 @@ public class CalibrationTest {
 		r.addBehaviour(new LabyrinthBlockingBehaviour());
 		r.init();
 		
-		//r.setSensorArmPosition(SensorArmPosition.POSITION_FRONT);
-		r.setSensorArmPosition(SensorArmPosition.POSITION_RIGHT);
+		//r.setSensorArmPosition(SensorArmPosition.FRONT);
+		r.setSensorArmPosition(SensorArmPosition.RIGHT);
 	}
 }

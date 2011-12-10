@@ -14,15 +14,15 @@ public class SensorArmTestBehaviour implements RobotBehaviour {
 		if (!r.isSensorArmMoving()) {
 			switch ((i++) % 2) {
 				case 0:
-					r.setSensorArmPosition(SensorArmPosition.POSITION_LABYRINTH);
+					r.setSensorArmPosition(SensorArmPosition.LABYRINTH);
 					break;
 				case 1:
-					r.setSensorArmPosition(SensorArmPosition.POSITION_LINE_FOLLOW);
+					r.setSensorArmPosition(SensorArmPosition.LINE_FOLLOW);
 					break;
 			}
 			
 		}
-		//r.setSensorArmPosition(SensorArmPosition.POSITION_LINE_FOLLOW);
+		//r.setSensorArmPosition(SensorArmPosition.LINE_FOLLOW);
 	}
 
 	public boolean isNextLevel() {

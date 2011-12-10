@@ -20,7 +20,7 @@ public class LineFollowBehaviour implements RobotBehaviour {
 	}
 	
 	public void init(RobotState r) {
-		r.setSensorArmPosition(SensorArmPosition.POSITION_LINE_FOLLOW);		
+		r.setSensorArmPosition(SensorArmPosition.LINE_FOLLOW);		
 		this.r = r;
 		r.forward(50);
 	}

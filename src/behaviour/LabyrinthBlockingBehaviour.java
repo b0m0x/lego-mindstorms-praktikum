@@ -18,7 +18,7 @@ public class LabyrinthBlockingBehaviour implements RobotBehaviour {
 	private STATES currentState;
 	private POSITIONS armPos;
 	private int trials = 0;
-	
+	private boolean first = false;
 	
 	public void init(RobotState r) {
 		H.p("Start Labyrinth!");
@@ -26,7 +26,6 @@ public class LabyrinthBlockingBehaviour implements RobotBehaviour {
 		next( STATES.followingWall );
 	}
 	
-	public boolean first = false;
 	public void update(RobotState r) {
 		if ( isWallInFront() ) {
 			wallContact();
@@ -41,7 +40,7 @@ public class LabyrinthBlockingBehaviour implements RobotBehaviour {
 		}
 	}
 	
-	public void followingWall(int distanz) {
+	private  void followingWall(int distanz) {
 		H.p("right: " + distanz);
 		ensureArmPos( POSITIONS.right );
 		
@@ -117,7 +116,7 @@ public class LabyrinthBlockingBehaviour implements RobotBehaviour {
 		if (armPos != pos) { 
 			SensorArmPosition sap = 
 					pos == POSITIONS.front ? 
-					SensorArmPosition.POSITION_FRONT : SensorArmPosition.POSITION_RIGHT;
+					SensorArmPosition.FRONT : SensorArmPosition.RIGHT;
 		
 			robot.setSensorArmPosition(sap);
 			armPos = pos;

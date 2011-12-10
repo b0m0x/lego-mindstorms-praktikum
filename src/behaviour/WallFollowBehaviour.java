@@ -11,7 +11,7 @@ public class WallFollowBehaviour implements RobotBehaviour {
 	}
 	
 	public void init(RobotState r) {
-		r.setSensorArmPosition(SensorArmPosition.POSITION_LABYRINTH);
+		r.setSensorArmPosition(SensorArmPosition.LABYRINTH);
 		r.forward(50);
 	}
 

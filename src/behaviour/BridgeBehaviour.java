@@ -11,7 +11,7 @@ public class BridgeBehaviour implements RobotBehaviour {
 	boolean isOnEdge;
 	
 	public void init(RobotState r) {
-		r.setSensorArmPosition(SensorArmPosition.POSITION_FRONT);
+		r.setSensorArmPosition(SensorArmPosition.FRONT);
 		//r.addBehaviour(new WallFollowBehaviour(10));
 		isOnEdge = false;
 		//System.out.println("Init");
