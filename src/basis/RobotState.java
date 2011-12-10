@@ -146,6 +146,12 @@ public class RobotState {
 		while (!conrner_uhr.isFinished()) {}
 	}
 	
+	public void backwardBlocking(int speed, int duration) {
+		Eieruhr conrner_uhr = new Eieruhr(duration);
+		backward(speed);
+		while (!conrner_uhr.isFinished()) {}
+	}
+	
 	/**
 	 * drive backwards
 	 * @param speed speed
