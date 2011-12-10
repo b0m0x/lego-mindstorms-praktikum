@@ -22,7 +22,7 @@ public class SensorArm {
 		rotating = false;
 		rotateAngle = 0;
 		//SENSOR_MOTOR.resetTachoCount();
-		recalibrate();
+		//recalibrate();
 		SENSOR_MOTOR.setSpeed(100);
 		
 	}
@@ -96,7 +96,7 @@ public class SensorArm {
 			case POSITION_LABYRINTH:
 			case POSITION_BRIDGE:
 			case POSITION_RIGHT:
-				return -220;
+				return -240;
 			case POSITION_FRONT:
 				return -130;
 			case POSITION_LEFT:

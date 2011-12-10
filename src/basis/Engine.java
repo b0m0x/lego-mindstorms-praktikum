@@ -23,8 +23,8 @@ public class Engine {
 	private int maxTachoCount;
 	
 	public Engine() {
-		LEFT.setAcceleration(500);
-		RIGHT.setAcceleration(500);
+		LEFT.setAcceleration(8000);
+		RIGHT.setAcceleration(8000);
 	}
 	
 	/**
@@ -171,7 +171,7 @@ public class Engine {
 			RIGHT.backward();
 		}
 		degrees = Math.abs(degrees);
-		while (Math.abs(LEFT.getTachoCount()) <= UEBERSETZUNG * degrees) {
+		while (Math.abs(LEFT.getTachoCount()) * UEBERSETZUNG <= degrees) {
 			//drehe däumchen
 		}
 		stop();

@@ -7,20 +7,47 @@ public class LineFollowBehaviour implements RobotBehaviour {
 	private final static int COLOR_LINE = 40;
 	private final static int COLOR_GROUND = 30;
 	
-	private int direction;
-	private boolean lineLock;
+	private RobotState r;
+	
+	private boolean lineSearching;
 	
 	public LineFollowBehaviour() {
-		direction = -1;
-		lineLock = false;
+		lineSearching = true;
 	}
 	
 	public void init(RobotState r) {
 		r.setSensorArmPosition(SensorArmPosition.POSITION_LINE_FOLLOW);		
+		this.r = r;
+	}
+	
+	public boolean isOnLine() {
+		int value = r.getLightSensor();
+		if (value >= COLOR_LINE) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isOffLine() {
+		int value = r.getLightSensor();
+		if (value <= COLOR_GROUND) {
+			return true;
+		}
+		return false;
 	}
 	
 	public void update(RobotState r) {
-		int value = r.getLightSensor();
+		if (lineSearching && isOnLine()) {
+			//line found again
+			r.halt();
+			r.rotate(180);
+			r.forward(50);
+			r.bend(0.6f);
+			lineSearching = false;
+		} else if (!lineSearching && isOffLine()) {
+			lineSearching = true;
+		}
+		/*int value = r.getLightSensor();
 		System.out.println(value);
 		if (value >= COLOR_LINE && lineLock == false) {
 			lineLock = true; //we got the line
@@ -37,7 +64,10 @@ public class LineFollowBehaviour implements RobotBehaviour {
 			if (value <= COLOR_GROUND && !r.isMoving()) {
 				r.backward(60, 200);
 			}
-		}
+		}*/
+		
+		
+		
 	}
 
 	
