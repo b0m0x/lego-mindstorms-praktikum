@@ -10,13 +10,12 @@ import helper.*;
 
 public class LabyrinthBlockingBehaviour implements RobotBehaviour {
 	private final int FRONT_DISTANZ = 30;
-	private final int RIGHT_DISTANZ = 15;
+	private final int RIGHT_DISTANZ = 10;
 	private enum STATES {searchingWall, followingWall, searchingWallFront, corner};
 	private enum POSITIONS {front, right};
 	
 	private RobotState robot;
 	private STATES currentState;
-	private final int GRAD90 = 330*3;
 	private POSITIONS armPos;
 	private int trials = 0;
 	
@@ -29,9 +28,9 @@ public class LabyrinthBlockingBehaviour implements RobotBehaviour {
 	
 	public boolean first = false;
 	public void update(RobotState r) {
-//		if ( isWallInFront() ) {
-//			wallContact();
-//		} else {
+		if ( isWallInFront() ) {
+			wallContact();
+		} else {
 			int distanz = robot.getUltraSonic();
 			switch(currentState) {
 			case searchingWallFront: searchingWallFront(distanz); break;
@@ -39,18 +38,19 @@ public class LabyrinthBlockingBehaviour implements RobotBehaviour {
 			case searchingWall: searchingWall(distanz); break;
 			case corner: corner(); break;
 			}
-		//}
+		}
 	}
 	
 	public void followingWall(int distanz) {
 		H.p("right: " + distanz);
-		//Sound.twoBeeps();
 		ensureArmPos( POSITIONS.right );
 		
 		if ( distanz > 30 ) {
 			next( STATES.corner );
 		} else {
-			if (!robot.isMoving()) robot.forward(50);
+			forward(50);
+			float dir = (distanz-RIGHT_DISTANZ) / (float) RIGHT_DISTANZ;
+			robot.bend(dir);
 		}
 	}
 	
@@ -63,7 +63,7 @@ public class LabyrinthBlockingBehaviour implements RobotBehaviour {
 			trials = 0;
 			next( STATES.searchingWallFront );
 		} else {
-			robot.rotate(GRAD90);
+			robot.rotate90(1);
 			Sound.buzz();
 			trials++;
 		}
@@ -72,22 +72,22 @@ public class LabyrinthBlockingBehaviour implements RobotBehaviour {
 	public void searchingWallFront(int distanz) {
 		Sound.buzz();
 		ensureArmPos( POSITIONS.front );
-		if (!robot.isMoving()) robot.forward(50);
+		forward(50);
 	}
 	
 	private void corner() {
 		if (first == true) { first = false; return; };
 		H.p("corner");
-		blockingForward(50, 800);
-		robot.rotate(GRAD90);
-		blockingForward(50, 1000);
+		robot.forwardBlocking(50, 900);
+		robot.rotate90(1);
+		robot.forwardBlocking(50, 1000);
 		
 		next( STATES.followingWall );
 	}
 	
 	private void wallContact() {
 		Sound.buzz();
-		robot.rotate(-GRAD90);
+		robot.rotate90(-1);
 		next( STATES.followingWall );
 	}
 	
@@ -127,6 +127,10 @@ public class LabyrinthBlockingBehaviour implements RobotBehaviour {
 	
 	private boolean isArmMoving() {
 		return Motor.B.isMoving() && !Motor.B.isStalled();
+	}
+	
+	private void forward(int speed) {
+		if (!robot.isMoving()) robot.forward(speed);
 	}
 }
 
