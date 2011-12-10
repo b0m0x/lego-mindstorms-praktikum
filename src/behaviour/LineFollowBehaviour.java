@@ -46,13 +46,15 @@ public class LineFollowBehaviour implements RobotBehaviour {
 			wallFollower.update(r);
 			if (isOnLine()) {
 				avoidObstacle = false;
+				init(r);
 			}
 			return;
 		}
 		if (!avoidObstacle && r.crashedIntoWall()) {
+			r.backwardBlocking(50, 200);
 			r.rotate(-90);
 			avoidObstacle = true;
-			wallFollower.init(r);			
+			wallFollower.init(r);
 		}
 		
 		if (lineSearching && isOnLine()) {

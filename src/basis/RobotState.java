@@ -258,5 +258,11 @@ public class RobotState {
 		sArm.update();
 	}
 
+	public void backwardBlocking(int speed, int time) {
+		Eieruhr conrner_uhr = new Eieruhr(time);
+		backward(speed);
+		while (!conrner_uhr.isFinished()) {}		
+	}
+
 	
 }
