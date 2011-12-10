@@ -1,4 +1,6 @@
 package basis;
+import helper.Eieruhr;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,6 +138,12 @@ public class RobotState {
 		//engine.setSpeed((int) speed);
 		engine.forward(speed/100.f);
 		engine.setMaxDist(dist);
+	}
+	
+	private void forwardBlocking(int speed, int duration) {
+		Eieruhr conrner_uhr = new Eieruhr(duration);
+		forward(speed);
+		while (!conrner_uhr.isFinished()) {}
 	}
 	
 	/**

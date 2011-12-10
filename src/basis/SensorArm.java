@@ -96,7 +96,7 @@ public class SensorArm {
 			case POSITION_LABYRINTH:
 			case POSITION_BRIDGE:
 			case POSITION_RIGHT:
-				return -240;
+				return -180;
 			case POSITION_FRONT:
 				return -130;
 			case POSITION_LEFT:

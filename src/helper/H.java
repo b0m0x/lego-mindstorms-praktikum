@@ -18,4 +18,9 @@ public class H {
 		}
 		System.out.println(string);
 	}
+	
+	public static void wait(int duration) {
+		Eieruhr timer = new Eieruhr(duration);
+		while ( timer.isFinished() ) {};
+	}
 }

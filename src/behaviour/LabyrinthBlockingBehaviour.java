@@ -24,13 +24,14 @@ public class LabyrinthBlockingBehaviour implements RobotBehaviour {
 	public void init(RobotState r) {
 		H.p("Start Labyrinth!");
 		robot = r;
-		next( STATES.searchingWall );
+		next( STATES.followingWall );
 	}
 	
+	public boolean first = false;
 	public void update(RobotState r) {
-		if ( isWallInFront() ) {
-			wallContact();
-		} else {
+//		if ( isWallInFront() ) {
+//			wallContact();
+//		} else {
 			int distanz = robot.getUltraSonic();
 			switch(currentState) {
 			case searchingWallFront: searchingWallFront(distanz); break;
@@ -38,57 +39,46 @@ public class LabyrinthBlockingBehaviour implements RobotBehaviour {
 			case searchingWall: searchingWall(distanz); break;
 			case corner: corner(); break;
 			}
-		}
+		//}
 	}
 	
 	public void followingWall(int distanz) {
-		Sound.twoBeeps();
+		H.p("right: " + distanz);
+		//Sound.twoBeeps();
 		ensureArmPos( POSITIONS.right );
 		
-		H.p("right: " + distanz);
-		
-		if ( isInfinit(distanz) ) {
+		if ( distanz > 30 ) {
 			next( STATES.corner );
 		} else {
-//			if (distanz < RIGHT_DISTANZ-5) {
-//				robot.bend(-0.5f);
-//				robot.forward(50);
-//			} else if(distanz > RIGHT_DISTANZ+5) {
-//				robot.bend(0.5f);
-//				robot.forward(50);
-//			} else {
-//				robot.forward(50);
-//			}
-			robot.forward(50);
+			if (!robot.isMoving()) robot.forward(50);
 		}
 	}
 	
 	private void searchingWall(int distanz) {
-		Sound.beep();
 		H.p("searching wall");
+		Sound.beep();
 		ensureArmPos( POSITIONS.front );
 		
-		if ( !isInfinit(distanz) ) { 
+		if ( !isInfinit(distanz) || trials >= 4 ) { 
 			trials = 0;
-			next( STATES.followingWall ); 
-		} else if (trials < 4) {
+			next( STATES.searchingWallFront );
+		} else {
 			robot.rotate(GRAD90);
 			Sound.buzz();
 			trials++;
-		} else {
-			trials = 0;
-			next( STATES.searchingWallFront );
 		}
 	}
 	
 	public void searchingWallFront(int distanz) {
 		Sound.buzz();
 		ensureArmPos( POSITIONS.front );
-		robot.forward(50);
+		if (!robot.isMoving()) robot.forward(50);
 	}
 	
 	private void corner() {
-		blockingForward(50, 1000);
+		if (first == true) { first = false; return; };
+		H.p("corner");
+		blockingForward(50, 800);
 		robot.rotate(GRAD90);
 		blockingForward(50, 1000);
 		
@@ -96,6 +86,7 @@ public class LabyrinthBlockingBehaviour implements RobotBehaviour {
 	}
 	
 	private void wallContact() {
+		Sound.buzz();
 		robot.rotate(-GRAD90);
 		next( STATES.followingWall );
 	}
@@ -112,7 +103,6 @@ public class LabyrinthBlockingBehaviour implements RobotBehaviour {
 				&& robot.getUltraSonic() < FRONT_DISTANZ
 			);
 	}
-	
 
 	
 	private boolean isInfinit(int distanz) {
@@ -123,26 +113,14 @@ public class LabyrinthBlockingBehaviour implements RobotBehaviour {
 		currentState = state;
 	}
 	
-	private void blockingForward(int speed, int duration) {
-		Eieruhr conrner_uhr = new Eieruhr(duration);
-		robot.forward(speed);
-		while (!conrner_uhr.isFinished()) {}
-	}
-	
-	private void setArmPos(POSITIONS pos) {
-		SensorArmPosition sap = 
-				pos == POSITIONS.front ? 
-				SensorArmPosition.POSITION_FRONT : SensorArmPosition.POSITION_RIGHT;
-		
-		robot.setSensorArmPosition(sap);
-		armPos = pos;
-	}
-	
 	private void ensureArmPos(POSITIONS pos) {
-		while (isArmMoving()) {}
-		if (armPos != POSITIONS.front) { 
-			setArmPos(pos);
-			while ( isArmMoving() ) {}
+		if (armPos != pos) { 
+			SensorArmPosition sap = 
+					pos == POSITIONS.front ? 
+					SensorArmPosition.POSITION_FRONT : SensorArmPosition.POSITION_RIGHT;
+		
+			robot.setSensorArmPosition(sap);
+			armPos = pos;
 			Sound.beep();
 		}
 	}
