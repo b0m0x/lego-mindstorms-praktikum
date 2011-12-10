@@ -50,6 +50,7 @@ public class LineFollowBehaviour implements RobotBehaviour {
 			return;
 		}
 		if (!avoidObstacle && r.crashedIntoWall()) {
+			r.backwardBlocking(50, 200);
 			r.rotate(-90);
 			avoidObstacle = true;
 			wallFollower.init(r);			

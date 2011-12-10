@@ -12,7 +12,7 @@ public class SensorArmTest {
 		//r.addBehaviour(new SensorArmTestBehaviour());
 		//r.addBehaviour(new LabyrinthBehaviour());
 		//r.addBehaviour(new BridgeBehaviour());
-		r.addBehaviour(new WallFollowBehaviour(15));
+		r.addBehaviour(new LineFollowBehaviour());
 		r.init();
 		//r.forward(20);
 		while(true) {
