@@ -1,5 +1,6 @@
 package behaviour;
 import basis.RobotState;
+import basis.SensorArm.SensorArmPosition;
 
 
 public class LineFollowBehaviour implements RobotBehaviour {
@@ -15,13 +16,12 @@ public class LineFollowBehaviour implements RobotBehaviour {
 	}
 	
 	public void init(RobotState r) {
-		// TODO Auto-generated method stub
-		
+		r.setSensorArmPosition(SensorArmPosition.POSITION_LINE_FOLLOW);		
 	}
 	
 	public void update(RobotState r) {
 		int value = r.getLightSensor();
-		
+		System.out.println(value);
 		if (value >= COLOR_LINE && lineLock == false) {
 			lineLock = true; //we got the line
 			//System.out.println("Line!!");
@@ -32,14 +32,7 @@ public class LineFollowBehaviour implements RobotBehaviour {
 			direction *= -1;
 			lineLock = false; //we lost the line!
 			
-			r.forward(20);
-			if (direction == 1) { //right
-				r.bendRight(50, 300);
-				System.out.println("Driving right");
-			} else { //left
-				r.bendLeft(50, 300);
-				System.out.println("Driving Left");
-			}
+			r.bend(direction * 0.6f);
 		} else {
 			if (value <= COLOR_GROUND && !r.isMoving()) {
 				r.backward(60, 200);
