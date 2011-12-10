@@ -12,7 +12,7 @@ public class LabyrinthTest {
 		r.addBehaviour(new LineFollowBehaviour());
 		r.init();
 		
-		while(true) {
+		while (true) {
 			r.update();
 		}
 		// r.driveForward(10);
