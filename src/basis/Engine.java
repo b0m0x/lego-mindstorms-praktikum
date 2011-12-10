@@ -11,9 +11,10 @@ public class Engine {
 	
 	private final NXTRegulatedMotor LEFT = Motor.C; 
 	private final NXTRegulatedMotor RIGHT = Motor.A;
-
+	private final int ROTATION_SPEED = 500;
+	
 	//private final int DISTANCE_PER_DEGREE = RADUMPFANG / 360; //mm
-	private float UEBERSETZUNG = (90/300f);
+	private float UEBERSETZUNG = (90/(300f));
 	
 	public final int MAX_SPEED = 900;
 	private boolean turning = false;
@@ -160,8 +161,8 @@ public class Engine {
 	
 	public void rotateBlocking(int degrees) {
 		resetTacho();
-		LEFT.setSpeed(300);
-		RIGHT.setSpeed(300);
+		LEFT.setSpeed(ROTATION_SPEED);
+		RIGHT.setSpeed(ROTATION_SPEED);
 		
 		if (degrees < 0) {
 			LEFT.backward();

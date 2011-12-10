@@ -1,20 +1,17 @@
 package test;
 
 import basis.RobotState;
-import behaviour.*;
-import lejos.nxt.*;
+import basis.SensorArm.SensorArmPosition;
+import behaviour.LabyrinthBlockingBehaviour;
 
-public class LabyrinthTest {
+public class CalibrationTest {
 	public static void main (String[] aArg) throws Exception {
 		System.out.println("Test:");
 		RobotState r = RobotState.getInstance();
-
 		r.addBehaviour(new LabyrinthBlockingBehaviour());
 		r.init();
 		
-		while(!Button.ENTER.isPressed()) {
-			r.update();
-		}
-		
+		//r.setSensorArmPosition(SensorArmPosition.FRONT);
+		r.setSensorArmPosition(SensorArmPosition.RIGHT);
 	}
 }

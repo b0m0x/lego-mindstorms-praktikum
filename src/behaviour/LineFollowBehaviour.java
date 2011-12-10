@@ -20,7 +20,7 @@ public class LineFollowBehaviour implements RobotBehaviour {
 	}
 	
 	public void init(RobotState r) {
-		r.setSensorArmPosition(SensorArmPosition.POSITION_LINE_FOLLOW);		
+		r.setSensorArmPosition(SensorArmPosition.LINE_FOLLOW);		
 		this.r = r;
 		r.forward(50);
 	}
@@ -46,13 +46,15 @@ public class LineFollowBehaviour implements RobotBehaviour {
 			wallFollower.update(r);
 			if (isOnLine()) {
 				avoidObstacle = false;
+				init(r);
 			}
 			return;
 		}
 		if (!avoidObstacle && r.crashedIntoWall()) {
+			r.backwardBlocking(50, 200);
 			r.rotate(-90);
 			avoidObstacle = true;
-			wallFollower.init(r);			
+			wallFollower.init(r);
 		}
 		
 		if (lineSearching && isOnLine()) {

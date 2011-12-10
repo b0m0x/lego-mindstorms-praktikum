@@ -5,13 +5,7 @@ import lejos.nxt.NXTRegulatedMotor;
 
 public class SensorArm {
 	public enum SensorArmPosition {
-		POSITION_LINE_FOLLOW,
-		POSITION_LABYRINTH,
-		POSITION_HILL,
-		POSITION_BRIDGE,
-		POSITION_FRONT,
-		POSITION_LEFT,
-		POSITION_RIGHT
+		LINE_FOLLOW, LABYRINTH, HILL, BRIDGE, FRONT, LEFT, RIGHT
 	}
 	private final NXTRegulatedMotor SENSOR_MOTOR = Motor.B;
 	private boolean rotating;
@@ -24,7 +18,6 @@ public class SensorArm {
 		//SENSOR_MOTOR.resetTachoCount();
 		//recalibrate();
 		SENSOR_MOTOR.setSpeed(100);
-		
 	}
 	
 	public void setPosition(SensorArmPosition p) {
@@ -70,12 +63,13 @@ public class SensorArm {
 	 */
 	public void recalibrate() {
 		System.out.println("Calibrating now");
-		SENSOR_MOTOR.setSpeed(500);
+		SENSOR_MOTOR.setSpeed( SENSOR_MOTOR.getMaxSpeed() );
 		SENSOR_MOTOR.forward();
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-		}
+//		try {
+//			Thread.sleep(500);
+//		} catch (InterruptedException e) {
+//		}
+		while (!SENSOR_MOTOR.isStalled() && SENSOR_MOTOR.isMoving()) {}
 		SENSOR_MOTOR.stop();
 		SENSOR_MOTOR.resetTachoCount();
 		
@@ -89,17 +83,17 @@ public class SensorArm {
 	
 	private int getPositionAngle(SensorArmPosition p) {
 		switch(p) {
-			case POSITION_LINE_FOLLOW:
-			case POSITION_HILL:
+			case LINE_FOLLOW:
+			case HILL:
 				//TODO: INSERT CORRECT VALUE
 				return -40;
-			case POSITION_LABYRINTH:
-			case POSITION_BRIDGE:
-			case POSITION_RIGHT:
-				return -180;
-			case POSITION_FRONT:
-				return -130;
-			case POSITION_LEFT:
+			case LABYRINTH:
+			case BRIDGE:
+			case RIGHT:
+				return -240;
+			case FRONT:
+				return -150;
+			case LEFT:
 				return -20;
 			default: 
 				return 0;

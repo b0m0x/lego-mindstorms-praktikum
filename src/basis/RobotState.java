@@ -222,6 +222,14 @@ public class RobotState {
 	}
 	
 	/**
+	 * Rotate 90DEG
+	 * @param times
+	 */
+	public void rotate90(int times) {
+		rotate(95*times);
+	}
+	
+	/**
 	 * set the rotation of the sensor arm
 	 * @param p
 	 */
@@ -254,6 +262,12 @@ public class RobotState {
 		}
 		engine.update();
 		sArm.update();
+	}
+
+	public void backwardBlocking(int speed, int time) {
+		Eieruhr conrner_uhr = new Eieruhr(time);
+		backward(speed);
+		while (!conrner_uhr.isFinished()) {}		
 	}
 
 	
