@@ -22,7 +22,7 @@ public class SensorArm {
 		rotating = false;
 		rotateAngle = 0;
 		//SENSOR_MOTOR.resetTachoCount();
-		//recalibrate();
+		recalibrate();
 		SENSOR_MOTOR.setSpeed(100);
 		
 	}
@@ -70,12 +70,13 @@ public class SensorArm {
 	 */
 	public void recalibrate() {
 		System.out.println("Calibrating now");
-		SENSOR_MOTOR.setSpeed(500);
+		SENSOR_MOTOR.setSpeed( SENSOR_MOTOR.getMaxSpeed() );
 		SENSOR_MOTOR.forward();
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-		}
+//		try {
+//			Thread.sleep(500);
+//		} catch (InterruptedException e) {
+//		}
+		while (!SENSOR_MOTOR.isStalled() && SENSOR_MOTOR.isMoving()) {}
 		SENSOR_MOTOR.stop();
 		SENSOR_MOTOR.resetTachoCount();
 		
@@ -96,9 +97,9 @@ public class SensorArm {
 			case POSITION_LABYRINTH:
 			case POSITION_BRIDGE:
 			case POSITION_RIGHT:
-				return -180;
+				return -240;
 			case POSITION_FRONT:
-				return -130;
+				return -150;
 			case POSITION_LEFT:
 				return -20;
 			default: 
