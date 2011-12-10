@@ -10,7 +10,7 @@ import helper.*;
 
 public class LabyrinthBlockingBehaviour implements RobotBehaviour {
 	private final int FRONT_DISTANZ = 30;
-	private final int RIGHT_DISTANZ = 10;
+	private final int RIGHT_DISTANZ = 7;
 	private enum STATES {searchingWall, followingWall, searchingWallFront, corner};
 	private enum POSITIONS {front, right};
 	
@@ -48,8 +48,9 @@ public class LabyrinthBlockingBehaviour implements RobotBehaviour {
 			next( STATES.corner );
 		} else {
 			forward(50);
-			float dir = (distanz-RIGHT_DISTANZ) / (float) RIGHT_DISTANZ;
-			robot.bend(dir);
+			float dir = (distanz-RIGHT_DISTANZ) / (float) distanz / 3;
+			H.p("dist:", distanz);
+			robot.bend(-dir);
 		}
 	}
 	
@@ -77,9 +78,12 @@ public class LabyrinthBlockingBehaviour implements RobotBehaviour {
 	private void corner() {
 		if (first == true) { first = false; return; };
 		H.p("corner");
-		robot.forwardBlocking(50, 900);
-		robot.rotate90(1);
-		robot.forwardBlocking(50, 1000);
+		robot.halt();
+		robot.forwardBlocking(50, 200);
+		robot.halt();
+		robot.rotate90(-1);
+		robot.halt();
+		robot.forwardBlocking(50, 1500);
 		
 		next( STATES.followingWall );
 	}
@@ -118,7 +122,7 @@ public class LabyrinthBlockingBehaviour implements RobotBehaviour {
 					pos == POSITIONS.front ? 
 					SensorArmPosition.FRONT : SensorArmPosition.RIGHT;
 		
-			robot.setSensorArmPosition(sap);
+			//robot.setSensorArmPosition(sap);
 			armPos = pos;
 			Sound.beep();
 		}

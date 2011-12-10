@@ -220,7 +220,7 @@ public class RobotState {
 	 * @param times
 	 */
 	public void rotate90(int times) {
-		rotate(330*3*times);
+		rotate(95*times);
 	}
 	
 	/**
