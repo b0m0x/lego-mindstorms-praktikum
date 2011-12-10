@@ -10,8 +10,13 @@ public class LineFollowBehaviour implements RobotBehaviour {
 	private RobotState r;
 	private boolean lineSearching;
 	
+	private boolean avoidObstacle;
+	private WallFollowBehaviour wallFollower;
+	
 	public LineFollowBehaviour() {
 		lineSearching = true;
+		avoidObstacle = false;
+		wallFollower = new WallFollowBehaviour(10);
 	}
 	
 	public void init(RobotState r) {
@@ -37,6 +42,19 @@ public class LineFollowBehaviour implements RobotBehaviour {
 	}
 	
 	public void update(RobotState r) {
+		if (avoidObstacle) {
+			wallFollower.update(r);
+			if (isOnLine()) {
+				avoidObstacle = false;
+			}
+			return;
+		}
+		if (!avoidObstacle && r.crashedIntoWall()) {
+			r.rotate(-90);
+			avoidObstacle = true;
+			wallFollower.init(r);			
+		}
+		
 		if (lineSearching && isOnLine()) {
 			//line found again
 			r.halt();
@@ -47,30 +65,6 @@ public class LineFollowBehaviour implements RobotBehaviour {
 		} else if (!lineSearching && isOffLine()) {
 			lineSearching = true;
 		}
-		
-		/*int value = r.getLightSensor();
-		System.out.println(value);
-		if (value >= COLOR_LINE && lineLock == false) {
-			lineLock = true; //we got the line
-			//System.out.println("Line!!");
-			r.forward(30);
-			return;	//keep rollin'
-		} else if (value <= COLOR_GROUND  && lineLock) {			
-			// we see ground, change direction to find our line again!
-			direction *= -1;
-			lineLock = false; //we lost the line!
-			
-			r.bend(direction * 0.6f);
-		} else {
-			if (value <= COLOR_GROUND && !r.isMoving()) {
-				r.backward(60, 200);
-			}
-		}*/
-		
-		
-		
+				
 	}
-
-	
-
 }
