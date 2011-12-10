@@ -216,6 +216,14 @@ public class RobotState {
 	}
 	
 	/**
+	 * Rotate 90DEG
+	 * @param times
+	 */
+	public void rotate90(int times) {
+		rotate(330*3*times);
+	}
+	
+	/**
 	 * set the rotation of the sensor arm
 	 * @param p
 	 */
