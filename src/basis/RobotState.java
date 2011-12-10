@@ -140,7 +140,7 @@ public class RobotState {
 		engine.setMaxDist(dist);
 	}
 	
-	private void forwardBlocking(int speed, int duration) {
+	public void forwardBlocking(int speed, int duration) {
 		Eieruhr conrner_uhr = new Eieruhr(duration);
 		forward(speed);
 		while (!conrner_uhr.isFinished()) {}
