@@ -17,11 +17,15 @@ public class WallFollowBehaviour implements RobotBehaviour {
 	}
 
 	public void update(RobotState r) {
+		if (r.isSensorArmMoving()) {
+			return;
+		}
 		int dist = r.getUltraSonic();
 		if (dist == 255) {
+			r.halt();
 			r.rotate(45);
 			r.forward(50);
-			return;			
+			return;
 		}
 		float strength = Math.min(Math.max((dist - WALL_DISTANCE) / 30.f, -1f), 1f);		
 		r.bend(strength);

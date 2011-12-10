@@ -23,8 +23,8 @@ public class Engine {
 	private int maxTachoCount;
 	
 	public Engine() {
-		LEFT.setAcceleration(80);
-		RIGHT.setAcceleration(80);
+		LEFT.setAcceleration(500);
+		RIGHT.setAcceleration(500);
 	}
 	
 	/**
