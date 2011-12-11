@@ -41,7 +41,7 @@ public class Engine {
 		int motor_speed = (int) (MAX_SPEED * v);
 		
 		LEFT.setSpeed(motor_speed);
-		RIGHT.setSpeed(motor_speed);	
+		RIGHT.setSpeed(motor_speed);
 	}
 	
 	public void backward(float v) {
