@@ -10,7 +10,9 @@ public class EndBossBehaviour implements RobotBehaviour {
 	}
 
 	public void update(RobotState r) {
-		// TODO Auto-generated method stub
+		while(!r.isMoving()) {
+			r.forward(100);
+		}
 
 	}
 

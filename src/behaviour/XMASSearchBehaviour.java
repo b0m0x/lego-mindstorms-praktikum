@@ -10,7 +10,7 @@ public class XMASSearchBehaviour implements RobotBehaviour {
 	}
 
 	public void update(RobotState r) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
