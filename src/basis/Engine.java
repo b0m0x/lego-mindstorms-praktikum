@@ -90,13 +90,13 @@ public class Engine {
 		if (e < -1f || 1f < e) throw new IllegalArgumentException();
 		float speed = (RIGHT.getSpeed() + LEFT.getSpeed()) / 2f;
 		
-		int left_speed = (int) Math.abs(speed * (1f + e) + damping_factor);
+		int left_speed = (int) (speed * (1f + e) + damping_factor);
 		
-		int right_speed = (int) Math.abs(speed * (1f - e) + damping_factor);
+		int right_speed = (int) (speed * (1f - e) + damping_factor);
 		
 		//resetTacho();
-		RIGHT.setSpeed(right_speed);
-		LEFT.setSpeed(left_speed);
+		RIGHT.setSpeed(Math.min(right_speed, 100));
+		LEFT.setSpeed(Math.min(left_speed, 100));
 		//RIGHT.backward();
 		//LEFT.forward();
 	}
