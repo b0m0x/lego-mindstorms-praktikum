@@ -5,9 +5,11 @@ import basis.SensorArm.POSITION;
 
 public class WallFollowBehaviour implements RobotBehaviour {
 	private final int WALL_DISTANCE;
+	private int lastDist;
 
 	public WallFollowBehaviour(int distance) {
 		WALL_DISTANCE = distance;
+		lastDist = 256;
 	}
 	
 	public void init(RobotState r) {
@@ -16,10 +18,10 @@ public class WallFollowBehaviour implements RobotBehaviour {
 	}
 
 	public void update(RobotState r) {
-		if (r.isSensorArmMoving()) {
+		int dist = r.getUltraSonic();
+		if (dist == lastDist) {
 			return;
 		}
-		int dist = r.getUltraSonic();
 		if (dist == 255) {
 			/*
 			r.forwardBlocking(50, 500);
@@ -34,6 +36,7 @@ public class WallFollowBehaviour implements RobotBehaviour {
 		}
 		float strength = Math.min(Math.max((dist - WALL_DISTANCE) / 30.f, -1f), 1f);		
 		r.bend(strength);
+		lastDist = dist;
 	}
 
 	public boolean isNextLevel() {
