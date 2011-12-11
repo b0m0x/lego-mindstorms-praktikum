@@ -1,70 +1,69 @@
 package behaviour;
 
+import helper.Eieruhr;
+import lejos.nxt.LightSensor;
+import basis.Config;
 import basis.RobotState;
+import basis.SensorArm;
 import basis.SensorArm.POSITION;
 
 public class LineDirectFollowBehaviour {
 	
+	private SensorArm arm;
 	private RobotState robot;
-	private boolean lineSearching;
-	
-	private boolean avoidObstacle;
-	private WallFollowBehaviour wallFollower;
-	
+	private boolean onLine = false;
+	private Eieruhr memory = new Eieruhr(1000);
+	private boolean armMovingRight;
 	public LineDirectFollowBehaviour() {
-		lineSearching = true;
-		avoidObstacle = false;
-		wallFollower = new WallFollowBehaviour(10);
 	}
 	
 	public void init(RobotState r) {
 		robot = r;
-		robot.forward(50);
-		robot.setSensorArmPosition(POSITION.LINE_FOLLOW);		
+		robot.forward(50);		
+		arm = robot.getSensorArm();
+		arm.setPosition(POSITION.LEFT, false);
+		search();
 	}
-	
-	public boolean isOnLine() {
-		int value = r.getLightSensor();
-		if (value >= COLOR_LINE) {
-			return true;
-		}
-		return false;
-	}
-	
-	public boolean isOffLine() {
-		int value = r.getLightSensor();
-		if (value <= COLOR_GROUND) {
-			return true;
-		}
-		return false;
-	}
-	
+
 	public void update(RobotState r) {
-		if (avoidObstacle) {
-			wallFollower.update(r);
-			if (isOnLine()) {
-				avoidObstacle = false;
-				init(r);
-			}
-			return;
+		follow();
+	}
+	
+	private void follow() {
+		if ( onLine != isLine() ) {
+			adjustPath();
+			toggleArmDirection();
 		}
-		if (!avoidObstacle && r.crashedIntoWall()) {
-			r.backwardBlocking(50, 200);
-			r.rotate(-90);
-			avoidObstacle = true;
-			wallFollower.init(r);
-		}
+	}
+	
+	private void search() {
 		
-		if (lineSearching && isOnLine()) {
-			//line found again
-			r.halt();
-			r.rotate(180);
-			r.forward(50);
-			r.bend(0.6f);
-			lineSearching = false;
-		} else if (!lineSearching && isOffLine()) {
-			lineSearching = true;
+	}
+	
+	private void toggleArmDirection() {
+		if (armMovingRight) {
+			arm.setPosition(POSITION.LEFT, false);
+			armMovingRight = false;
+		} else {
+			arm.setPosition(POSITION.FRONT, false);
+			armMovingRight = true;
 		}
-				
+	}
+	
+	private void adjustPath() {
+		arm.getPositionFloat();
+		POSITION.FRONT.getValue();
+	}
+	
+	public boolean isLine() {
+		int color = robot.getLightSensor();
+		if (color >= Config.COLOR_BRIGHT) {
+			memory.reset();
+			this.onLine = true;
+			return true;
+		} else {
+			this.onLine = false;
+			return false;
+		}
 	}
 }

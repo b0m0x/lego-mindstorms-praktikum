@@ -10,6 +10,7 @@ public class SensorArm {
 	
 	private final int RANGE_BOTTOM = 20; 
 	private final int RANGE_TOP = 240;
+	private int currentPosition = 0;
 	
 	public static enum POSITION {
 		
@@ -48,6 +49,7 @@ public class SensorArm {
 		} else {
 			SENSOR_MOTOR.backward();
 		}
+		currentPosition = position;
 	}
 	
 	private void setPositionBlocking(int position) {
@@ -68,6 +70,7 @@ public class SensorArm {
 			}
 		}
 		SENSOR_MOTOR.stop();
+		currentPosition = position;
 	}
 	
 	public void setPosition(POSITION p, boolean blocking) {
@@ -79,6 +82,14 @@ public class SensorArm {
 	public void setPosition(float position, boolean blocking) {
 		int newPos = (int) ( (this.RANGE_TOP - this.RANGE_BOTTOM) * position + RANGE_BOTTOM );
 		setPosition(newPos, blocking);
+	}
+	
+	public int getPosition() {
+		return currentPosition;
+	}
+	
+	public float getPositionFloat() {
+		return (RANGE_TOP - RANGE_BOTTOM) / (float)(currentPosition - RANGE_BOTTOM);
 	}
 	
 	/**
