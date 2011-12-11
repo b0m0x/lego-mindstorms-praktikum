@@ -23,7 +23,9 @@ public final class Config {
 	
 	public final static SensorPort ULTRASONIC_PORT = SensorPort.S1;
 	public final static SensorPort LIGHTSENSOR_PORT = SensorPort.S2;
-	public final static SensorPort BUMPSENSOR_PORT = SensorPort.S3;
+	public final static SensorPort BUMPSENSOR_PORT = SensorPort.S4;
+	public final static SensorPort WALLSENSOR_PORT = SensorPort.S3;
+	
 	
 	
 	public final static String[] menuItems = {

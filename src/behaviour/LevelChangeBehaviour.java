@@ -7,6 +7,7 @@ public class LevelChangeBehaviour implements RobotBehaviour {
 	
 	private final static int DELAY = 5000; //5 sek abstand zwischen messungen 
 	private final static int COLOR_CODE = 40; 
+	private final static int COLOR_GROUND = 25;
 	private long lastCodeSeen;
 	private boolean codeLock;
 	
@@ -22,11 +23,16 @@ public class LevelChangeBehaviour implements RobotBehaviour {
 			if (value >= COLOR_CODE && !codeLock) {
 				r.clearBehaviours();
 				Config.currentBehaviour++;
-				r.addBehaviour(Config.behaviours[Config.currentBehaviour]);
+				RobotBehaviour newBehaviour = Config.behaviours[Config.currentBehaviour];
+				r.addBehaviour(newBehaviour);
 				r.init();
-				r.addBehaviour(this);
-				
-			}			
+				if (!(newBehaviour instanceof LineFollowBehaviour)) {
+					r.addBehaviour(this);
+				}
+			}
+			if (codeLock && value <= COLOR_GROUND) {
+				codeLock = false;
+			}
 		}
 	}
 }
