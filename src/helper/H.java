@@ -23,4 +23,12 @@ public class H {
 		Eieruhr timer = new Eieruhr(duration);
 		while ( timer.isFinished() ) {};
 	}
+	
+	public static void sleep(int duration) {
+		try {
+			Thread.sleep(duration);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 }

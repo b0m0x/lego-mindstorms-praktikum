@@ -15,11 +15,11 @@ public class SensorArm {
 	public static enum POSITION {
 		
 		LINE_FOLLOW(-40),
-		HILL(40), //TODO: INSERT CORRECT VALUE
-		BRIDGE(3),
+		HILL(20), //TODO: INSERT CORRECT VALUE
+		BRIDGE(0),
 		RIGHT(-240),
 		FRONT(-150),
-		LEFT(-20);
+		LEFT(0);
 		
 		private int value;
 		private POSITION(int v) { value = v; }
@@ -30,7 +30,7 @@ public class SensorArm {
 		rotating = false;
 		rotateAngle = 0;
 		//SENSOR_MOTOR.resetTachoCount();
-		//recalibrate();
+		recalibrate();
 		SENSOR_MOTOR.setSpeed(100);
 	}
 	
