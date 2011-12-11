@@ -101,7 +101,7 @@ public class SensorArm {
 		SENSOR_MOTOR.setSpeed( SENSOR_MOTOR.getMaxSpeed() );
 		SENSOR_MOTOR.forward();
 
-		while (!SENSOR_MOTOR.isStalled() && SENSOR_MOTOR.isMoving()) {}
+		while ( !SENSOR_MOTOR.isStalled() && SENSOR_MOTOR.isMoving() ) {}
 		SENSOR_MOTOR.stop();
 		SENSOR_MOTOR.resetTachoCount();
 		

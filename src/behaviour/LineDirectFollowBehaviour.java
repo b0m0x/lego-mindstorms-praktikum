@@ -3,6 +3,7 @@ package behaviour;
 import helper.Eieruhr;
 import helper.H;
 import lejos.nxt.LightSensor;
+import lejos.nxt.Sound;
 import basis.Config;
 import basis.RobotState;
 import basis.SensorArm;
@@ -21,11 +22,10 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	private SensorArm arm;
 	private RobotState robot;
 	private boolean onLine = false;
-	private Eieruhr memory = new Eieruhr(700);
+	private Eieruhr memory = new Eieruhr(1000);
 	private boolean armMovingRight;
-	
-	private final int MAX_AUSLENKUNG = POSITION.FRONT.getValue();
-	private final int MIN_AUSLENKUNG = POSITION.RIGHT.getValue();
+	private final int MIN = -180; // right
+	private final int MAX = -5; // left
 	private boolean searching = true;
 	
 	public LineDirectFollowBehaviour() {}
@@ -33,25 +33,31 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	public void init(RobotState r) {
 		robot = r;		
 		arm = robot.getSensorArm();
-		arm.setPosition(POSITION.LEFT, false);
-		missLine();
+		//missLine();
+		Config.SENSOR_MOTOR.resetTachoCount();
+		Config.SENSOR_MOTOR.setSpeed( 200 );
+		Config.SENSOR_MOTOR.forward();
+		H.p(Config.SENSOR_MOTOR.getMaxSpeed());
 	}
 	
 	public void update(RobotState r) {
 		boolean finished = false;
-//		robot.forward(50);
+		robot.forward(15);
 		while (!finished) {
-			if ( !arm.isMoving() ) toggleArmDirection();
-			H.p("lenk:", this.getRelativePosition());
-			H.sleep(500);
-//			if ( !memory.isFinished() ) 
-//				if ( onLine != isLine() ) {
-//					adjustPath();
-//					toggleArmDirection();
-//				}
-//			else {
-//				missLine();
-//			};
+			armSchwenkung();
+			H.sleep(100);
+			
+			memory.reset(); // TODO
+			// !memory.isFinished()
+			if ( true ) {
+				if ( onLine != isLine() ) {
+					adjustPath();
+					toggleArmDirection();
+				};
+			} else {
+				//missLine();
+				Sound.buzz();
+			};
 		}
 	}
 	
@@ -65,32 +71,59 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	
 	private void toggleArmDirection() {
 		if (armMovingRight) {
-			arm.setPosition(POSITION.LEFT, false);
+			Config.SENSOR_MOTOR.forward();
 			armMovingRight = false;
 		} else {
-			arm.setPosition(POSITION.FRONT, false);
+			Config.SENSOR_MOTOR.backward();
 			armMovingRight = true;
 		}
 	}
 	
+	
+	/**
+	 * Ändert die Bewegungsrichtung des Armes, falls dieser seinen Bewegungsspielraum überschreitet.
+	 * Diese Funktion sorgt für das allgemeine Wedeln des Armes.
+	 */
+	private void armSchwenkung() {
+		int tacho = Config.SENSOR_MOTOR.getTachoCount();
+		if (tacho <= MIN) {
+			Config.SENSOR_MOTOR.forward();
+			armMovingRight = false;
+		} else if(tacho >= MAX) {
+			Config.SENSOR_MOTOR.backward();
+			armMovingRight = true;
+		}
+	}
+	
+	/**
+	 * Hier wird die Bewegungsrichtung des Roboters dem Verlauf der Linie angepasst
+	 */
 	private void adjustPath() {
-		float ungenauigkeit = 0.1f;
+		float ungenauigkeit = 0.0f;
 		
-		float rpos = getRelativePosition();
-		if (rpos > 0.5f + ungenauigkeit) {
-			robot.bend(0.2f); //right
-		} if (rpos < 0.5f - ungenauigkeit) {
-			robot.bend(-0.2f); //left
+		float rpos = getRelativeArmPosition();
+		H.p("#", rpos);
+		float middle = 0.55f;
+		if (rpos > middle + ungenauigkeit) {
+			robot.bend(-0.7f); //right
+		} if (rpos < middle - ungenauigkeit) {
+			robot.bend(0.7f); //left
 		} else {
 			robot.bend(0);
 		}
 	}
 	
-	private float getRelativePosition() {
-		// TODO auf Richtigkeit überprüfen
-		return (arm.getPosition() - MIN_AUSLENKUNG) / (float)(MAX_AUSLENKUNG - MIN_AUSLENKUNG);
+	/**
+	 * Gibt die Armposition im Bewegungsraum des Armes zurück.
+	 * @return Armposition [0..1]
+	 */
+	private float getRelativeArmPosition() {
+		return (Config.SENSOR_MOTOR.getTachoCount() - MAX) / (float)(MIN - MAX);
 	}
-
+	
+	/**
+	 * @return true wenn der Sensor eine Linie entdeckt
+	 */
 	public boolean isLine() {
 		int color = robot.getLightSensor();
 		if (color >= Config.COLOR_BRIGHT) {
@@ -102,4 +135,6 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 			return false;
 		}
 	}
+	
+	
 }
