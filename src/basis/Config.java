@@ -48,14 +48,14 @@ public final class Config {
 	};
 
 	public final static RobotBehaviour[] behaviours = {
-		new LabyrinthBehaviour(),
+		new WallFollowBehaviour(10),
 		new WallFollowBehaviour(20),
 		new LineFollowBehaviour(),
-		new BridgeBehaviour(),
+		new HangingBridgeBehaviour(),
 		new LineFollowBehaviour(),
 		new GateBehaviour(),
 		new XMASSearchBehaviour(),
-		new HangingBridgeBehaviour(),
+		new BridgeBehaviour(),
 		new LineFollowBehaviour(),
 		new WallFollowBehaviour(10),
 		new LineFollowBehaviour(),
