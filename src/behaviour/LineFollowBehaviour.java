@@ -4,6 +4,8 @@ import basis.SensorArm.POSITION;
 
 
 public class LineFollowBehaviour implements RobotBehaviour {
+	private final static int LINE_FOLLOW_SPEED = 50;
+	
 	private final static int COLOR_LINE = 40;
 	private final static int COLOR_GROUND = 30;
 	
@@ -11,7 +13,7 @@ public class LineFollowBehaviour implements RobotBehaviour {
 	private boolean lineSearching;
 	
 	private boolean avoidObstacle;
-	private WallFollowBehaviour wallFollower;
+	private RobotBehaviour wallFollower;
 	
 	public LineFollowBehaviour() {
 		lineSearching = true;
@@ -22,7 +24,7 @@ public class LineFollowBehaviour implements RobotBehaviour {
 	public void init(RobotState r) {
 		r.setSensorArmPosition(POSITION.LINE_FOLLOW);		
 		this.r = r;
-		r.forward(50);
+		r.forward(LINE_FOLLOW_SPEED);
 	}
 	
 	public boolean isOnLine() {
@@ -45,13 +47,21 @@ public class LineFollowBehaviour implements RobotBehaviour {
 		if (avoidObstacle) {
 			wallFollower.update(r);
 			if (isOnLine()) {
-				avoidObstacle = false;
 				init(r);
+				avoidObstacle = false;				
+				lineSearching = true;
+				r.halt();
+				r.rotate(-180);
+				r.forward(LINE_FOLLOW_SPEED);
+				r.bend(0.6f);
 			}
 			return;
 		}
 		if (!avoidObstacle && r.crashedIntoWall()) {
-			r.backwardBlocking(50, 200);
+			System.out.println("getting back");
+			r.backwardBlocking(50, 1000);
+			r.halt();
+			System.out.println("Rotating left");
 			r.rotate(-90);
 			avoidObstacle = true;
 			wallFollower.init(r);
@@ -61,7 +71,7 @@ public class LineFollowBehaviour implements RobotBehaviour {
 			//line found again
 			r.halt();
 			r.rotate(180);
-			r.forward(50);
+			r.forward(LINE_FOLLOW_SPEED);
 			r.bend(0.6f);
 			lineSearching = false;
 		} else if (!lineSearching && isOffLine()) {
