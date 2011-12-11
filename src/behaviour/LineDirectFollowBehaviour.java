@@ -1,6 +1,7 @@
 package behaviour;
 
 import helper.Eieruhr;
+import helper.H;
 import lejos.nxt.LightSensor;
 import basis.Config;
 import basis.RobotState;
@@ -15,7 +16,7 @@ import basis.SensorArm.POSITION;
  * @author Jupiter
  *
  */
-public class LineDirectFollowBehaviour {
+public class LineDirectFollowBehaviour implements RobotBehaviour {
 	
 	private SensorArm arm;
 	private RobotState robot;
@@ -24,41 +25,42 @@ public class LineDirectFollowBehaviour {
 	private boolean armMovingRight;
 	
 	private final int MAX_AUSLENKUNG = POSITION.FRONT.getValue();
-	private final int MIN_AUSLENKUNG = POSITION.LEFT.getValue();
+	private final int MIN_AUSLENKUNG = POSITION.RIGHT.getValue();
 	private boolean searching = true;
 	
-	public LineDirectFollowBehaviour() {
-		
-	}
+	public LineDirectFollowBehaviour() {}
 	
 	public void init(RobotState r) {
-		robot = r;
-		robot.forward(50);		
+		robot = r;		
 		arm = robot.getSensorArm();
 		arm.setPosition(POSITION.LEFT, false);
-		search();
+		missLine();
 	}
-	
-	//TODO was bei maximalauslenkung
 	
 	public void update(RobotState r) {
-		if (!memory.isFinished() && !searching) {
-			follow();
-		} else {
-			search();
-		};
-	}
-	
-	private void follow() {
-		if ( onLine != isLine() ) {
-			adjustPath();
-			toggleArmDirection();
+		boolean finished = false;
+//		robot.forward(50);
+		while (!finished) {
+			if ( !arm.isMoving() ) toggleArmDirection();
+			H.p("lenk:", this.getRelativePosition());
+			H.sleep(500);
+//			if ( !memory.isFinished() ) 
+//				if ( onLine != isLine() ) {
+//					adjustPath();
+//					toggleArmDirection();
+//				}
+//			else {
+//				missLine();
+//			};
 		}
 	}
 	
-	private void search() {
-		//TODO implement
-		searching = false;
+	private void missLine() {
+		robot.halt();
+		robot.backward(50);
+		while ( !isLine() ) {}
+		memory.reset();
+		// TODO erweitern
 	}
 	
 	private void toggleArmDirection() {
