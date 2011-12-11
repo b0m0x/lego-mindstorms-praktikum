@@ -258,9 +258,6 @@ public class RobotState {
 		return bumpSensor.isPressed();
 	}
 	
-	public boolean crashedIntoRWall() {
-		return wallSensor.isPressed();
-	}
 	/**
 	 * main update loop, call often!
 	 */
