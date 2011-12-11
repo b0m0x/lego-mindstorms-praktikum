@@ -3,6 +3,7 @@ package basis;
 import behaviour.BridgeBehaviour;
 import behaviour.EndBossBehaviour;
 import behaviour.GateBehaviour;
+import behaviour.HangingBridgeBehaviour;
 import behaviour.LabyrinthBehaviour;
 import behaviour.LineFollowBehaviour;
 import behaviour.RobotBehaviour;
@@ -54,7 +55,7 @@ public final class Config {
 		new LineFollowBehaviour(),
 		new GateBehaviour(),
 		new XMASSearchBehaviour(),
-		new BridgeBehaviour(),
+		new HangingBridgeBehaviour(),
 		new LineFollowBehaviour(),
 		new WallFollowBehaviour(10),
 		new LineFollowBehaviour(),
