@@ -95,8 +95,9 @@ public class Engine {
 		int right_speed = (int) Math.abs(speed * (1f - e) + damping_factor);
 		
 		//resetTacho();
-		RIGHT.setSpeed(right_speed);
-		LEFT.setSpeed(left_speed);
+		
+		RIGHT.setSpeed( Math.min(right_speed, MAX_SPEED) );
+		LEFT.setSpeed( Math.min(left_speed, MAX_SPEED) ); 
 		//RIGHT.backward();
 		//LEFT.forward();
 	}

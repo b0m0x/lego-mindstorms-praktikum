@@ -28,6 +28,7 @@ public class LineDirectFollowBehaviour {
 	private boolean searching = true;
 	
 	public LineDirectFollowBehaviour() {
+		
 	}
 	
 	public void init(RobotState r) {
