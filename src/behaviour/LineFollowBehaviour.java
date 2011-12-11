@@ -1,6 +1,6 @@
 package behaviour;
 import basis.RobotState;
-import basis.SensorArm.SensorArmPosition;
+import basis.SensorArm.POSITION;
 
 
 public class LineFollowBehaviour implements RobotBehaviour {
@@ -20,7 +20,7 @@ public class LineFollowBehaviour implements RobotBehaviour {
 	}
 	
 	public void init(RobotState r) {
-		r.setSensorArmPosition(SensorArmPosition.LINE_FOLLOW);		
+		r.setSensorArmPosition(POSITION.LINE_FOLLOW);		
 		this.r = r;
 		r.forward(50);
 	}

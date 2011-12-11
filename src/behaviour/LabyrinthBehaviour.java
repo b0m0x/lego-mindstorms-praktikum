@@ -3,7 +3,7 @@ package behaviour;
 
 import lejos.nxt.Sound;
 import basis.RobotState;
-import basis.SensorArm.SensorArmPosition;
+import basis.SensorArm.POSITION;
 import behaviour.RobotBehaviour;
 import helper.*;
 
@@ -130,11 +130,11 @@ public class LabyrinthBehaviour implements RobotBehaviour {
 	}
 	
 	private void setArmPos(POSITIONS pos) {
-		SensorArmPosition sap = 
+		POSITION position = 
 				pos == POSITIONS.front ? 
-				SensorArmPosition.FRONT : SensorArmPosition.RIGHT;
+				POSITION.FRONT : POSITION.RIGHT;
 		
-		robot.setSensorArmPosition(sap);
+		robot.setSensorArmPosition(position);
 		armPos = pos;
 	}
 	

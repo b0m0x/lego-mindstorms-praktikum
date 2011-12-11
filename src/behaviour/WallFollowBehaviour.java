@@ -1,7 +1,7 @@
 package behaviour;
 
 import basis.RobotState;
-import basis.SensorArm.SensorArmPosition;
+import basis.SensorArm.POSITION;
 
 public class WallFollowBehaviour implements RobotBehaviour {
 	private final int WALL_DISTANCE;
@@ -11,7 +11,7 @@ public class WallFollowBehaviour implements RobotBehaviour {
 	}
 	
 	public void init(RobotState r) {
-		r.setSensorArmPosition(SensorArmPosition.LABYRINTH);
+		r.setSensorArmPosition(POSITION.RIGHT);
 		r.forward(50);
 	}
 
