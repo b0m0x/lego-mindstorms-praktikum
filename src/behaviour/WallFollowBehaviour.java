@@ -22,21 +22,32 @@ public class WallFollowBehaviour implements RobotBehaviour {
 	public void update(RobotState r) {
 		if ( robot.crashedIntoWall() ) {
 			wallContact();
+		}
+		else if (robot.crashedIntoRWall()) {
+			wallRContact();
+			
 		} else {
 			follow();
 		}
 	}
 	
+	private void wallRContact() {
+		robot.halt();
+		robot.rotate(-30);
+		robot.halt();
+		robot.forward(NORMAL_SPEED);
+	}
+
 	private void follow() {
 		int dist = robot.getUltraSonic();
 		H.p("dist:", dist);
 		if (dist == 255) {
-<<<<<<< HEAD
+
 			robot.bend(0.5f);
 		} else {
 			float strength = Math.min(Math.max((dist - WALL_DISTANCE) / 30.f, -1f), 1f);		
 			robot.bend(strength);
-=======
+
 			/*
 			r.forwardBlocking(50, 500);
 			r.halt();
@@ -45,9 +56,9 @@ public class WallFollowBehaviour implements RobotBehaviour {
 			r.halt();
 			r.getUltraSonic();
 			r.forward(50);*/
-			r.bend(0.5f);
+			//r.bend(0.5f);
 			return;
->>>>>>> master
+
 		}
 	}
 	
