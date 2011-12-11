@@ -82,7 +82,7 @@ public class RobotState {
 	 * remove all behaviours
 	 * @param behaviour
 	 */
-	public void clearBehaviour(RobotBehaviour behaviour) {
+	public void clearBehaviours() {
 		behaviours.clear();
 	}
 	
