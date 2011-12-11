@@ -195,8 +195,8 @@ public class Engine {
 	}
 
 	public void rotateNonBlocking() {
-		LEFT.setSpeed(400);
-		RIGHT.setSpeed(400);
+		LEFT.setSpeed(200);
+		RIGHT.setSpeed(200);
 		LEFT.backward();
 		RIGHT.forward();
 	}
