@@ -193,4 +193,11 @@ public class Engine {
 		}
 		//if ( isMoving() );
 	}
+
+	public void rotateNonBlocking() {
+		LEFT.setSpeed(400);
+		RIGHT.setSpeed(400);
+		LEFT.backward();
+		RIGHT.forward();
+	}
 }
