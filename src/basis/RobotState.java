@@ -16,9 +16,6 @@ import lejos.nxt.UltrasonicSensor;
 
 
 public class RobotState {
-	private final static SensorPort ULTRASONIC_PORT = SensorPort.S1;
-	private final static SensorPort LIGHTSENSOR_PORT = SensorPort.S2;
-	private final static SensorPort BUMPSENSOR_PORT = SensorPort.S3;
 	
 	private static RobotState instance;
 	
@@ -34,9 +31,9 @@ public class RobotState {
 	
 	
 	private RobotState() {
-		usSensor = new UltrasonicSensor(ULTRASONIC_PORT);
-		lightSensor = new LightSensor(LIGHTSENSOR_PORT);
-		bumpSensor = new TouchSensor(BUMPSENSOR_PORT);
+		usSensor = new UltrasonicSensor(Config.ULTRASONIC_PORT);
+		lightSensor = new LightSensor(Config.LIGHTSENSOR_PORT);
+		bumpSensor = new TouchSensor(Config.BUMPSENSOR_PORT);
 		
 		lastUsSample = new SensorSample(usSensor.getDistance());
 		lastLightSensorSample = new SensorSample(lightSensor.getLightValue());
@@ -232,6 +229,19 @@ public class RobotState {
 	}
 	
 	/**
+	 * set the rotation of the sensor arm
+	 * @param p [0..1]
+	 */
+	public void setSensorArmPosition(float p) {
+		sArm.setPosition(p, true);
+	}
+	
+	public float getArmPositionFloat() {
+		return sArm.getPositionFloat();
+	}
+	
+	
+	/**
 	 * returns true if the sensor arm is currently moving
 	 * @return
 	 */
@@ -263,6 +273,8 @@ public class RobotState {
 		backward(speed);
 		while (!conrner_uhr.isFinished()) {}		
 	}
-
 	
+	public SensorArm getSensorArm() {
+		return sArm;
+	}
 }
