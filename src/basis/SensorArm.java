@@ -30,7 +30,7 @@ public class SensorArm {
 		rotating = false;
 		rotateAngle = 0;
 		//SENSOR_MOTOR.resetTachoCount();
-		recalibrate();
+		//recalibrate();
 		SENSOR_MOTOR.setSpeed(100);
 	}
 	
@@ -101,7 +101,7 @@ public class SensorArm {
 		SENSOR_MOTOR.setSpeed( SENSOR_MOTOR.getMaxSpeed() );
 		SENSOR_MOTOR.forward();
 
-		while (!SENSOR_MOTOR.isStalled() && SENSOR_MOTOR.isMoving()) {}
+		while ( !SENSOR_MOTOR.isStalled() && SENSOR_MOTOR.isMoving() ) {}
 		SENSOR_MOTOR.stop();
 		SENSOR_MOTOR.resetTachoCount();
 		
