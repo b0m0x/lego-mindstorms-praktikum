@@ -23,6 +23,7 @@ public class RobotState {
 	private UltrasonicSensor usSensor;
 	private LightSensor lightSensor;
 	private TouchSensor bumpSensor;
+	private TouchSensor wallSensor;
 	private SensorSample lastUsSample;
 	private SensorSample lastLightSensorSample;
 	
@@ -34,6 +35,7 @@ public class RobotState {
 		usSensor = new UltrasonicSensor(Config.ULTRASONIC_PORT);
 		lightSensor = new LightSensor(Config.LIGHTSENSOR_PORT);
 		bumpSensor = new TouchSensor(Config.BUMPSENSOR_PORT);
+		wallSensor = new TouchSensor(Config.WALLSENSOR_PORT);
 		
 		lastUsSample = new SensorSample(usSensor.getDistance());
 		lastLightSensorSample = new SensorSample(lightSensor.getLightValue());
@@ -142,13 +144,6 @@ public class RobotState {
 		forward(speed);
 		while (!conrner_uhr.isFinished()) {}
 	}
-	
-	public void backwardBlocking(int speed, int duration) {
-		Eieruhr conrner_uhr = new Eieruhr(duration);
-		backward(speed);
-		while (!conrner_uhr.isFinished()) {}
-	}
-	
 	/**
 	 * drive backwards
 	 * @param speed speed
@@ -263,6 +258,9 @@ public class RobotState {
 		return bumpSensor.isPressed();
 	}
 	
+	public boolean crashedIntoRWall() {
+		return wallSensor.isPressed();
+	}
 	/**
 	 * main update loop, call often!
 	 */
