@@ -281,4 +281,12 @@ public class RobotState {
 	public SensorArm getSensorArm() {
 		return sArm;
 	}
+
+	/** Rotates the robot counterclockwise 
+	 *  nonblocking
+	 */
+	public void rotateNonBlocking() {
+		engine.rotateNonBlocking();
+		
+	}
 }

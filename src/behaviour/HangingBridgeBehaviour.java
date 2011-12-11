@@ -16,7 +16,7 @@ public class HangingBridgeBehaviour implements RobotBehaviour {
 		if (!isOnTop && r.getUltraSonic() == 255) {
 			isOnTop = true;
 			r.halt();
-			r.forward(60);
+			r.forward(100);
 		}
 		if (!isOnTop) {
 			wallFollower.update(r);

@@ -1,15 +1,8 @@
 package basis;
 
-import behaviour.BridgeBehaviour;
-import behaviour.EndBossBehaviour;
-import behaviour.GateBehaviour;
-import behaviour.LabyrinthBehaviour;
 import behaviour.LevelChangeBehaviour;
 import behaviour.LineFollowBehaviour;
 import behaviour.RobotBehaviour;
-import behaviour.TurnTableBehaviour;
-import behaviour.WallFollowBehaviour;
-import behaviour.XMASSearchBehaviour;
 import lejos.util.TextMenu;
 
 public class FreddyMain {
