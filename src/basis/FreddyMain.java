@@ -1,7 +1,5 @@
 package basis;
 
-import behaviour.LevelChangeBehaviour;
-import behaviour.LineFollowBehaviour;
 import behaviour.RobotBehaviour;
 import lejos.util.TextMenu;
 

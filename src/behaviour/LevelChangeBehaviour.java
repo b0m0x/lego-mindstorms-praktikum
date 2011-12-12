@@ -54,6 +54,7 @@ public class LevelChangeBehaviour implements RobotBehaviour {
 		}
 		//get back
 		r.backwardBlocking(30, 500);
+		r.forward(50);
 		return false;
 	}
 

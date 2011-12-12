@@ -7,6 +7,7 @@ import behaviour.HangingBridgeBehaviour;
 import behaviour.LabyrinthBehaviour;
 import behaviour.LevelChangeBehaviour;
 import behaviour.LineFollowBehaviour;
+import behaviour.MultiBotBehaviour;
 import behaviour.RobotBehaviour;
 import behaviour.TurnTableBehaviour;
 import behaviour.WallFollowBehaviour;
@@ -33,35 +34,35 @@ public final class Config {
 		"Labyrinth",
 		"Hill",
 		"Line", 
-		"Hanging Bridge",
+		"Rolls",		
 		"line2",
 		"Gate",
 		"XMAS Seach",
 		"Bridge",
 		"Line3",
-		"Rolls",
+		"Hanging Bridge",
 		"Line4",
 		"Gate",
 		"Line5",
 		"TurnTable",
 		"Endboss"			
 	};
-
+	private static RobotBehaviour levelChanger = new LevelChangeBehaviour();
 	public final static RobotBehaviour[][] behaviours = {
-		{ new WallFollowBehaviour(10), new LevelChangeBehaviour()},
-		{ new WallFollowBehaviour(10), new LevelChangeBehaviour()},
+		{ new WallFollowBehaviour(10), levelChanger},
+		{ new WallFollowBehaviour(20), levelChanger},
 		{ new LineFollowBehaviour() },
-		{ new HangingBridgeBehaviour(), new LevelChangeBehaviour()},
-		{ new LineFollowBehaviour(), new MultiBotBehaviour()},
-		{ new GateBehaviour(), new LevelChangeBehaviour() },
-		{ new XMASSearchBehaviour(), new LevelChangeBehaviour() },
-		{ new BridgeBehaviour(), new LevelChangeBehaviour() },
-		{ new LineFollowBehaviour(), new MultiBotBehaviour() },
-		{ new WallFollowBehaviour(10), new LevelChangeBehaviour() },
-		{ new LineFollowBehaviour(), new MultiBotBehaviour() },
-		{ new GateBehaviour(), new LevelChangeBehaviour() },
-		{ new LineFollowBehaviour(), new MultiBotBehaviour() },
-		{ new TurnTableBehaviour(), new LevelChangeBehaviour() },
+		{ new WallFollowBehaviour(10), levelChanger },
+		{ new LineFollowBehaviour(), new MultiBotBehaviour(3)},
+		{ new GateBehaviour(), levelChanger },
+		{ new XMASSearchBehaviour(), levelChanger },
+		{ new BridgeBehaviour(), levelChanger },
+		{ new LineFollowBehaviour(), new MultiBotBehaviour(3) },
+		{ new HangingBridgeBehaviour(), levelChanger},
+		{ new LineFollowBehaviour(), new MultiBotBehaviour(3) },
+		{ new GateBehaviour(), levelChanger },
+		{ new LineFollowBehaviour(), new MultiBotBehaviour(3) },
+		{ new TurnTableBehaviour(), levelChanger },
 		{ new EndBossBehaviour() }
 	};
 	public static int currentBehaviour = 0;
