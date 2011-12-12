@@ -22,11 +22,14 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	private SensorArm arm;
 	private RobotState robot;
 	private boolean onLine = false;
-	private Eieruhr memory = new Eieruhr(1000);
+	private Eieruhr memory = new Eieruhr(2000);
 	private boolean armMovingRight;
 	private final int MIN = -180; // right
 	private final int MAX = -5; // left
 	private boolean searching = true;
+	
+	private final int MAX_SPEED = 30;
+	private final int MIN_SPEED = 20;
 	
 	public LineDirectFollowBehaviour() {}
 	
@@ -35,37 +38,33 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 		arm = robot.getSensorArm();
 		//missLine();
 		Config.SENSOR_MOTOR.resetTachoCount();
-		Config.SENSOR_MOTOR.setSpeed( 200 );
+		Config.SENSOR_MOTOR.setSpeed( 500 );
 		Config.SENSOR_MOTOR.forward();
 		H.p(Config.SENSOR_MOTOR.getMaxSpeed());
 	}
 	
 	public void update(RobotState r) {
 		boolean finished = false;
-		robot.forward(15);
+		robot.forward(MIN_SPEED);
 		while (!finished) {
 			armSchwenkung();
-			H.sleep(100);
-			
-			memory.reset(); // TODO
-			// !memory.isFinished()
-			if ( true ) {
+			if ( true || !memory.isFinished() ) {
 				if ( onLine != isLine() ) {
 					adjustPath();
 					toggleArmDirection();
 				};
 			} else {
-				//missLine();
-				Sound.buzz();
+				missLine();
 			};
 		}
 	}
 	
 	private void missLine() {
-		robot.halt();
-		robot.backward(50);
-		while ( !isLine() ) {}
-		memory.reset();
+		Sound.beep();
+//		robot.halt();
+//		robot.backward(50);
+//		while ( !isLine() ) {}
+//		memory.reset();
 		// TODO erweitern
 	}
 	
@@ -79,6 +78,7 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 		}
 	}
 	
+	private int schwenk_counter = 0;
 	
 	/**
 	 * €ndert die Bewegungsrichtung des Armes, falls dieser seinen Bewegungsspielraum Ÿberschreitet.
@@ -86,12 +86,16 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	 */
 	private void armSchwenkung() {
 		int tacho = Config.SENSOR_MOTOR.getTachoCount();
-		if (tacho <= MIN) {
+		int add = schwenk_counter < 3 ? 50 : 0;
+		H.p(schwenk_counter, add);
+		if (tacho <= MIN +add) {
 			Config.SENSOR_MOTOR.forward();
 			armMovingRight = false;
-		} else if(tacho >= MAX) {
+			schwenk_counter++;
+		} else if(tacho >= MAX -add) {
 			Config.SENSOR_MOTOR.backward();
 			armMovingRight = true;
+			schwenk_counter++;
 		}
 	}
 	
@@ -99,17 +103,12 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	 * Hier wird die Bewegungsrichtung des Roboters dem Verlauf der Linie angepasst
 	 */
 	private void adjustPath() {
-		float ungenauigkeit = 0.0f;
-		
 		float rpos = getRelativeArmPosition();
-		H.p("#", rpos);
 		float middle = 0.55f;
-		if (rpos > middle + ungenauigkeit) {
-			robot.bend(-0.7f); //right
-		} if (rpos < middle - ungenauigkeit) {
-			robot.bend(0.7f); //left
-		} else {
-			robot.bend(0);
+		if (rpos < middle) {
+			robot.bend(-0.45f); //left
+		} if (rpos > middle) {
+			robot.bend(0.6f); //right
 		}
 	}
 	
@@ -129,6 +128,7 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 		if (color >= Config.COLOR_BRIGHT) {
 			memory.reset();
 			this.onLine = true;
+			schwenk_counter = 0;
 			return true;
 		} else {
 			this.onLine = false;

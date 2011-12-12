@@ -13,18 +13,17 @@ public class XMASSearchBehaviour implements RobotBehaviour {
 		wallFollower.init(r);
 		searchForXMas = false;
 		this.r = r;
-		
 	}
 
 	public void update(RobotState r) {
 		if (r.crashedIntoWall()) {
 			searchForXMas = !searchForXMas;
 			if (!searchForXMas) {
-				r.backwardBlocking(50, 400);
+				r.backwardBlocking(50, 1000);
 				turnSideToWall();
 				r.forward(50);
 			} else {
-				r.rotate(-110 - (int) (Math.random() * 60));
+				r.rotate(-120 - (int) (Math.random() * 50));
 				r.forward(100);
 			}
 		}

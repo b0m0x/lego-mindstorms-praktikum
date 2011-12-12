@@ -13,7 +13,8 @@ public class HangingBridgeBehaviour implements RobotBehaviour {
 	}
 
 	public void update(RobotState r) {
-		if (!isOnTop && r.getUltraSonic() == 255) {
+		int dist = r.getUltraSonic();
+		if (!isOnTop && dist == 255) {
 			isOnTop = true;
 			r.halt();
 			r.forward(100);
@@ -21,7 +22,7 @@ public class HangingBridgeBehaviour implements RobotBehaviour {
 		if (!isOnTop) {
 			wallFollower.update(r);
 		}
-		if (isOnTop && r.getUltraSonic() != 255) { //angekommen
+		if (isOnTop && dist != 255) { //angekommen
 			isOnTop = false;
 		}		
 	}

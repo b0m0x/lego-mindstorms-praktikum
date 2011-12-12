@@ -6,8 +6,8 @@ import basis.SensorArm.POSITION;
 public class BridgeBehaviour implements RobotBehaviour {
 	private static final int BRIDGE_SPEED = 30;
 	
-	private static final int COLOR_BRIDGE = 31;
-	private static final int COLOR_OFFTRACK = 25;
+	private static final int COLOR_BRIDGE = 37;
+	private static final int COLOR_OFFTRACK = 30;
 	
 	private boolean isOnEdge;
 	
