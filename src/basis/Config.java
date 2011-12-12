@@ -24,8 +24,8 @@ public final class Config {
 	public final static NXTRegulatedMotor LEFT_MOTOR = Motor.C;
 	public final static NXTRegulatedMotor RIGHT_MOTOR = Motor.A;
 	
-	public final static SensorPort ULTRASONIC_PORT = SensorPort.S1;
-	public final static SensorPort LIGHTSENSOR_PORT = SensorPort.S2;
+	public final static SensorPort ULTRASONIC_PORT = SensorPort.S2;
+	public final static SensorPort LIGHTSENSOR_PORT = SensorPort.S1;
 	public final static SensorPort BUMPSENSOR_PORT = SensorPort.S4;
 	
 	
