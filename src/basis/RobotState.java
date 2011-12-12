@@ -1,6 +1,7 @@
 package basis;
 import helper.Eieruhr;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import lejos.nxt.ButtonListener;
 import lejos.nxt.LCD;
 import lejos.nxt.LightSensor;
 import lejos.nxt.SensorPort;
+import lejos.nxt.Sound;
 import lejos.nxt.TouchSensor;
 import lejos.nxt.UltrasonicSensor;
 
@@ -65,6 +67,7 @@ public class RobotState {
 		for (RobotBehaviour r : behaviours) {
 			r.init(this);
 		}
+		Sound.playSample(new File("r2d2wst3.wav"));
 	}
 	
 	/**
