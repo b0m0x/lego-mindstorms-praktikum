@@ -1,8 +1,11 @@
-package basis;
+package behaviour;
+
+import basis.RobotState;
+
 /*
  * class of actions for handling with other bots
  */
-public class MultiBotStrategy {
+public class MultiBotBehaviour implements RobotBehaviour {
 	
 	private boolean botCheck =  false;
 	public boolean crashedIntoBot = false;
@@ -11,7 +14,8 @@ public class MultiBotStrategy {
 	STRATEGY strategy;
 	 
 	
-	public MultiBotStrategy() {
+	public MultiBotBehaviour(int strategy) {
+		this.setStrategy(strategy);
 	}
 	
 	public void setCrashedIntoBot() {
@@ -28,6 +32,10 @@ public class MultiBotStrategy {
 	 * @param r
 	 */
 	public void policy(RobotState r) {
+	
+	if (r.crashedIntoWall()) {
+		this.setCrashedIntoBot();
+	}
 	
 	if (crashedIntoBot) {
 		r.halt();
@@ -63,12 +71,24 @@ public class MultiBotStrategy {
 		}
 	}
 	//1 is defensive, 2 is Aggressive and 3 is Cautious
-	public void setStrategy(int strategy) {
+	private void setStrategy(int strategy) {
 		switch(strategy) {
 		case(1): this.strategy = STRATEGY.Defense; break;
 		case(2): this.strategy = STRATEGY.Aggressive; break;
 		case(3): this.strategy = STRATEGY.Cautious; break;
 		}
+	}
+
+	public void init(RobotState r) {
+		this.crashedIntoBot = false;
+		r.forward(30);
+		
+	}
+
+	public void update(RobotState r) {
+		policy(r);
+		this.crashedIntoBot = false;
+		
 	}
 	
 }
