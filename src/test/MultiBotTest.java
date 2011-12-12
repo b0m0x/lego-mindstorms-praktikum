@@ -3,7 +3,7 @@ package test;
 import lejos.nxt.Button;
 import basis.*;
 import behaviour.MultiBotBehaviour;
-import behaviour.MultiBotTestBehaviour;
+
 
 public class MultiBotTest {
 	
