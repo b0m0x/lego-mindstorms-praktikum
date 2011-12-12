@@ -37,7 +37,7 @@ public class WallFollowBehaviour implements RobotBehaviour {
 		if (dist == 255) {
 			robot.bend(0.5f);
 		} else {
-			float strength = Math.min(Math.max((dist - WALL_DISTANCE) / 30.f, -0.5f), 0.5f);		
+			float strength = Math.min(Math.max((dist - WALL_DISTANCE) / 30.f, -0.5f), 0.5f) / 1.2f;		
 			robot.bend(strength);
 		}
 		lastDist = dist;

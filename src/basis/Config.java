@@ -33,6 +33,7 @@ public final class Config {
 	public final static String[] menuItems = {
 		"Labyrinth",
 		"Hill",
+		"Labyrinth",
 		"Line", 
 		"Rolls",		
 		"line2",
@@ -51,6 +52,7 @@ public final class Config {
 	public final static RobotBehaviour[][] behaviours = {
 		{ new WallFollowBehaviour(10), levelChanger},
 		{ new WallFollowBehaviour(20), levelChanger},
+		{ new WallFollowBehaviour(10), levelChanger},
 		{ new LineFollowBehaviour() },
 		{ new WallFollowBehaviour(10), levelChanger },
 		{ new LineFollowBehaviour(), new MultiBotBehaviour(3)},
