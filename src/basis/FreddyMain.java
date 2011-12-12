@@ -1,6 +1,7 @@
 package basis;
 
 import behaviour.RobotBehaviour;
+import lejos.nxt.comm.RConsole;
 import lejos.util.TextMenu;
 
 public class FreddyMain {

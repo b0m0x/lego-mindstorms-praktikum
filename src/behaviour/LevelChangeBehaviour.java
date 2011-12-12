@@ -69,5 +69,6 @@ public class LevelChangeBehaviour implements RobotBehaviour {
 			r.addBehaviour(newBehaviour);
 		}
 		System.out.println("Levelchange to " + Config.menuItems[Config.currentBehaviour]);
+		r.init();
 	}
 }

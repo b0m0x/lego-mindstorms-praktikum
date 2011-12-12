@@ -5,7 +5,6 @@ import behaviour.BumpOffWallAndRotateBehaviour;
 import behaviour.EndBossBehaviour;
 import behaviour.GateBehaviour;
 import behaviour.HangingBridgeBehaviour;
-import behaviour.LabyrinthBehaviour;
 import behaviour.LevelChangeBehaviour;
 import behaviour.LineFollowBehaviour;
 import behaviour.MultiBotBehaviour;
