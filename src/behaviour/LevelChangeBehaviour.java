@@ -28,6 +28,7 @@ public class LevelChangeBehaviour implements RobotBehaviour {
 					//the others are 2
 					changeToNextLevel(r);
 				}
+				lastCodeSeen = System.currentTimeMillis();
 			}
 			if (codeLock && value <= COLOR_GROUND) {
 				codeLock = false;
@@ -68,7 +69,5 @@ public class LevelChangeBehaviour implements RobotBehaviour {
 			r.addBehaviour(newBehaviour);
 		}
 		System.out.println("Levelchange to " + Config.menuItems[Config.currentBehaviour]);
-		
-		r.init();
 	}
 }

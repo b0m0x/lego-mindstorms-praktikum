@@ -2,6 +2,7 @@ package behaviour;
 
 import helper.Eieruhr;
 import helper.H;
+import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.Sound;
 import basis.Config;
 import basis.RobotState;
@@ -17,7 +18,6 @@ import basis.SensorArm;
  */
 public class LineDirectFollowBehaviour implements RobotBehaviour {
 	
-	private SensorArm arm;
 	private RobotState robot;
 	private boolean onLine = false;
 	private Eieruhr memory = new Eieruhr(2000);
@@ -28,38 +28,70 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	
 	private final int MAX_SPEED = 30;
 	private final int MIN_SPEED = 25;
+	private final NXTRegulatedMotor ARM = Config.SENSOR_MOTOR;
 	
 	public LineDirectFollowBehaviour() {}
 	
 	public void init(RobotState r) {
 		robot = r;		
-		arm = robot.getSensorArm();
 		//missLine();
-		Config.SENSOR_MOTOR.resetTachoCount();
-		Config.SENSOR_MOTOR.setSpeed( 500 );
-		Config.SENSOR_MOTOR.forward();
-		H.p(Config.SENSOR_MOTOR.getMaxSpeed());
+		ARM.resetTachoCount();
+		ARM.setSpeed( 500 );
+		ARM.forward();
 	}
+	
+	
+	private int motorDirection = 0;
 	
 	public void update(RobotState r) {
 		boolean finished = false;
 		robot.forward(MIN_SPEED);
 		while (!finished) {
 			armSchwenkung();
-			if ( true || !memory.isFinished() ) {
-				boolean lokalOnLine = onLine;
-				boolean isLine = isLine();
-				if ( lokalOnLine != isLine) {
+			if ( !memory.isFinished() || isLine() ) {
+//				boolean lokalOnLine = onLine;
+//				boolean isLine = isLine();
+//				if ( lokalOnLine != isLine) {
+//					adjustPath();
+//					//if (!(isLine && armMovingRight)) 
+//					toggleArmDirection();
+//				};
+				if ( isLine() ) {
+					noLineLevel = 0;
 					adjustPath();
-					//if (!(isLine && armMovingRight)) 
-					toggleArmDirection();
-				};
+					ARM.stop();
+					motorDirection = 0;
+				} else {
+					littleSearch();
+				}
 			} else {
 				missLine();
 			};
 		}
 	}
 	
+	private int noLineLevel = 0;
+	private Eieruhr noLineTimeout = new Eieruhr(120);
+	
+	private void littleSearch() {
+		if (!noLineTimeout.isFinished()) return;
+		
+		switch (motorDirection) {
+		case 0:
+			ARM.forward();
+			motorDirection = -1;
+			noLineTimeout.reset();
+			break;
+		case -1:
+			ARM.backward();
+			motorDirection = 1;
+			noLineTimeout.reset();
+			break;
+		case 1:
+			//
+		}
+	}
+
 	private void missLine() {
 		Sound.beep();
 //		robot.halt();
@@ -71,10 +103,10 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	
 	private void toggleArmDirection() {
 		if (armMovingRight) {
-			Config.SENSOR_MOTOR.forward();
+			ARM.forward();
 			armMovingRight = false;
 		} else {
-			Config.SENSOR_MOTOR.backward();
+			ARM.backward();
 			armMovingRight = true;
 		}
 	}
@@ -85,12 +117,12 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	 * Diese Funktion sorgt für das allgemeine Wedeln des Armes.
 	 */
 	private void armSchwenkung() {
-		int tacho = Config.SENSOR_MOTOR.getTachoCount();
+		int tacho = ARM.getTachoCount();
 		if (tacho <= MIN) {
-			Config.SENSOR_MOTOR.forward();
+			ARM.forward();
 			armMovingRight = false;
 		} else if(tacho >= MAX) {
-			Config.SENSOR_MOTOR.backward();
+			ARM.backward();
 			armMovingRight = true;
 		}
 	}
@@ -113,7 +145,7 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	 * @return Armposition [0..1]
 	 */
 	private float getRelativeArmPosition() {
-		return (Config.SENSOR_MOTOR.getTachoCount() - MAX) / (float)(MIN - MAX);
+		return (ARM.getTachoCount() - MAX) / (float)(MIN - MAX);
 	}
 	
 	/**
