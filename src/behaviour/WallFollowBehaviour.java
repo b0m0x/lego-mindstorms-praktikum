@@ -9,9 +9,9 @@ public class WallFollowBehaviour implements RobotBehaviour {
 	private RobotState robot;
 	private int lastDist;
 
+	
 	public WallFollowBehaviour(int distance) {
 		WALL_DISTANCE = distance;
-		lastDist = 256;
 	}
 	
 	public void init(RobotState r) {
@@ -30,6 +30,7 @@ public class WallFollowBehaviour implements RobotBehaviour {
 
 	private void follow() {
 		int dist = robot.getUltraSonic();
+
 		if (dist == lastDist) {
 			return;
 		}
