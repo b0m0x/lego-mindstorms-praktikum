@@ -1,6 +1,7 @@
 package basis;
 
 import behaviour.BridgeBehaviour;
+import behaviour.BumpOffWallAndRotateBehaviour;
 import behaviour.EndBossBehaviour;
 import behaviour.GateBehaviour;
 import behaviour.HangingBridgeBehaviour;
@@ -50,9 +51,9 @@ public final class Config {
 	};
 	private static RobotBehaviour levelChanger = new LevelChangeBehaviour();
 	public final static RobotBehaviour[][] behaviours = {
-		{ new WallFollowBehaviour(10), levelChanger},
+		{ new BumpOffWallAndRotateBehaviour(), new WallFollowBehaviour(10), levelChanger},
 		{ new WallFollowBehaviour(20), levelChanger},
-		{ new WallFollowBehaviour(10), levelChanger},
+		{ new BumpOffWallAndRotateBehaviour(), new WallFollowBehaviour(10), levelChanger},
 		{ new LineFollowBehaviour() },
 		{ new WallFollowBehaviour(10), levelChanger },
 		{ new LineFollowBehaviour(), new MultiBotBehaviour(3)},
