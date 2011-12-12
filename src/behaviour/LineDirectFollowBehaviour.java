@@ -42,10 +42,10 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	
 	public void update(RobotState r) {
 		boolean finished = false;
-		robot.forward(15);
+		robot.forward(20);
 		while (!finished) {
 			armSchwenkung();
-			H.sleep(100);
+			//H.sleep(100);
 			
 			memory.reset(); // TODO
 			// !memory.isFinished()
@@ -99,17 +99,19 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	 * Hier wird die Bewegungsrichtung des Roboters dem Verlauf der Linie angepasst
 	 */
 	private void adjustPath() {
-		float ungenauigkeit = 0.0f;
-		
 		float rpos = getRelativeArmPosition();
 		H.p("#", rpos);
+		int basis = 100;
+		int add = 50;
 		float middle = 0.55f;
-		if (rpos > middle + ungenauigkeit) {
-			robot.bend(-0.7f); //right
-		} if (rpos < middle - ungenauigkeit) {
-			robot.bend(0.7f); //left
+		if (rpos < middle) {
+			//Sound.beep();
+			robot.bend(-0.4f); //left
+		} if (rpos > middle) {
+			//Sound.buzz();
+			robot.bend(0.4f); //right
 		} else {
-			robot.bend(0);
+			//robot.bend(0);
 		}
 	}
 	
