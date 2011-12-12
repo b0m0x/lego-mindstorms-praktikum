@@ -288,4 +288,14 @@ public class RobotState {
 		engine.rotateNonBlocking();
 		
 	}
+	
+	public void changeToNextLevel() {
+		clearBehaviours();
+		Config.currentBehaviour++;
+		for (RobotBehaviour newBehaviour : Config.behaviours[Config.currentBehaviour]) {
+			addBehaviour(newBehaviour);
+		}
+		System.out.println("Levelchange to " + Config.menuItems[Config.currentBehaviour]);
+		init();
+	}
 }
