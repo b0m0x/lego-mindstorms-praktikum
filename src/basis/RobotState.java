@@ -35,7 +35,6 @@ public class RobotState {
 		usSensor = new UltrasonicSensor(Config.ULTRASONIC_PORT);
 		lightSensor = new LightSensor(Config.LIGHTSENSOR_PORT);
 		bumpSensor = new TouchSensor(Config.BUMPSENSOR_PORT);
-		wallSensor = new TouchSensor(Config.WALLSENSOR_PORT);
 		
 		lastUsSample = new SensorSample(usSensor.getDistance());
 		lastLightSensorSample = new SensorSample(lightSensor.getLightValue());
@@ -258,9 +257,6 @@ public class RobotState {
 		return bumpSensor.isPressed();
 	}
 	
-	public boolean crashedIntoRWall() {
-		return wallSensor.isPressed();
-	}
 	/**
 	 * main update loop, call often!
 	 */

@@ -1,6 +1,5 @@
 package behaviour;
 
-import basis.Config;
 import basis.RobotState;
 
 public class XMASSearchBehaviour implements RobotBehaviour {
