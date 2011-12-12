@@ -96,12 +96,7 @@ public class Engine {
 		
 		//resetTacho();
 		RIGHT.setSpeed( Math.min(right_speed, MAX_SPEED) );
-<<<<<<< HEAD
-		LEFT.setSpeed( Math.min(left_speed, MAX_SPEED) ); 
-
-=======
 		LEFT.setSpeed( Math.min(left_speed, MAX_SPEED) );
->>>>>>> 8ebfc6924ea4453c4b8e88ff5f7fdb2d454d38e4
 		//RIGHT.backward();
 		//LEFT.forward();
 	}

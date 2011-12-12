@@ -23,7 +23,7 @@ public class TurnTableBehaviour implements RobotBehaviour {
 			robot.rotate(180);
 			robot.backwardBlocking(100, 1000);
 			robot.halt();
-			H.sleep(2000);
+			H.sleep(3300);
 			robot.forwardBlocking(100, 1000);
 			fertig = true;
 		} else {
