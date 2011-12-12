@@ -10,6 +10,11 @@ public class FreddyMain {
 		RobotState r = RobotState.getInstance();
 		TextMenu menu = new TextMenu(Config.menuItems);
 		Config.currentBehaviour = menu.select();
+		//if User selects 0, bluetooth start
+		if(Config.currentBehaviour == 0) {
+			BTRaceStartClient btraceclient = new BTRaceStartClient();	 
+			btraceclient.enterLevel();
+		}
 		for (RobotBehaviour b : Config.behaviours[Config.currentBehaviour]) { 
 			r.addBehaviour(b);
 		}
