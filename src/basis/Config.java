@@ -5,6 +5,7 @@ import behaviour.EndBossBehaviour;
 import behaviour.GateBehaviour;
 import behaviour.HangingBridgeBehaviour;
 import behaviour.LabyrinthBehaviour;
+import behaviour.LevelChangeBehaviour;
 import behaviour.LineFollowBehaviour;
 import behaviour.RobotBehaviour;
 import behaviour.TurnTableBehaviour;
@@ -46,22 +47,22 @@ public final class Config {
 		"Endboss"			
 	};
 
-	public final static RobotBehaviour[] behaviours = {
-		new WallFollowBehaviour(10),
-		new WallFollowBehaviour(10),
-		new LineFollowBehaviour(),
-		new HangingBridgeBehaviour(),
-		new LineFollowBehaviour(),
-		new GateBehaviour(),
-		new XMASSearchBehaviour(),
-		new BridgeBehaviour(),
-		new LineFollowBehaviour(),
-		new WallFollowBehaviour(10),
-		new LineFollowBehaviour(),
-		new GateBehaviour(),
-		new LineFollowBehaviour(),
-		new TurnTableBehaviour(),
-		new EndBossBehaviour()
+	public final static RobotBehaviour[][] behaviours = {
+		{ new WallFollowBehaviour(10), new LevelChangeBehaviour()},
+		{ new WallFollowBehaviour(10), new LevelChangeBehaviour()},
+		{ new LineFollowBehaviour() },
+		{ new HangingBridgeBehaviour(), new LevelChangeBehaviour()},
+		{ new LineFollowBehaviour(), new MultiBotBehaviour()},
+		{ new GateBehaviour(), new LevelChangeBehaviour() },
+		{ new XMASSearchBehaviour(), new LevelChangeBehaviour() },
+		{ new BridgeBehaviour(), new LevelChangeBehaviour() },
+		{ new LineFollowBehaviour(), new MultiBotBehaviour() },
+		{ new WallFollowBehaviour(10), new LevelChangeBehaviour() },
+		{ new LineFollowBehaviour(), new MultiBotBehaviour() },
+		{ new GateBehaviour(), new LevelChangeBehaviour() },
+		{ new LineFollowBehaviour(), new MultiBotBehaviour() },
+		{ new TurnTableBehaviour(), new LevelChangeBehaviour() },
+		{ new EndBossBehaviour() }
 	};
 	public static int currentBehaviour = 0;
 }
