@@ -28,6 +28,9 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	private final int MAX = -5; // left
 	private boolean searching = true;
 	
+	private final int MAX_SPEED = 30;
+	private final int MIN_SPEED = 15;
+	
 	public LineDirectFollowBehaviour() {}
 	
 	public void init(RobotState r) {
@@ -35,37 +38,34 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 		arm = robot.getSensorArm();
 		//missLine();
 		Config.SENSOR_MOTOR.resetTachoCount();
-		Config.SENSOR_MOTOR.setSpeed( 200 );
+		Config.SENSOR_MOTOR.setSpeed( 500 );
 		Config.SENSOR_MOTOR.forward();
 		H.p(Config.SENSOR_MOTOR.getMaxSpeed());
 	}
 	
 	public void update(RobotState r) {
 		boolean finished = false;
-		robot.forward(20);
+		robot.forward(MIN_SPEED);
 		while (!finished) {
 			armSchwenkung();
-			//H.sleep(100);
 			
-			memory.reset(); // TODO
-			// !memory.isFinished()
-			if ( true ) {
+			if ( true || !memory.isFinished() ) {
 				if ( onLine != isLine() ) {
 					adjustPath();
 					toggleArmDirection();
 				};
 			} else {
-				//missLine();
-				Sound.buzz();
+				missLine();
 			};
 		}
 	}
 	
 	private void missLine() {
-		robot.halt();
-		robot.backward(50);
-		while ( !isLine() ) {}
-		memory.reset();
+		Sound.buzz();
+//		robot.halt();
+//		robot.backward(50);
+//		while ( !isLine() ) {}
+//		memory.reset();
 		// TODO erweitern
 	}
 	
@@ -100,18 +100,11 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	 */
 	private void adjustPath() {
 		float rpos = getRelativeArmPosition();
-		H.p("#", rpos);
-		int basis = 100;
-		int add = 50;
 		float middle = 0.55f;
 		if (rpos < middle) {
-			//Sound.beep();
 			robot.bend(-0.4f); //left
 		} if (rpos > middle) {
-			//Sound.buzz();
 			robot.bend(0.4f); //right
-		} else {
-			//robot.bend(0);
 		}
 	}
 	
