@@ -26,7 +26,6 @@ public class Engine {
 	public Engine() {
 		//LEFT.setAcceleration(8000);
 		//RIGHT.setAcceleration(8000);
-		lastBendCall = 0;
 	}
 	
 	/**

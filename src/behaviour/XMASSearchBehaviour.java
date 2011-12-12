@@ -20,7 +20,7 @@ public class XMASSearchBehaviour implements RobotBehaviour {
 		if (r.crashedIntoWall()) {
 			searchForXMas = !searchForXMas;
 			if (!searchForXMas) {
-				r.backwardBlocking(50, 400);
+				r.backwardBlocking(50, 1000);
 				turnSideToWall();
 				r.forward(50);
 			} else {
