@@ -21,7 +21,11 @@ public class LevelChangeBehaviour implements RobotBehaviour {
 		if (System.currentTimeMillis() > lastCodeSeen + DELAY) {
 			int value = r.getLightSensor();
 			if (value >= COLOR_CODE && !codeLock) {
-				if (checkFor2ndLine(r)) {
+				if (Config.currentBehaviour % 2 == 0) {
+					//every 2nd levelchang is only 1 line
+					changeToNextLevel(r);
+				} else if (checkFor2ndLine(r)) {
+					//the others are 2
 					changeToNextLevel(r);
 				}
 			}
@@ -44,13 +48,12 @@ public class LevelChangeBehaviour implements RobotBehaviour {
 				codeLock = false;
 			}
 			if (!codeLock && value >= COLOR_CODE) { //2nd Code found
-				changeToNextLevel(r);
 				codeLock = true;
 				return true;
 			}
 		}
 		//get back
-		r.backward(30, 500);
+		r.backwardBlocking(30, 500);
 		return false;
 	}
 
@@ -60,12 +63,11 @@ public class LevelChangeBehaviour implements RobotBehaviour {
 	private void changeToNextLevel(RobotState r) {
 		r.clearBehaviours();
 		Config.currentBehaviour++;
-		RobotBehaviour newBehaviour = Config.behaviours[Config.currentBehaviour];
-		System.out.println("Levelchange to " + Config.menuItems[Config.currentBehaviour]);
-		r.addBehaviour(newBehaviour);
-		r.init();
-		if (!(newBehaviour instanceof LineFollowBehaviour)) {
-			r.addBehaviour(this);
+		for (RobotBehaviour newBehaviour : Config.behaviours[Config.currentBehaviour]) {
+			r.addBehaviour(newBehaviour);
 		}
+		System.out.println("Levelchange to " + Config.menuItems[Config.currentBehaviour]);
+		
+		r.init();
 	}
 }
