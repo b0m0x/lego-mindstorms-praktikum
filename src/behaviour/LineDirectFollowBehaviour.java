@@ -6,7 +6,6 @@ import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.Sound;
 import basis.Config;
 import basis.RobotState;
-import basis.SensorArm;
 
 /**
  * Der Roboter Schwenkt mit seinem Arm von links nach rechts. Falls er die Linie sieht kehrt die
@@ -29,6 +28,8 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	private final int MAX_SPEED = 30;
 	private final int MIN_SPEED = 25;
 	private final NXTRegulatedMotor ARM = Config.SENSOR_MOTOR;
+	private boolean start = true;
+	private final float MIDDLE_ARM_POS = 0.55f;
 	
 	public LineDirectFollowBehaviour() {}
 	
@@ -36,31 +37,109 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 		robot = r;		
 		//missLine();
 		ARM.resetTachoCount();
-		ARM.setSpeed( 500 );
+		ARM.setSpeed( 300 );
 		ARM.forward();
 	}
 	
-	
-	private int motorDirection = 0;
+	private boolean offLine = false;
 	
 	public void update(RobotState r) {
+		armSchwenkung();
+		checkLine(); // onLine
+		
+		if ( start ) {
+			start(); 
+			return;
+		}
+		
+		if ( true || !memory.isFinished() || onLine ) {
+			if ( onLine ) {
+				offLine = false;
+				//robot.bend(0);
+			} else {
+				offLine = true;
+				boolean isLineRight = searchRight();
+				this.armToDefaultBlocking();
+				if (isLineRight) {
+					robot.bend(0.5f);
+				} else {
+					robot.bend(-0.5f);
+				}
+			}
+		} else {
+			missLine();
+		}
+		
+	}
+	
+	private void start() {
+		ARM.stop();
+		adjustRobotAndArm();
+		start = false;
+	}
+	
+	private void adjustRobotAndArm() {
+		int direction = armToDefaultBlocking();
+		if (direction == 0) return;
+		
+		robot.forward(30);
+		if (direction == 0) {
+			H.sleep(500);
+		} else if (direction == -1) {
+			// move left
+			robot.bend(0.7f);
+			offLine = true;
+			while ( !isLine() ) {}
+			robot.halt();
+		} else {
+			// move right
+			robot.bend(-0.7f);
+			offLine = true;
+			while ( !isLine() ) {}
+			robot.halt();
+		}
+	}
+	
+	/**
+	 * @return -1 if arm turned left, 0 if no turn, 1 if right turn
+	 */
+	private int armToDefaultBlocking() {
+		int direction = 0;
+		float pos = getRelativeArmPosition();
+		
+		if (pos == MIDDLE_ARM_POS) return 0;
+		if (pos < MIDDLE_ARM_POS){
+			H.p("left");
+			direction = -1;
+			ARM.backward();
+			while (getRelativeArmPosition() < MIDDLE_ARM_POS) {}
+		} else {
+			direction = 1;
+			ARM.forward();
+			while (getRelativeArmPosition() > MIDDLE_ARM_POS) {}
+		}
+		ARM.stop();
+		
+		return direction;
+	}
+	
+	private boolean searchRight() {
+		
+	}
+	private void follow() {
 		boolean finished = false;
 		robot.forward(MIN_SPEED);
+		
+		
 		while (!finished) {
 			armSchwenkung();
-			if ( !memory.isFinished() || isLine() ) {
-//				boolean lokalOnLine = onLine;
-//				boolean isLine = isLine();
-//				if ( lokalOnLine != isLine) {
-//					adjustPath();
-//					//if (!(isLine && armMovingRight)) 
-//					toggleArmDirection();
-//				};
-				if ( isLine() ) {
+			
+			if ( !memory.isFinished() || onLine ) {
+				if ( onLine ) {
 					noLineLevel = 0;
 					adjustPath();
 					ARM.stop();
-					motorDirection = 0;
+					
 				} else {
 					littleSearch();
 				}
@@ -69,27 +148,29 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 			};
 		}
 	}
-	
+
+
+
 	private int noLineLevel = 0;
 	private Eieruhr noLineTimeout = new Eieruhr(120);
 	
 	private void littleSearch() {
 		if (!noLineTimeout.isFinished()) return;
 		
-		switch (motorDirection) {
-		case 0:
-			ARM.forward();
-			motorDirection = -1;
-			noLineTimeout.reset();
-			break;
-		case -1:
-			ARM.backward();
-			motorDirection = 1;
-			noLineTimeout.reset();
-			break;
-		case 1:
-			//
-		}
+//		switch (motorDirection) {
+//		case 0:
+//			ARM.forward();
+//			motorDirection = -1;
+//			noLineTimeout.reset();
+//			break;
+//		case -1:
+//			ARM.backward();
+//			motorDirection = 1;
+//			noLineTimeout.reset();
+//			break;
+//		case 1:
+//			//
+//		}
 	}
 
 	private void missLine() {
@@ -132,10 +213,9 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	 */
 	private void adjustPath() {
 		float rpos = getRelativeArmPosition();
-		float middle = 0.55f;
-		if (rpos < middle) {
+		if (rpos < MIDDLE_ARM_POS) {
 			robot.bend(-0.45f); //left
-		} if (rpos > middle) {
+		} if (rpos > MIDDLE_ARM_POS) {
 			robot.bend(0.6f); //right
 		}
 	}
@@ -148,18 +228,19 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 		return (ARM.getTachoCount() - MAX) / (float)(MIN - MAX);
 	}
 	
-	/**
-	 * @return true wenn der Sensor eine Linie entdeckt
-	 */
-	public boolean isLine() {
+	
+	private boolean isLine() {
+		checkLine();
+		return this.onLine;
+	}
+	
+	public void checkLine() {
 		int color = robot.getLightSensor();
 		if (color >= Config.COLOR_BRIGHT) {
 			memory.reset();
 			this.onLine = true;
-			return true;
 		} else {
 			this.onLine = false;
-			return false;
 		}
 	}
 	
