@@ -5,7 +5,7 @@ import basis.RobotState;
 
 public class WallFollowBehaviour implements RobotBehaviour {
 	private final int WALL_DISTANCE;
-	private final int NORMAL_SPEED = 50;
+	private final int NORMAL_SPEED = 50; //values over 50 are evil
 	private RobotState robot;
 	private int lastDist;
 

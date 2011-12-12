@@ -48,7 +48,7 @@ public final class Config {
 
 	public final static RobotBehaviour[] behaviours = {
 		new WallFollowBehaviour(10),
-		new WallFollowBehaviour(20),
+		new WallFollowBehaviour(10),
 		new LineFollowBehaviour(),
 		new HangingBridgeBehaviour(),
 		new LineFollowBehaviour(),

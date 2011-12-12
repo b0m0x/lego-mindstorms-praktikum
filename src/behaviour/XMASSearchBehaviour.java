@@ -13,7 +13,6 @@ public class XMASSearchBehaviour implements RobotBehaviour {
 		wallFollower.init(r);
 		searchForXMas = false;
 		this.r = r;
-		
 	}
 
 	public void update(RobotState r) {
@@ -24,7 +23,7 @@ public class XMASSearchBehaviour implements RobotBehaviour {
 				turnSideToWall();
 				r.forward(50);
 			} else {
-				r.rotate(-110 - (int) (Math.random() * 60));
+				r.rotate(-120 - (int) (Math.random() * 50));
 				r.forward(100);
 			}
 		}
