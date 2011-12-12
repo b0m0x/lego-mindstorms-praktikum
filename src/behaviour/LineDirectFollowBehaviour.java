@@ -2,12 +2,10 @@ package behaviour;
 
 import helper.Eieruhr;
 import helper.H;
-import lejos.nxt.LightSensor;
 import lejos.nxt.Sound;
 import basis.Config;
 import basis.RobotState;
 import basis.SensorArm;
-import basis.SensorArm.POSITION;
 
 /**
  * Der Roboter Schwenkt mit seinem Arm von links nach rechts. Falls er die Linie sieht kehrt die
@@ -29,7 +27,7 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	private boolean searching = true;
 	
 	private final int MAX_SPEED = 30;
-	private final int MIN_SPEED = 20;
+	private final int MIN_SPEED = 25;
 	
 	public LineDirectFollowBehaviour() {}
 	
@@ -49,8 +47,11 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 		while (!finished) {
 			armSchwenkung();
 			if ( true || !memory.isFinished() ) {
-				if ( onLine != isLine() ) {
+				boolean lokalOnLine = onLine;
+				boolean isLine = isLine();
+				if ( lokalOnLine != isLine) {
 					adjustPath();
+					//if (!(isLine && armMovingRight)) 
 					toggleArmDirection();
 				};
 			} else {
@@ -78,7 +79,6 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 		}
 	}
 	
-	private int schwenk_counter = 0;
 	
 	/**
 	 * €ndert die Bewegungsrichtung des Armes, falls dieser seinen Bewegungsspielraum Ÿberschreitet.
@@ -86,16 +86,12 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	 */
 	private void armSchwenkung() {
 		int tacho = Config.SENSOR_MOTOR.getTachoCount();
-		int add = schwenk_counter < 3 ? 50 : 0;
-		H.p(schwenk_counter, add);
-		if (tacho <= MIN +add) {
+		if (tacho <= MIN) {
 			Config.SENSOR_MOTOR.forward();
 			armMovingRight = false;
-			schwenk_counter++;
-		} else if(tacho >= MAX -add) {
+		} else if(tacho >= MAX) {
 			Config.SENSOR_MOTOR.backward();
 			armMovingRight = true;
-			schwenk_counter++;
 		}
 	}
 	
@@ -128,13 +124,11 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 		if (color >= Config.COLOR_BRIGHT) {
 			memory.reset();
 			this.onLine = true;
-			schwenk_counter = 0;
 			return true;
 		} else {
 			this.onLine = false;
 			return false;
 		}
 	}
-	
 	
 }
