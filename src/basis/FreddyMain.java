@@ -13,7 +13,7 @@ public class FreddyMain {
 		//if User selects 0, bluetooth start
 		if(Config.currentBehaviour == 0) {
 			BTRaceStartClient btraceclient = new BTRaceStartClient();	 
-			btraceclient.enterLevel();
+			//btraceclient.enterLevel();
 		}
 		for (RobotBehaviour b : Config.behaviours[Config.currentBehaviour]) { 
 			r.addBehaviour(b);

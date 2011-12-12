@@ -18,9 +18,8 @@ public class LevelChangeBehaviour implements RobotBehaviour {
 	}
 
 	public void update(RobotState r) {
-		
-		if (System.currentTimeMillis() > lastCodeSeen + DELAY) {
-			int value = r.getLightSensor();
+		int value = r.getLightSensor();		
+		if (System.currentTimeMillis() > lastCodeSeen + DELAY) {			
 			if (value >= COLOR_CODE && !codeLock) {
 				codeLock = true;
 				if (Config.currentBehaviour % 2 == 0) {
@@ -31,10 +30,10 @@ public class LevelChangeBehaviour implements RobotBehaviour {
 					r.changeToNextLevel();
 				}
 				lastCodeSeen = System.currentTimeMillis();
-			}
-			if (codeLock && value <= COLOR_GROUND) {
-				codeLock = false;
-			}
+			}			
+		}
+		if (codeLock && value <= COLOR_GROUND) {
+			codeLock = false;
 		}
 	}
 	

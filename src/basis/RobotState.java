@@ -87,7 +87,7 @@ public class RobotState {
 	 * @param behaviour
 	 */
 	public void clearBehaviours() {
-		behaviours.clear();
+		behaviours = new ArrayList<RobotBehaviour>();
 	}
 	
 	/**
@@ -265,7 +265,9 @@ public class RobotState {
 	 */
 	public void update() {
 		for (RobotBehaviour b : behaviours) {
-			b.update(this);
+			if (b != null) {
+				b.update(this);
+			}
 		}
 		engine.update();
 		sArm.update();
@@ -290,8 +292,9 @@ public class RobotState {
 	}
 	
 	public void changeToNextLevel() {
+		halt();
 		clearBehaviours();
-		Config.currentBehaviour++;
+		Config.currentBehaviour = (Config.currentBehaviour + 1) % Config.behaviours.length;
 		for (RobotBehaviour newBehaviour : Config.behaviours[Config.currentBehaviour]) {
 			addBehaviour(newBehaviour);
 		}
