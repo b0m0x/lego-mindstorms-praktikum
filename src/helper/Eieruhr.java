@@ -15,7 +15,8 @@ public class Eieruhr {
 	}
 	
 	public boolean isFinished() {
-		long time = System.currentTimeMillis();;
+		long time = System.currentTimeMillis();
 		return (time-start_time) > duration; 
 	}
+	
 }
