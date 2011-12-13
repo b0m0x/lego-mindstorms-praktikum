@@ -44,9 +44,8 @@ public final class Config {
 		"Line3",
 		"Hanging Bridge",
 		"Line4",
-		"Gate",
-		"Line5",
 		"TurnTable",
+		"Gate",
 		"Endboss"			
 	};
 	private static RobotBehaviour levelChanger = new LevelChangeBehaviour();
@@ -63,9 +62,8 @@ public final class Config {
 		{ new LineFollowBehaviour(), new MultiBotBehaviour(3) },
 		{ new HangingBridgeBehaviour(), levelChanger},
 		{ new LineFollowBehaviour(), new MultiBotBehaviour(3) },
-		{ new GateBehaviour(), new MultiBotBehaviour(3), levelChanger },
-		{ new LineFollowBehaviour(), new MultiBotBehaviour(3) },
 		{ new TurnTableBehaviour(), levelChanger },
+		{ new GateBehaviour(), new MultiBotBehaviour(3), levelChanger },
 		{ new EndBossBehaviour() }
 	};
 	public static int currentBehaviour = 0;
