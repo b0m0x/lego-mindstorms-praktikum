@@ -10,9 +10,10 @@ public class LabyrinthTest {
 		//r.addBehaviour(new DriveForwardAndStopBehaviour());
 		//r.addBehaviour(new EngineTestBehaviour());
 		r.addBehaviour(new WallFollowBehaviour(10));
+		r.addBehaviour(new BumpOffWallAndRotateBehaviour());
 		r.init();
 		
-		while(true) {
+		while(!Button.ENTER.isPressed()) {
 			r.update();
 		}
 		// r.driveForward(10);
