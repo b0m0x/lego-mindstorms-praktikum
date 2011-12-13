@@ -1,6 +1,7 @@
 package behaviour;
 
 import lejos.nxt.Sound;
+import helper.Eieruhr;
 import helper.H;
 import basis.RobotState;
 
@@ -13,19 +14,28 @@ public class TurnTableBehaviour implements RobotBehaviour {
 	
 	public void init(RobotState r) {
 		robot = r;
-		
+		robot.forward(20);
 	}
 
 	public void update(RobotState r) {
 		if ( isLight() ) {
 			robot.halt();
-			robot.backwardBlocking(50, 500);
+			Eieruhr timer = new Eieruhr(100);
+			//robot.backwardBlocking(50, 200);
 			robot.rotate(180);
 			robot.backwardBlocking(100, 1000);
 			robot.halt();
-			H.sleep(3300);
+			int counter = 2;
+			while (counter > 0) {
+				if ( isLight() && timer.isFinished() ) {
+					Sound.buzz();
+					counter--;
+				}
+			}
+			//H.sleep(3300);
+			
 			robot.forwardBlocking(100, 1000);
-			fertig = true;
+//			fertig = true;
 		} else {
 			
 			// TODO Liniensuche
