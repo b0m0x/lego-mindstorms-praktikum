@@ -54,7 +54,7 @@ public final class Config {
 		{ new BumpOffWallAndRotateBehaviour(), new WallFollowBehaviour(10), levelChanger},
 		{ new WallFollowBehaviour(20), levelChanger},
 		{ new BumpOffWallAndRotateBehaviour(), new WallFollowBehaviour(10), levelChanger},
-		{ new LineDirectFollowBehaviour() },
+		{ new LineFollowBehaviour() },
 		{ new HangingBridgeBehaviour(), levelChanger }, //Rolls - full speed ahead!
 		{ new LineFollowBehaviour(), new MultiBotBehaviour(3)},
 		{ new GateBehaviour(), new MultiBotBehaviour(3), levelChanger },

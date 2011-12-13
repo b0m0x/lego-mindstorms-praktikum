@@ -13,7 +13,7 @@ public class BumpOffWallAndRotateBehaviour implements RobotBehaviour {
 
 	public void update(RobotState r) {
 		if (r.crashedIntoWall()) {
-			r.backwardBlocking(50, 500);
+			r.backwardBlocking(50, 1000);
 			r.halt();
 			r.rotate(-90);
 			r.halt();
