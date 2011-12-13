@@ -28,7 +28,7 @@ public class GateBehaviour implements RobotBehaviour {
 			r.forward(30);
 			signal_send = true;
 		}
-		else if (!signal_send && Config.currentBehaviour == 12 ) {
+		else if (!signal_send && Config.currentBehaviour == 13 ) {
 			while (!gateControl.connectionToGateSuccessful(GateCommon.GATE_2));
 			gateControl.openGate();
 			gateControl.disconnectFromGate();
