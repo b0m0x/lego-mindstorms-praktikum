@@ -33,36 +33,40 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	public void init(RobotState r) {
 		robot = r;		
 		ARM.resetTachoCount();
-		ARM.setSpeed( 50 );
+		ARM.setSpeed( 90 );
 		ARM.forward();
-		robot.forward(15);
+		robot.forward(20);
 	}
 	
 	private void keepArmOnLine() {
 		boolean isOnLine = isLine();
 		if (armHasLine && !isOnLine) {
 			armHasLine = false;
-			float armPos = getRelativeArmPosition();
-			if (armMovingRight) {
-				ARM_RIGHT_BOUND  = armPos;
-				ARM.forward();
-				armMovingRight = false;
-			} else {
-				ARM_LEFT_BOUND = armPos;
-				ARM.backward();
-				armMovingRight = true;
-			}
+			toggleArmDirection();
 		} else if (!armHasLine && isOnLine) {
 			armHasLine = true;
 		}
 	}
 	
 	
+	private void toggleArmDirection() {
+		float armPos = getRelativeArmPosition();
+		if (armMovingRight) {
+			ARM_RIGHT_BOUND  = armPos;
+			ARM.forward();
+			armMovingRight = false;
+		} else {
+			ARM_LEFT_BOUND = armPos;
+			ARM.backward();
+			armMovingRight = true;
+		}		
+	}
+
 	public void update(RobotState r) {
 		armSchwenkung();
 		keepArmOnLine();
 		isLine(); // onLine
-		robot.bend(1.5f * ((ARM_LEFT_BOUND + ARM_RIGHT_BOUND) / 2 - 0.5f));
+		robot.bend(1.5f * ((ARM_LEFT_BOUND + ARM_RIGHT_BOUND) / 2f - 0.5f));
 	}
 	
 
