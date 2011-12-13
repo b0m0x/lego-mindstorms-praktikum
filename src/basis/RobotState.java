@@ -301,4 +301,8 @@ public class RobotState {
 		System.out.println("Levelchange to " + Config.menuItems[Config.currentBehaviour]);
 		init();
 	}
+
+	public void bend(float strength, int speed) {
+		engine.bend(strength, speed);
+	}
 }

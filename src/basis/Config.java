@@ -6,6 +6,7 @@ import behaviour.EndBossBehaviour;
 import behaviour.GateBehaviour;
 import behaviour.HangingBridgeBehaviour;
 import behaviour.LevelChangeBehaviour;
+import behaviour.LineDirectFollowBehaviour;
 import behaviour.LineFollowBehaviour;
 import behaviour.MultiBotBehaviour;
 import behaviour.RobotBehaviour;
@@ -18,7 +19,7 @@ import lejos.nxt.SensorPort;
 
 public final class Config {
 	public final static int COLOR_BRIGHT = 40;
-	public final static int COLOR_BLACK = 25;
+	public final static int COLOR_BLACK = 30;
 	
 	public final static NXTRegulatedMotor SENSOR_MOTOR = Motor.B;
 	public final static NXTRegulatedMotor LEFT_MOTOR = Motor.C;
@@ -53,7 +54,7 @@ public final class Config {
 		{ new BumpOffWallAndRotateBehaviour(), new WallFollowBehaviour(10), levelChanger},
 		{ new WallFollowBehaviour(20), levelChanger},
 		{ new BumpOffWallAndRotateBehaviour(), new WallFollowBehaviour(10), levelChanger},
-		{ new LineFollowBehaviour() },
+		{ new LineDirectFollowBehaviour() },
 		{ new WallFollowBehaviour(10), levelChanger },
 		{ new LineFollowBehaviour(), new MultiBotBehaviour(3)},
 		{ new GateBehaviour(), new MultiBotBehaviour(3), levelChanger },

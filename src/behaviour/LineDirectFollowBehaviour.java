@@ -29,20 +29,42 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	private boolean armHasLine = false;
 	private float ARM_RIGHT_BOUND = 1f;
 	private float ARM_LEFT_BOUND = 0f;
+	private float lastBend;
+	private boolean rightMax;
+	private boolean leftMax;
+	
+	private RobotBehaviour wallFollower;
+	private boolean avoidObstacle = false;
 	
 	public void init(RobotState r) {
 		robot = r;		
 		ARM.resetTachoCount();
-		ARM.setSpeed( 150 );
+		ARM.setSpeed( 200 );
 		ARM.forward();
-		robot.forward(30);
+		robot.forward(25);
+		memory.reset();
+		leftMax = rightMax = false;
+		wallFollower = new WallFollowBehaviour(10);
+		
+		searchLineBlocking();
 	}
 	
+	private void searchLineBlocking() {
+		robot.forwardBlocking(50, 200);
+		robot.forward(50);
+		robot.bend(-0.2f);
+		while (!isLine()) {
+			
+		}
+		
+	}
+
 	private void keepArmOnLine() {
 		boolean isOnLine = isLine();
 		if (armHasLine && !isOnLine) {
 			armHasLine = false;
 			toggleArmDirection();
+			leftMax = rightMax = false;
 		} else if (!armHasLine && isOnLine) {
 			armHasLine = true;
 		}
@@ -71,9 +93,42 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	}
 
 	public void update(RobotState r) {
+		if (avoidObstacle) {
+			wallFollower.update(r);
+			if (isLine()) {
+				avoidObstacle = false;
+				robot.rotate(-60);
+				ARM.forward();
+				robot.forward(25);
+				armMovingRight = false;
+			}
+			return;
+		}
+		if (!avoidObstacle && robot.crashedIntoWall()) {
+			ARM.stop();
+			robot.backwardBlocking(30, 1000);
+			robot.rotate(-90);
+			wallFollower.init(robot);
+			avoidObstacle = true;
+			return;
+		}
+		if (memory.isFinished()) {
+			memory.reset();
+			robot.forward(30);
+		}
+		if (leftMax && rightMax) {
+			robot.halt();
+			robot.backwardBlocking(30, 1000);
+			robot.forward(20);
+			leftMax = rightMax = false;
+		}
 		armSchwenkung();
 		keepArmOnLine();
-		robot.bend(1.5f * ((ARM_LEFT_BOUND + ARM_RIGHT_BOUND) / 2f - 0.5f));
+		float strength = 1.5f * ((ARM_LEFT_BOUND + ARM_RIGHT_BOUND) / 2f - 0.5f);
+		if (Math.abs(strength - lastBend) > 0.0001f) {
+			robot.bend(strength);
+			lastBend = strength;
+		}
 	}
 	
 
@@ -91,9 +146,11 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 		if (tacho <= MIN) {
 			ARM.forward();
 			armMovingRight = false;
+			rightMax = true;
 		} else if(tacho >= MAX) {
 			ARM.backward();
 			armMovingRight = true;
+			leftMax = true;
 		}
 	}
 	
@@ -102,7 +159,7 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	 * @return Armposition [0..1]
 	 */
 	private float getRelativeArmPosition() {
-		return (ARM.getTachoCount() - MAX) / (float)(MIN - MAX);
+		return 1f - (float) (Math.cos( ARM.getTachoCount() * Math.PI / 180f) / 2f + 0.5f);
 	}
 	
 	
