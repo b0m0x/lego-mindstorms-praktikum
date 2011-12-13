@@ -15,7 +15,7 @@ public class TurnTableBehaviour implements RobotBehaviour {
 	public void init(RobotState r) {
 		robot = r;
 		robot.forward(20);
-		robot.bend(0.1f);
+		//robot.bend(0.1f);
 		//liniensucher.init(robot);
 	}
 
@@ -27,7 +27,7 @@ public class TurnTableBehaviour implements RobotBehaviour {
 			robot.rotate(180);
 			robot.backwardBlocking(100, 1000);
 			robot.halt();
-			Eieruhr timer = new Eieruhr(3200);
+			Eieruhr timer = new Eieruhr((int) (2700 +  300 * (Math.random() - 0.5f)) );
 			while (!timer.isFinished()) {}
 			
 			robot.forward(100);
