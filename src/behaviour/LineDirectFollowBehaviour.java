@@ -44,10 +44,20 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 		robot.forward(MIN_SPEED);
 	}
 	
-	
+	private int counter = 0;
 	private int motorDirection = 0;
 	
 	public void update(RobotState r) {
+//		if (counter >= 20) {
+//			robot.forward(50);
+//			robot.bend(0);
+//		}
+//		
+//		int ultra = robot.getUltraSonic();
+//		if (ultra < 40) {
+//			counter++;
+//		}
+		
 		if ( robot.crashedIntoWall() ) {
 			ARM.stop();
 			Sound.buzz();
