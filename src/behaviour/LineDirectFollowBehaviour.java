@@ -10,7 +10,7 @@ import basis.RobotState;
 /**
  * Der Roboter Schwenkt mit seinem Arm von links nach rechts. Falls er die Linie sieht kehrt die
  * schwenkrichtung um und die Fahrtrichtung des Roboters wird anhand der Auslenkung des Armes angepasst.
- * Ist er Arm weit links fŠhrt der Roboter nach link und umgekehrt.
+ * Ist er Arm weit links fï¿½hrt der Roboter nach link und umgekehrt.
  * 
  * @author Jupiter
  *
@@ -31,34 +31,51 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	private boolean start = true;
 	private final float MIDDLE_ARM_POS = 0.55f;
 	
-	public LineDirectFollowBehaviour() {}
+	private boolean armHasLine = false;
+	private float ARM_RIGHT_BOUND = 1f;
+	private float ARM_LEFT_BOUND = 0f;
 	
 	public void init(RobotState r) {
 		robot = r;		
 		//missLine();
 		ARM.resetTachoCount();
-		ARM.setSpeed( 300 );
+		ARM.setSpeed( 150 );
 		ARM.forward();
+		r.forward(30);
 	}
 	
-	private boolean offLine = false;
+	private void keepArmOnLine() {
+		boolean isOnLine = isLine();
+		if (armHasLine && !isOnLine) {
+			armHasLine = false;
+			float armPos = getRelativeArmPosition();
+			if (armMovingRight) {
+				ARM_RIGHT_BOUND  = armPos;
+				ARM.forward();
+			} else {
+				ARM_LEFT_BOUND = armPos;
+				ARM.backward();
+			}
+		} else if (!armHasLine && isOnLine) {
+			armHasLine = true;
+		}
+	}
+	
 	
 	public void update(RobotState r) {
-		armSchwenkung();
-		checkLine(); // onLine
-		
-		if ( start ) {
+		/*if ( start ) {
 			start(); 
 			return;
-		}
+		}*/
 		
+		armSchwenkung();
+		keepArmOnLine();
+		isLine(); // onLine
+		robot.bend(1.5f * ((ARM_LEFT_BOUND + ARM_RIGHT_BOUND) / 2 - 0.5f));
+		/*
 		if ( true || !memory.isFinished() || onLine ) {
 			if ( onLine ) {
-				offLine = false;
-				//robot.bend(0);
 			} else {
-				offLine = true;
-				boolean isLineRight = searchRight();
 				this.armToDefaultBlocking();
 				if (isLineRight) {
 					robot.bend(0.5f);
@@ -69,6 +86,7 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 		} else {
 			missLine();
 		}
+		*/
 		
 	}
 	
@@ -88,13 +106,11 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 		} else if (direction == -1) {
 			// move left
 			robot.bend(0.7f);
-			offLine = true;
 			while ( !isLine() ) {}
 			robot.halt();
 		} else {
 			// move right
 			robot.bend(-0.7f);
-			offLine = true;
 			while ( !isLine() ) {}
 			robot.halt();
 		}
@@ -123,35 +139,8 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 		return direction;
 	}
 	
-	private boolean searchRight() {
-		
-	}
-	private void follow() {
-		boolean finished = false;
-		robot.forward(MIN_SPEED);
-		
-		
-		while (!finished) {
-			armSchwenkung();
-			
-			if ( !memory.isFinished() || onLine ) {
-				if ( onLine ) {
-					noLineLevel = 0;
-					adjustPath();
-					ARM.stop();
-					
-				} else {
-					littleSearch();
-				}
-			} else {
-				missLine();
-			};
-		}
-	}
 
 
-
-	private int noLineLevel = 0;
 	private Eieruhr noLineTimeout = new Eieruhr(120);
 	
 	private void littleSearch() {
@@ -182,20 +171,9 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 		// TODO erweitern
 	}
 	
-	private void toggleArmDirection() {
-		if (armMovingRight) {
-			ARM.forward();
-			armMovingRight = false;
-		} else {
-			ARM.backward();
-			armMovingRight = true;
-		}
-	}
-	
-	
 	/**
-	 * €ndert die Bewegungsrichtung des Armes, falls dieser seinen Bewegungsspielraum Ÿberschreitet.
-	 * Diese Funktion sorgt fŸr das allgemeine Wedeln des Armes.
+	 * ï¿½ndert die Bewegungsrichtung des Armes, falls dieser seinen Bewegungsspielraum ï¿½berschreitet.
+	 * Diese Funktion sorgt fï¿½r das allgemeine Wedeln des Armes.
 	 */
 	private void armSchwenkung() {
 		int tacho = ARM.getTachoCount();
@@ -221,7 +199,7 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	}
 	
 	/**
-	 * Gibt die Armposition im Bewegungsraum des Armes zurŸck.
+	 * Gibt die Armposition im Bewegungsraum des Armes zurï¿½ck.
 	 * @return Armposition [0..1]
 	 */
 	private float getRelativeArmPosition() {
@@ -230,11 +208,6 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	
 	
 	private boolean isLine() {
-		checkLine();
-		return this.onLine;
-	}
-	
-	public void checkLine() {
 		int color = robot.getLightSensor();
 		if (color >= Config.COLOR_BRIGHT) {
 			memory.reset();
@@ -242,6 +215,7 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 		} else {
 			this.onLine = false;
 		}
+		return this.onLine;
 	}
 	
 }
