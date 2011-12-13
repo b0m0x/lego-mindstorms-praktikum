@@ -10,6 +10,7 @@ public class HangingBridgeBehaviour implements RobotBehaviour {
 //		wallFollower = new WallFollowBehaviour(15);
 //		wallFollower.init(r);
 //		isOnTop = false;
+		r.forward(100);
 	}
 
 	public void update(RobotState r) {
@@ -25,7 +26,7 @@ public class HangingBridgeBehaviour implements RobotBehaviour {
 //		if (isOnTop && dist != 255) { //angekommen
 //			isOnTop = false;
 //		}		
-		r.forward(100);
+		
 	}
 
 }
