@@ -25,7 +25,7 @@ public class RobotState {
 	private UltrasonicSensor usSensor;
 	private LightSensor lightSensor;
 	private TouchSensor bumpSensor;
-	private TouchSensor wallSensor;
+	private TouchSensor bumpSensor";
 	private SensorSample lastUsSample;
 	private SensorSample lastLightSensorSample;
 	
@@ -37,6 +37,7 @@ public class RobotState {
 		usSensor = new UltrasonicSensor(Config.ULTRASONIC_PORT);
 		lightSensor = new LightSensor(Config.LIGHTSENSOR_PORT);
 		bumpSensor = new TouchSensor(Config.BUMPSENSOR_PORT);
+		bumpSensor2 = new TouchSensor(Config.BUMPSENSOR2_PORT);
 		
 		lastUsSample = new SensorSample(usSensor.getDistance());
 		lastLightSensorSample = new SensorSample(lightSensor.getLightValue());
@@ -257,7 +258,7 @@ public class RobotState {
 	 * @return
 	 */
 	public boolean crashedIntoWall() {
-		return bumpSensor.isPressed();
+		return bumpSensor.isPressed() || bumpSensor2.isPressed();
 	}
 	
 	/**
@@ -302,7 +303,4 @@ public class RobotState {
 		init();
 	}
 
-	public void bend(float strength, int speed) {
-		engine.bend(strength, speed);
-	}
 }

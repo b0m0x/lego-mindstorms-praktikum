@@ -28,6 +28,7 @@ public final class Config {
 	public final static SensorPort ULTRASONIC_PORT = SensorPort.S2;
 	public final static SensorPort LIGHTSENSOR_PORT = SensorPort.S1;
 	public final static SensorPort BUMPSENSOR_PORT = SensorPort.S4;
+	public final static SensorPort BUMPSENSOR2_PORT = SensorPort.S3;
 	
 	
 	
@@ -49,10 +50,10 @@ public final class Config {
 		"TurnTable",
 		"Endboss"			
 	};
-	private static RobotBehaviour levelChanger = new LevelChangeBehaviour();
+	public static RobotBehaviour levelChanger = new LevelChangeBehaviour();
 	public final static RobotBehaviour[][] behaviours = {
 		{ new BumpOffWallAndRotateBehaviour(), new WallFollowBehaviour(10), levelChanger},
-		{ new WallFollowBehaviour(20), levelChanger},
+		{ new WallFollowBehaviour(30), levelChanger},
 		{ new BumpOffWallAndRotateBehaviour(), new WallFollowBehaviour(10), levelChanger},
 		{ new LineFollowBehaviour() },
 		{ new HangingBridgeBehaviour(), levelChanger }, //Rolls - full speed ahead!

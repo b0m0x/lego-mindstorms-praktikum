@@ -1,5 +1,6 @@
 package behaviour;
 import helper.Eieruhr;
+import basis.Config;
 import basis.RobotState;
 import basis.SensorArm.POSITION;
 
@@ -29,6 +30,7 @@ public class LineFollowBehaviour implements RobotBehaviour {
 		r.setSensorArmPosition(POSITION.LINE_FOLLOW);		
 		this.r = r;
 		r.forward(LINE_FOLLOW_SPEED);
+		r.bend(-0.2f);
 	}
 	
 	public boolean isOnLine() {
@@ -58,6 +60,7 @@ public class LineFollowBehaviour implements RobotBehaviour {
 				r.rotate(-180);
 				r.forward(LINE_FOLLOW_SPEED);
 				r.bend(0.6f);
+				lineEndTime.reset();
 			}
 			return;
 		}
@@ -81,7 +84,7 @@ public class LineFollowBehaviour implements RobotBehaviour {
 			if (lineEndTime.isFinished()) {
 				r.rotate(-90);
 				r.forward(30);
-				r.addBehaviour(new LevelChangeBehaviour());
+				r.addBehaviour(Config.levelChanger);
 				return;
 			}
 		} else if (!lineSearching && isOffLine()) {
