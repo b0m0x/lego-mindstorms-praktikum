@@ -121,13 +121,18 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 		}
 		if (leftMax && rightMax) {
 			robot.halt();
+			if (lastLineOrientation > 0.4f && lastLineOrientation < 0.6f) {
+				robot.forwardBlocking(50, 1500);
+				robot.changeToNextLevel();
+				return;
+			}
 			ARM.stop();
 			robot.backwardBlocking(30, 1500);
 			robot.rotate((int) (30 * (lastLineOrientation - 0.5f)));
 			robot.forward(20);
 			ARM.forward();
 			armMovingRight = false;
-			leftMax = rightMax = false;
+			leftMax = rightMax = false;			
 		}
 		armSchwenkung();
 		keepArmOnLine();
