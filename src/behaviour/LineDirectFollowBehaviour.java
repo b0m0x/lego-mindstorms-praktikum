@@ -16,7 +16,7 @@ import basis.RobotState;
  *
  */
 public class LineDirectFollowBehaviour implements RobotBehaviour {
-	
+	private final static int NORMAL_SPEED = 25;
 	private RobotState robot;
 	private boolean onLine = false;
 	private Eieruhr memory = new Eieruhr(2000);
@@ -37,19 +37,21 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	private boolean avoidObstacle = false;
 	
 	public void init(RobotState r) {
-		robot = r;		
+		robot = r;
+		searchLineBlocking();
 		ARM.resetTachoCount();
 		ARM.setSpeed( 200 );
 		ARM.forward();
-		robot.forward(25);
+		robot.forward(NORMAL_SPEED);
 		memory.reset();
 		leftMax = rightMax = false;
 		wallFollower = new WallFollowBehaviour(10);
 		
-		searchLineBlocking();
+		
 	}
 	
 	private void searchLineBlocking() {
+		robot.rotate(-35);
 		robot.forwardBlocking(50, 200);
 		robot.forward(50);
 		robot.bend(-0.2f);
@@ -99,14 +101,14 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 				avoidObstacle = false;
 				robot.rotate(-60);
 				ARM.forward();
-				robot.forward(25);
+				robot.forward(NORMAL_SPEED);
 				armMovingRight = false;
 			}
 			return;
 		}
 		if (!avoidObstacle && robot.crashedIntoWall()) {
 			ARM.stop();
-			robot.backwardBlocking(30, 1000);
+			robot.backwardBlocking(NORMAL_SPEED, 1000);
 			robot.rotate(-90);
 			wallFollower.init(robot);
 			avoidObstacle = true;
@@ -114,11 +116,12 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 		}
 		if (memory.isFinished()) {
 			memory.reset();
-			robot.forward(30);
+			robot.forward(NORMAL_SPEED);
 		}
 		if (leftMax && rightMax) {
 			robot.halt();
-			robot.backwardBlocking(30, 1000);
+			ARM.stop();
+			robot.backwardBlocking(30, 1500);
 			robot.forward(20);
 			leftMax = rightMax = false;
 		}
@@ -126,6 +129,9 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 		keepArmOnLine();
 		float strength = 1.5f * ((ARM_LEFT_BOUND + ARM_RIGHT_BOUND) / 2f - 0.5f);
 		if (Math.abs(strength - lastBend) > 0.0001f) {
+			if (Config.LEFT_MOTOR.getSpeed() + Config.LEFT_MOTOR.getSpeed() < 2 * NORMAL_SPEED) {
+				robot.forward(NORMAL_SPEED);
+			}
 			robot.bend(strength);
 			lastBend = strength;
 		}
