@@ -25,7 +25,7 @@ public class RobotState {
 	private UltrasonicSensor usSensor;
 	private LightSensor lightSensor;
 	private TouchSensor bumpSensor;
-	private TouchSensor bumpSensor";
+	private TouchSensor bumpSensor2;
 	private SensorSample lastUsSample;
 	private SensorSample lastLightSensorSample;
 	
