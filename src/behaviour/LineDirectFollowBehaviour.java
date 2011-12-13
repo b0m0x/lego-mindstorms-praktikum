@@ -1,12 +1,10 @@
 package behaviour;
 
 import helper.Eieruhr;
-import helper.H;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.Sound;
 import basis.Config;
 import basis.RobotState;
-import basis.SensorArm;
 
 /**
  * Der Roboter Schwenkt mit seinem Arm von links nach rechts. Falls er die Linie sieht kehrt die
@@ -20,15 +18,17 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	
 	private RobotState robot;
 	private boolean onLine = false;
-	private Eieruhr memory = new Eieruhr(2000);
+	private Eieruhr memory = new Eieruhr(1000);
 	private boolean armMovingRight;
 	private final int MIN = -180; // right
 	private final int MAX = -5; // left
 	private boolean searching = true;
 	
 	private final int MAX_SPEED = 30;
-	private final int MIN_SPEED = 25;
+	private final int MIN_SPEED = 17;
 	private final NXTRegulatedMotor ARM = Config.SENSOR_MOTOR;
+	private WallFollowBehaviour wallFollower = new WallFollowBehaviour(10);
+	private BumpOffWallAndRotateBehaviour bumper = new BumpOffWallAndRotateBehaviour();
 	
 	public LineDirectFollowBehaviour() {}
 	
@@ -36,69 +36,74 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 		robot = r;		
 		//missLine();
 		ARM.resetTachoCount();
-		ARM.setSpeed( 500 );
+		ARM.setSpeed( 100 );
 		ARM.forward();
+		wallFollower.init(r);
+		bumper.init(r);
+		robot.forward(MIN_SPEED);
 	}
 	
 	
 	private int motorDirection = 0;
 	
 	public void update(RobotState r) {
-		boolean finished = false;
-		robot.forward(MIN_SPEED);
-		while (!finished) {
-			armSchwenkung();
-			if ( !memory.isFinished() || isLine() ) {
-//				boolean lokalOnLine = onLine;
-//				boolean isLine = isLine();
-//				if ( lokalOnLine != isLine) {
-//					adjustPath();
-//					//if (!(isLine && armMovingRight)) 
-//					toggleArmDirection();
-//				};
-				if ( isLine() ) {
-					noLineLevel = 0;
-					adjustPath();
-					ARM.stop();
-					motorDirection = 0;
-				} else {
-					littleSearch();
-				}
-			} else {
-				missLine();
-			};
-		}
-	}
-	
-	private int noLineLevel = 0;
-	private Eieruhr noLineTimeout = new Eieruhr(120);
-	
-	private void littleSearch() {
-		if (!noLineTimeout.isFinished()) return;
-		
-		switch (motorDirection) {
-		case 0:
+		if ( robot.crashedIntoWall() ) {
+			ARM.stop();
+			Sound.buzz();
+			crashed();
 			ARM.forward();
-			motorDirection = -1;
-			noLineTimeout.reset();
-			break;
-		case -1:
-			ARM.backward();
-			motorDirection = 1;
-			noLineTimeout.reset();
-			break;
-		case 1:
-			//
+			robot.forward(MIN_SPEED);
+			return;
+		}
+		
+		armSchwenkung();
+		if ( !memory.isFinished() || isLine() ) {
+			boolean lokalOnLine = onLine;
+			boolean isLine = isLine();
+			if ( lokalOnLine != isLine) {
+				adjustPath();
+				//if (!(isLine && armMovingRight)) 
+				if (!armMovingRight && isLine) toggleArmDirection();
+				if (!isLine) toggleArmDirection();
+			};
+
+		} else {
+			//missLine();
+		};
+	}
+	
+	private void crashed() {
+		bumper.update(robot);
+		while (!isLine()) {
+			this.wallFollower.update(robot);
 		}
 	}
-
+	
+	private boolean backward = false;
+	private boolean backwardFirst = true;
 	private void missLine() {
-		Sound.beep();
-//		robot.halt();
-//		robot.backward(50);
-//		while ( !isLine() ) {}
-//		memory.reset();
-		// TODO erweitern
+//		//Sound.beep();
+//		if (backwardFirst) {
+//			backwardFirst = false;
+//			backward = true;
+//			robot.halt();
+//			
+//			//robot.bend(0);
+//			Sound.buzz();
+//			//Config.A.
+//			//while(!isLine()) {}
+//			robot.backward(20);
+//			
+//		}
+		ARM.stop();
+		Sound.buzz();
+		robot.halt();
+		robot.backward(10);
+		while ( !isLine() ) {}
+		robot.halt();
+		ARM.forward();
+		robot.forward(MIN_SPEED);
+		 //TODO erweitern
 	}
 	
 	private void toggleArmDirection() {
@@ -132,11 +137,11 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	 */
 	private void adjustPath() {
 		float rpos = getRelativeArmPosition();
-		float middle = 0.55f;
+		float middle = 0.6f;
 		if (rpos < middle) {
-			robot.bend(-0.45f); //left
+			robot.bend(-0.60f); //left
 		} if (rpos > middle) {
-			robot.bend(0.6f); //right
+			robot.bend(0.50f); //right
 		}
 	}
 	
