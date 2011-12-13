@@ -6,6 +6,7 @@ import behaviour.EndBossBehaviour;
 import behaviour.GateBehaviour;
 import behaviour.HangingBridgeBehaviour;
 import behaviour.LevelChangeBehaviour;
+import behaviour.LineDirectFollowBehaviour;
 import behaviour.LineFollowBehaviour;
 import behaviour.MultiBotBehaviour;
 import behaviour.RobotBehaviour;
@@ -17,7 +18,7 @@ import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
 
 public final class Config {
-	public final static int COLOR_BRIGHT = 35;
+	public final static int COLOR_BRIGHT = 40;
 	public final static int COLOR_BLACK = 30;
 	
 	public final static NXTRegulatedMotor SENSOR_MOTOR = Motor.B;
@@ -38,7 +39,7 @@ public final class Config {
 		"Rolls",		
 		"line2",
 		"Gate",
-		"XMAS Seach",
+		"XMAS Search",
 		"Bridge",
 		"Line3",
 		"Hanging Bridge",
@@ -53,8 +54,8 @@ public final class Config {
 		{ new BumpOffWallAndRotateBehaviour(), new WallFollowBehaviour(10), levelChanger},
 		{ new WallFollowBehaviour(20), levelChanger},
 		{ new BumpOffWallAndRotateBehaviour(), new WallFollowBehaviour(10), levelChanger},
-		{ new LineFollowBehaviour() },
-		{ new WallFollowBehaviour(10), levelChanger },
+		{ new LineDirectFollowBehaviour() },
+		{ new HangingBridgeBehaviour(), levelChanger }, //Rolls - full speed ahead!
 		{ new LineFollowBehaviour(), new MultiBotBehaviour(3)},
 		{ new GateBehaviour(), new MultiBotBehaviour(3), levelChanger },
 		{ new XMASSearchBehaviour(), levelChanger },

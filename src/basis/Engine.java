@@ -199,4 +199,9 @@ public class Engine {
 		LEFT.backward();
 		RIGHT.forward();
 	}
+
+	public void bend(float strength, int speed) {
+		setSpeed(speed / 100f);
+		bend(strength);
+	}
 }
