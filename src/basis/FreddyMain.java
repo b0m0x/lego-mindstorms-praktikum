@@ -1,6 +1,7 @@
 package basis;
 
 import behaviour.RobotBehaviour;
+import lejos.nxt.Button;
 import lejos.nxt.comm.RConsole;
 import lejos.util.TextMenu;
 
@@ -18,10 +19,10 @@ public class FreddyMain {
 		for (RobotBehaviour b : Config.behaviours[Config.currentBehaviour]) { 
 			r.addBehaviour(b);
 		}
+		
 		r.init();
-		while (true) {
+		while ( !Button.ESCAPE.isPressed() ) {
 			r.update();
 		}
-		
 	}
 }
