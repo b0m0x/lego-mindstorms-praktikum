@@ -1,6 +1,7 @@
 package behaviour;
 
 import helper.Eieruhr;
+import helper.H;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.Sound;
 import basis.Config;
@@ -25,7 +26,7 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	private boolean searching = true;
 	
 	private final int MAX_SPEED = 30;
-	private final int MIN_SPEED = 17;
+	private final int MIN_SPEED = 15;
 	private final NXTRegulatedMotor ARM = Config.SENSOR_MOTOR;
 	private WallFollowBehaviour wallFollower = new WallFollowBehaviour(10);
 	private BumpOffWallAndRotateBehaviour bumper = new BumpOffWallAndRotateBehaviour();
@@ -36,7 +37,7 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 		robot = r;		
 		//missLine();
 		ARM.resetTachoCount();
-		ARM.setSpeed( 100 );
+		ARM.setSpeed( 200 );
 		ARM.forward();
 		wallFollower.init(r);
 		bumper.init(r);
@@ -69,6 +70,7 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 
 		} else {
 			//missLine();
+			H.sleep(200); 
 		};
 	}
 	
@@ -142,7 +144,7 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 			robot.bend(-0.60f); //left
 		} if (rpos > middle) {
 			robot.bend(0.50f); //right
-		}
+		}	
 	}
 	
 	/**
