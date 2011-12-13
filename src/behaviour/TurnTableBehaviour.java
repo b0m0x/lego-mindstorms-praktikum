@@ -10,36 +10,30 @@ public class TurnTableBehaviour implements RobotBehaviour {
 	private RobotState robot;
 	private final int LIGHT = 60;
 	private boolean fertig = false;
-	private LineFollowBehaviour liniensucher;
+	//private LineFollowBehaviour liniensucher = new LineFollowBehaviour();
 	
 	public void init(RobotState r) {
 		robot = r;
 		robot.forward(20);
+		robot.bend(0.1f);
+		//liniensucher.init(robot);
 	}
 
 	public void update(RobotState r) {
+		//liniensucher.update(robot);
 		if ( isLight() ) {
 			robot.halt();
-			Eieruhr timer = new Eieruhr(100);
 			//robot.backwardBlocking(50, 200);
 			robot.rotate(180);
 			robot.backwardBlocking(100, 1000);
 			robot.halt();
-			int counter = 2;
-			while (counter > 0) {
-				if ( isLight() && timer.isFinished() ) {
-					Sound.buzz();
-					counter--;
-				}
-			}
-			//H.sleep(3300);
+			Eieruhr timer = new Eieruhr(3200);
+			while (!timer.isFinished()) {}
 			
-			robot.forwardBlocking(100, 1000);
-//			fertig = true;
-		} else {
-			
-			// TODO Liniensuche
-			// if (fertig)
+			robot.forward(100);
+			Eieruhr timer2 = new Eieruhr(4000);
+			while (!timer2.isFinished()) {}
+			robot.changeToNextLevel();
 		}
 	}
 	
