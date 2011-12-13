@@ -2,7 +2,6 @@ package basis;
 
 import behaviour.RobotBehaviour;
 import lejos.nxt.Button;
-import lejos.nxt.comm.RConsole;
 import lejos.util.TextMenu;
 
 public class FreddyMain {
@@ -14,7 +13,7 @@ public class FreddyMain {
 		//if User selects 0, bluetooth start
 		if(Config.currentBehaviour == 0) {
 			BTRaceStartClient btraceclient = new BTRaceStartClient();	 
-			//btraceclient.enterLevel();
+			btraceclient.enterLevel();
 		}
 		for (RobotBehaviour b : Config.behaviours[Config.currentBehaviour]) { 
 			r.addBehaviour(b);

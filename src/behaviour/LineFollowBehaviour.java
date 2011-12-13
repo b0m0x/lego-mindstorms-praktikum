@@ -1,4 +1,5 @@
 package behaviour;
+import helper.Eieruhr;
 import basis.RobotState;
 import basis.SensorArm.POSITION;
 
@@ -14,8 +15,11 @@ public class LineFollowBehaviour implements RobotBehaviour {
 	
 	private boolean avoidObstacle;
 	private RobotBehaviour wallFollower;
+
+	private Eieruhr lineEndTime;
 	
 	public LineFollowBehaviour() {
+		lineEndTime = new Eieruhr(2500);
 		lineSearching = true;
 		avoidObstacle = false;
 		wallFollower = new WallFollowBehaviour(10);
@@ -74,8 +78,15 @@ public class LineFollowBehaviour implements RobotBehaviour {
 			r.forward(LINE_FOLLOW_SPEED);
 			r.bend(0.6f);
 			lineSearching = false;
+			if (lineEndTime.isFinished()) {
+				r.rotate(-90);
+				r.forward(30);
+				r.addBehaviour(new LevelChangeBehaviour());
+				return;
+			}
 		} else if (!lineSearching && isOffLine()) {
 			lineSearching = true;
+			lineEndTime.reset();
 		}
 				
 	}
