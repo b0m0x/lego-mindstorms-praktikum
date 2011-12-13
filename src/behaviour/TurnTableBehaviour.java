@@ -27,7 +27,7 @@ public class TurnTableBehaviour implements RobotBehaviour {
 			robot.rotate(180);
 			robot.backwardBlocking(100, 1000);
 			robot.halt();
-			Eieruhr timer = new Eieruhr((int) (2700 +  300 * (Math.random() - 0.5f)) );
+			Eieruhr timer = new Eieruhr((int) (2700 +  500 * (Math.random() - 0.5f)) );
 			while (!timer.isFinished()) {}
 			
 			robot.forward(100);
