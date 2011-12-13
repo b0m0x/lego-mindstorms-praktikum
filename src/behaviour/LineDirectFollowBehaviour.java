@@ -32,6 +32,7 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	private float lastBend;
 	private boolean rightMax;
 	private boolean leftMax;
+	private boolean levelStart = true;
 	
 	private RobotBehaviour wallFollower;
 	private boolean avoidObstacle = false;
@@ -39,7 +40,6 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	
 	public void init(RobotState r) {
 		robot = r;
-		searchLineBlocking();
 		ARM.resetTachoCount();
 		ARM.setSpeed( 200 );
 		ARM.forward();
@@ -47,19 +47,13 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 		memory.reset();
 		leftMax = rightMax = false;
 		wallFollower = new WallFollowBehaviour(10);
-		
-		
 	}
 	
-	private void searchLineBlocking() {
-		robot.rotate(-35);
-		robot.forwardBlocking(50, 200);
-		robot.forward(50);
-		robot.bend(-0.2f);
-		while (!isLine()) {
-			
-		}
-		
+	private void start() {
+		robot.forwardBlocking(100, 1000);
+		robot.rotate(-90);
+		robot.forward(NORMAL_SPEED);
+		while (!isLine()) {}
 	}
 
 	private void keepArmOnLine() {
@@ -97,6 +91,11 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	}
 
 	public void update(RobotState r) {
+		if (levelStart) {
+			start();
+			levelStart = false;
+			return;
+		}
 		if (avoidObstacle) {
 			wallFollower.update(r);
 			if (isLine()) {
