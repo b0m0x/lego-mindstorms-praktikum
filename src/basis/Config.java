@@ -39,7 +39,7 @@ public final class Config {
 		"Rolls",		
 		"line2",
 		"Gate",
-		"XMAS Seach",
+		"XMAS Search",
 		"Bridge",
 		"Line3",
 		"Hanging Bridge",
@@ -55,7 +55,7 @@ public final class Config {
 		{ new WallFollowBehaviour(20), levelChanger},
 		{ new BumpOffWallAndRotateBehaviour(), new WallFollowBehaviour(10), levelChanger},
 		{ new LineDirectFollowBehaviour() },
-		{ new WallFollowBehaviour(10), levelChanger },
+		{ new HangingBridgeBehaviour(), levelChanger }, //Rolls - full speed ahead!
 		{ new LineFollowBehaviour(), new MultiBotBehaviour(3)},
 		{ new GateBehaviour(), new MultiBotBehaviour(3), levelChanger },
 		{ new XMASSearchBehaviour(), levelChanger },

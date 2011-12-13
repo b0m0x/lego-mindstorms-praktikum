@@ -35,6 +35,7 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 	
 	private RobotBehaviour wallFollower;
 	private boolean avoidObstacle = false;
+	private float lastLineOrientation;
 	
 	public void init(RobotState r) {
 		robot = r;
@@ -77,6 +78,7 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 			} else if (armPos < ARM_LEFT_BOUND) {
 				ARM_LEFT_BOUND = armPos;
 			}
+			lastLineOrientation = (ARM_RIGHT_BOUND + ARM_LEFT_BOUND) / 2f;
 		}
 	}
 	
@@ -122,7 +124,10 @@ public class LineDirectFollowBehaviour implements RobotBehaviour {
 			robot.halt();
 			ARM.stop();
 			robot.backwardBlocking(30, 1500);
+			robot.rotate((int) (30 * (lastLineOrientation - 0.5f)));
 			robot.forward(20);
+			ARM.forward();
+			armMovingRight = false;
 			leftMax = rightMax = false;
 		}
 		armSchwenkung();

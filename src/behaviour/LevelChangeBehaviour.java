@@ -22,13 +22,13 @@ public class LevelChangeBehaviour implements RobotBehaviour {
 		if (System.currentTimeMillis() > lastCodeSeen + DELAY) {			
 			if (value >= COLOR_CODE && !codeLock) {
 				codeLock = true;
-				if (Config.currentBehaviour % 2 == 0) {
+				//if (Config.currentBehaviour % 2 == 0) {
 					//every 2nd levelchang is only 1 line
 					r.changeToNextLevel();
-				} else if (checkFor2ndLine(r)) {
+				//} else if (checkFor2ndLine(r)) {
 					//the others are 2
-					r.changeToNextLevel();
-				}
+				//	r.changeToNextLevel();
+				//}
 				lastCodeSeen = System.currentTimeMillis();
 			}			
 		}
